@@ -1,0 +1,6 @@
+﻿#Compiled file
+/bin/
+#Eclipse stuff
+.project
+# Java Path
+.classpath
