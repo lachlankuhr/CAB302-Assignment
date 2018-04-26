@@ -1,5 +1,5 @@
 package delivery;
 
-public class Manifest {
+public class ManifestTest {
 
 }

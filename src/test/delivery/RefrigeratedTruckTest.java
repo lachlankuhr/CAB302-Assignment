@@ -1,5 +1,5 @@
 package delivery;
 
-public class RefrigeratedTruck extends Truck {
+public class RefrigeratedTruckTest {
 
 }

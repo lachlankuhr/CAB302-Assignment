@@ -1,5 +1,5 @@
 package stock;
 
-public class Store {
+public class StoreTest {
 
 }

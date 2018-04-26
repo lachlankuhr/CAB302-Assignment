@@ -1,5 +1,5 @@
 package delivery;
 
-public class OrdinaryTruck extends Truck {
+public class OrdinaryTruckTest {
 
 }
