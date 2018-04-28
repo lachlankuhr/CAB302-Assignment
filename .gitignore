@@ -1,2 +1,11 @@
+<<<<<<< HEAD
 .settings/
 bin/
+=======
+﻿#Compiled file
+/bin/
+#Eclipse stuff
+.project
+# Java Path
+.classpath
+>>>>>>> 5e1c156d75721b548da4714496833fc611a3c4d0
