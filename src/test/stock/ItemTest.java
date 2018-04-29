@@ -22,12 +22,12 @@ public class ItemTest {
 	
 	@Test
 	public void getManufacturingCostTest() {
-		assertEquals(item.getManufacturingCost(), 2);
+		assertEquals(item.getManufacturingCost(), 2, 1e-15);
 	}
 	
 	@Test
 	public void getSellPriceTest() {
-		assertEquals(item.getSellPrice(), 3);
+		assertEquals(item.getSellPrice(), 3, 1e-15);
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class ItemTest {
 		
 		//Test frozen good
 		Item frozenItem = new Item("ice cream", 8, 14, 175, 250, (double) -20);
-		assertEquals(frozenItem.getTemperature(), -20);
+		assertEquals(frozenItem.getTemperature(), Double.valueOf(-20));
 	}
 
 }

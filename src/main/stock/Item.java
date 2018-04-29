@@ -28,4 +28,52 @@ public class Item {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
+	/**
+	 * Gets the name of this item.
+	 * @return The name of the item.
+	 */
+	public String getName() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+	
+	/**
+	 * Gets the cost price of this item for the store.
+	 * @return The cost price of the item
+	 */
+	public double getManufacturingCost() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * Gets the price this item is sold to customers at.
+	 * @return The sell price of the item
+	 */
+	public double getSellPrice() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * Gets the threshold level of stock, this item has to fall below to be reordered.
+	 * @return The reorder point of the item
+	 */
+	public int getReorderPoint() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * Gets the quantity that is ordered, when this item is reordered.
+	 * @return The reorder point of the item
+	 */
+	public int getReorderAmount() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * Gets the temperature level (in Celcius) this item needs to be kept under.
+	 * Items that do not need temperature maintenance have a null value.
+	 * @return The maximum temperature the item can be stored at.
+	 */
+	public Double getTemperature() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
 }

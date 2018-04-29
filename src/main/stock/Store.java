@@ -8,7 +8,7 @@ public class Store {
 	
 	// Fields
 	private double capital;
-	private Stock<Item> inventory; 
+	private Stock inventory; 
 	private String name; 
 	
 	/**
