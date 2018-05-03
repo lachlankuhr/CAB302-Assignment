@@ -12,14 +12,25 @@ public class StockTest {
 	
 	@Test
 	public void addItemTest() {
-		shopStock.put(rice, 100);
-		
+		assertNull(shopStock.get(rice));
+		shopStock.put(rice, 100);	
 		assertEquals(shopStock.size(), 1);
 	}
 	
 	@Test
-	public void itemQuantityTest() {
-		assertEquals(shopStock.get(rice), Double.valueOf(100));
+	public void checkItemTest() {
+		assertEquals(shopStock.containsKey(rice), true);
 	}
-
+	
+	@Test
+	public void checkItemQuantityTest() {
+		assertEquals(shopStock.get(rice), Integer.valueOf(100));
+	}
+	
+	@Test
+	public void updateItemQuantityTest() {
+		shopStock.put(rice, 300);
+		assertEquals(shopStock.get(rice), Integer.valueOf(300));
+	}
+	
 }
