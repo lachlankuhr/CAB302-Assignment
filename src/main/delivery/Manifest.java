@@ -2,6 +2,8 @@ package delivery;
 
 import java.util.*;
 
+import stock.Stock;
+
 public class Manifest {
 	
 	/**
@@ -12,9 +14,10 @@ public class Manifest {
 	
 	/** 
 	 * The constructor for the manifest.
+	 * 	@param stock - 
 	 */
 	
-	public Manifest() {
+	public Manifest(Stock stock) {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	

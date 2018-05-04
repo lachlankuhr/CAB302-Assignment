@@ -25,7 +25,12 @@ public class Item {
 	 */
 	
 	public Item(String name, double manufacturingCost, double sellPrice, int reorderPoint, int reorderAmount, Double temperature) {
-		throw new UnsupportedOperationException("Not implemented yet");
+		this.name = name;
+		this.manufacturingCost = manufacturingCost;
+		this.sellPrice = sellPrice;
+		this.reorderPoint = reorderPoint;
+		this.reorderAmount = reorderAmount;
+		this.temperature = temperature;
 	}
 
 	/**
@@ -33,7 +38,7 @@ public class Item {
 	 * @return The name of the item.
 	 */
 	public String getName() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return name;
 	}
 	
 	/**
