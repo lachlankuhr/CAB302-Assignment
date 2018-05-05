@@ -6,23 +6,13 @@ import csv.CSVReading;
 
 public class Store {
 	
-	/*
-	public static void main(String[] args) {
-		Store store = Store.generateStoreInstance();
-		store.loadInItemProperties("C:\\Temp\\CAB302\\item_properties.csv");
-		for (Item item : properties) {
-			System.out.println(item.getName());
-		}
-	}
-	*/
-	
 	/**
 	 * An object for representing the store itself.
 	 */
 	
 	// Fields
 	private double capital;
-	private Stock<Item> inventory; 
+	private Stock inventory; 
 	private String name; 
 	private static Store store; 
 	
@@ -59,10 +49,6 @@ public class Store {
 
 	}
 	
-	public ArrayList<Item> getProperties() {
-		return properties; 
-	}
-
 	public Stock getStock() {
 		return inventory;
 	}

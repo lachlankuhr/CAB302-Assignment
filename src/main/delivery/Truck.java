@@ -44,7 +44,7 @@ public abstract class Truck {
 	public abstract void addCargo(int quantity, Item item); 
 	
 	
-	public abstract Stock<Item> getCargo(); 
+	public abstract Stock getCargo(); 
 	
 	
 	

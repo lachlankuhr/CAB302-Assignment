@@ -41,7 +41,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	
 	
 	public static void main(String[] args) {
-		Stock.loadInItemProperties("C:\\Users\\gajja\\Downloads\\item_properties.csv");
+		Stock.loadInItemProperties("C:\\Temp\\CAB302\\item_properties.csv");
 		
 		Store store = Store.generateStoreInstance();
 		store.generateIntialStock();

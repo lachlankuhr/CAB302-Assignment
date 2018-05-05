@@ -5,7 +5,7 @@ import java.util.HashMap;
 import csv.CSVReading;
 
 
-public class Stock<E> extends HashMap<E, Integer>{
+public class Stock extends HashMap<Item, Integer>{
 
 	/**
 	 * Serial ID

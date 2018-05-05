@@ -41,7 +41,7 @@ public class OrdinaryTruck extends Truck {
 	}
 
 	@Override
-	public Stock<Item> getCargo() {
+	public Stock getCargo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
