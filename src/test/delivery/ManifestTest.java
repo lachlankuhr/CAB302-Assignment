@@ -28,7 +28,9 @@ public class ManifestTest {
 	
 	@Test
 	public void testManifestGeneration() {
-		manifestResult.
+		assertEquals(manifestResult.get(1).getCargo().get(
+				new Item("ice cream", 8.0, 14.0, 175, 250, -20.0)).intValue(),
+				100);
 		
 	}
 
