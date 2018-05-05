@@ -44,7 +44,7 @@ public class Store {
 	public void generateIntialStock() {
 		
 		for (Item item : Stock.getStockProperties()) {
-			inventory.put(item, 0);
+			inventory.put(item, 10);
 		}
 
 	}

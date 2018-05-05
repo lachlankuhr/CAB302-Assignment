@@ -12,7 +12,7 @@ public class Stock extends HashMap<Item, Integer>{
 	 */
 	private static final long serialVersionUID = 5985815780948161216L;
 	private static ArrayList<Item> properties; 
-
+ 
 	/**
 	 * A collection of items. Can be used for representing store inventory,
 	 * stock orders, sales logs, and truck cargo.

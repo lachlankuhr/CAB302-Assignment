@@ -7,14 +7,19 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 
 import stock.Stock;
 import stock.Store;
@@ -39,12 +44,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	private JLabel storeCapitalLbl = new JLabel(); 
 	private JTable stockDataTbl = new JTable();
 	
+	private JFileChooser fileChooser = new JFileChooser();
 	
 	public static void main(String[] args) {
-		Stock.loadInItemProperties("C:\\Temp\\CAB302\\item_properties.csv");
 		
 		Store store = Store.generateStoreInstance();
-		store.generateIntialStock();
 		
 		SwingUtilities.invokeLater(new GUI());
 	}
@@ -56,8 +60,18 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == itemPropBtn) {
+			int fileChooserReturn = fileChooser.showOpenDialog(this);
+			
+			if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				Stock.loadInItemProperties(file.getAbsolutePath());
+				Store.generateStoreInstance().generateIntialStock();
+				
+				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();;
+			}
+		}
 		
 	}
 	
@@ -82,6 +96,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 1.0;
 		
+		itemPropBtn.addActionListener(this);
 		buttonPnl.add(exportBtn, constraints);
 		buttonPnl.add(importBtn, constraints);
 		buttonPnl.add(itemPropBtn, constraints);
@@ -101,7 +116,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		stockDataTbl.setModel(new StockTableModel(inventory));
 		
 		JScrollPane scrollPane = new JScrollPane(stockDataTbl);
-		scrollPane.setBackground(Color.BLACK);
 		storeDataPnl.add(scrollPane);
 	}
 	
