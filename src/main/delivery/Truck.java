@@ -1,8 +1,9 @@
 package delivery;
 
-import java.util.AbstractCollection;
+import java.util.ArrayList;
 
 import stock.Item;
+import stock.Stock;
 
 public abstract class Truck {
 	
@@ -11,7 +12,7 @@ public abstract class Truck {
 	 */
 	
 	// Fields 
-	private AbstractCollection<Item> items;  // items held in cargo
+	private ArrayList<Item> items;  // items held in cargo
 	
 	/** 
 	 * Constructor for Truck. 
@@ -41,6 +42,9 @@ public abstract class Truck {
 	 */
 	
 	public abstract void addCargo(int quantity, Item item); 
+	
+	
+	public abstract Stock<Item> getCargo(); 
 	
 	
 	

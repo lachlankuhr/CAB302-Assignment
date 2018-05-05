@@ -1,6 +1,7 @@
 package delivery;
 
 import stock.Item;
+import stock.Stock;
 
 public class RefrigeratedTruck extends Truck {
 	
@@ -39,6 +40,12 @@ public class RefrigeratedTruck extends Truck {
 	@Override
 	public void addCargo(int quantity, Item item) {
 		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	@Override
+	public Stock<Item> getCargo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

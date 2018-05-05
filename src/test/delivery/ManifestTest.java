@@ -2,6 +2,8 @@ package delivery;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.*;
 
 import delivery.*;
@@ -10,26 +12,24 @@ import stock.*;
 public class ManifestTest {
 	
 	private Manifest manifest; 
+	private Stock<Item> stock;
+	private ArrayList<Truck> manifestResult;
 	
 	@Before
 	public void Before() {
-		Stock stock = new Stock();
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		stock.put(new Item("rice", 2, 3, 225, 300, null), 50);
-		
-		manifest = new Manifest(stock); 
+		manifest = new Manifest(stock);
+		manifestResult = manifest.calculateOptimisedManifest();
 	}
 
 	@Test
-	public void TestConstructorOfManifest() {
-		fail();
+	public void testConstructorOfManifest() {
+		assertEquals(manifest, new Manifest(stock));
+	}
+	
+	@Test
+	public void testManifestGeneration() {
+		manifestResult.
+		
 	}
 
 }

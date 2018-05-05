@@ -20,7 +20,7 @@ public class Store {
 	
 	// Fields
 	private double capital;
-	private Stock inventory; 
+	private Stock<Item> inventory; 
 	private String name; 
 	private static ArrayList<Item> properties; 
 	private static Store store; 
@@ -56,7 +56,10 @@ public class Store {
 		for (Item item : properties) {
 			inventory.put(item, 0);
 		}
-		
+	}
+	
+	public ArrayList<Item> getProperties() {
+		return properties; 
 	}
 
 }

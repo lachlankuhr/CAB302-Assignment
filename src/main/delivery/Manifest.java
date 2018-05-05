@@ -10,7 +10,7 @@ public class Manifest {
 	 * A collection of trucks.
 	 */
 	
-	private AbstractCollection<Truck> manifest; // List of trucks
+	private ArrayList<Truck> manifest; // List of trucks
 	
 	/** 
 	 * The constructor for the manifest.
@@ -34,7 +34,7 @@ public class Manifest {
 	 * Calculates the optimised manifest. 
 	 */
 	
-	public void calculateOptimisedManifest() {
+	public ArrayList<Truck> calculateOptimisedManifest() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	
