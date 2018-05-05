@@ -3,12 +3,14 @@ package csv;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import stock.Item;
 
 public class CSVReading {
 	
 	private static ArrayList<Item> itemList = new ArrayList<Item>(); 
+	private static HashMap<String, Integer> salesLog = new HashMap<String, Integer>();
 	
 	public static ArrayList<Item> readItemProperties(String file)  {
 		try {
@@ -38,6 +40,24 @@ public class CSVReading {
 			
 		}
 		return itemList;
+	}
+	
+	public static HashMap<String, Integer> readSalesLog(String file) {
+		try {
+			FileReader reader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(reader);
+			String row;
+			
+			while ((row = bufferedReader.readLine()) != null) {
+					String[] rowArray = row.split(",");
+					
+					salesLog.put(rowArray[0], Integer.parseInt(rowArray[1]));
+			}
+			bufferedReader.close();
+		} catch (Exception e) {
+			
+		}
+		return salesLog;
 	}
 
 

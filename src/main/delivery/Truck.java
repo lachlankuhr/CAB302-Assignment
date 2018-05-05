@@ -12,21 +12,22 @@ public abstract class Truck {
 	 */
 	
 	// Fields 
-	private ArrayList<Item> items;  // items held in cargo
+	private Stock truckStock;
 	
 	/** 
 	 * Constructor for Truck. 
 	 */
 	
-	public Truck() {
+	public Truck(Stock truckStock) {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	
 	/** 
 	 * Calculates the cost of delivery for the truck. 
+	 * Accurate to two decimal places. 
 	 */
 	
-	public abstract void calculateCostOfDelivery(int cargoQuantity, Double temperature);
+	public abstract double calculateCostOfDelivery();
 	
 	/** 
 	 * Gets the quantity of cargo in the truck.
@@ -43,7 +44,10 @@ public abstract class Truck {
 	
 	public abstract void addCargo(int quantity, Item item); 
 	
-	
+	/**
+	 * Gets the cargo on the truck. 
+	 * @return The cargo on the truck. 
+	 */
 	public abstract Stock getCargo(); 
 	
 	

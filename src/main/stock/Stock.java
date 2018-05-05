@@ -25,6 +25,7 @@ public class Stock extends HashMap<Item, Integer>{
 	public static ArrayList<Item> getStockProperties(){
 		return properties;
 	}
+	
 
 }
 

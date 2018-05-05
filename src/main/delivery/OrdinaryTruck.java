@@ -16,17 +16,17 @@ public class OrdinaryTruck extends Truck {
 	 * Constructor for Ordinary Truck. 
 	 */
 	
-	public OrdinaryTruck() {
-		throw new UnsupportedOperationException("Not implemented yet");
+	public OrdinaryTruck(Stock truckStock) throws DeliveryException{
+		super(truckStock);
 	}
 	
 	/**
 	 * Methods calculates the cost of delivery for a Ordinary Truck. 
-	 * The temperature will null. 
+	 * Accurate to two decimal places 
 	 */
 
 	@Override
-	public void calculateCostOfDelivery(int cargoQuantity, Double temperature) {
+	public double calculateCostOfDelivery() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
@@ -42,8 +42,7 @@ public class OrdinaryTruck extends Truck {
 
 	@Override
 	public Stock getCargo() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 }

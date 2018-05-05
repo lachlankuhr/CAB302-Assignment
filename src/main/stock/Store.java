@@ -1,6 +1,8 @@
 package stock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import csv.CSVReading;
 
@@ -40,17 +42,38 @@ public class Store {
        return store;
 	}
 	
+	/**
+	 * Generates stock based on initial item properties file. 
+	 * 
+	 */
 	
 	public void generateIntialStock() {
 		
 		for (Item item : Stock.getStockProperties()) {
-			inventory.put(item, 10);
+			inventory.put(item, 0);
 		}
 
 	}
 	
+	/**
+	 * @return The store's stock. 
+	 */
+	
 	public Stock getStock() {
 		return inventory;
+	}
+	
+	public void loadInSalesLog(String file) {
+		HashMap<String, Integer> salesLog = CSVReading.readSalesLog(file);
+		for (Map.Entry<String, Integer> sale : salesLog.entrySet()) {
+			for (Map.Entry<Item, Integer> item : inventory.entrySet()) {
+				if (item.getKey().getName() == sale.getKey()) {
+					inventory.replace(item.getKey(), item.getValue() - sale.getValue()); // remove items from inventory
+					capital += (item.getKey().getSellPrice() - item.getKey().getManufacturingCost()) * sale.getValue(); // update capital by profit
+				}
+			}
+		}
+		
 	}
 	
 }

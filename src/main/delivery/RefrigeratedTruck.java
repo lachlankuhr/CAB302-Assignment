@@ -16,17 +16,17 @@ public class RefrigeratedTruck extends Truck {
 	 * Constructor for Refrigerated Truck. 
 	 */
 	
-	public RefrigeratedTruck() {
-		throw new UnsupportedOperationException("Not implemented yet");
+	public RefrigeratedTruck(Stock truckStock) throws DeliveryException {
+		super(truckStock);
 	}
 	
 	/**
 	 * Methods calculates the cost of delivery for a Refrigerated Truck. 
-	 * The temperature will be present in this calculation. 
+	 * Accurate to two decimal places 
 	 */
 
 	@Override
-	public void calculateCostOfDelivery(int cargoQuantity, Double temperature) {
+	public double calculateCostOfDelivery() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	
