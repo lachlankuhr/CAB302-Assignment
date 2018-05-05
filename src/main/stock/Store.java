@@ -1,5 +1,6 @@
 package stock;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,15 +49,14 @@ public class Store {
 	 */
 	
 	public void generateIntialStock() {
-		
 		for (Item item : Stock.getStockProperties()) {
 			inventory.put(item, 0);
 		}
-
 	}
 	
 	/**
-	 * @return The store's stock. 
+	 * Gets the inventory of the store
+	 * @return The inventory of the store
 	 */
 	
 	public Stock getStock() {
@@ -76,4 +76,35 @@ public class Store {
 		
 	}
 	
+	/**
+	 * Gets the amount of capital
+	 * @return The numerical value of store capital
+	 */
+	public double getCapital() {
+		return capital;
+	}
+	
+	/**
+	 * Gets the name of the store
+	 * @return The name of the store
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * Gets a printable version of the store's capital amount
+	 * @return String representation of store capital
+	 */
+	public String getFormattedCapital() {
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Updates store data based on weekly sales log. Capital increases and inventory decreases.
+	 * @param filePath - Absolute file path to file storing information about weekly sales
+	 */
+	public void loadSalesLog(String filePath) {
+		
+	}
 }

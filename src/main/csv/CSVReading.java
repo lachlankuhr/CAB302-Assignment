@@ -12,9 +12,9 @@ public class CSVReading {
 	private static ArrayList<Item> itemList = new ArrayList<Item>(); 
 	private static HashMap<String, Integer> salesLog = new HashMap<String, Integer>();
 	
-	public static ArrayList<Item> readItemProperties(String file)  {
+	public static ArrayList<Item> readItemProperties(String filePath)  {
 		try {
-			FileReader reader = new FileReader(file);
+			FileReader reader = new FileReader(filePath);
 			BufferedReader bufferedReader = new BufferedReader(reader);
 			String row;
 			

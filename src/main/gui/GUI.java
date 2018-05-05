@@ -71,6 +71,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 				
 				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();;
 			}
+		}else if(e.getSource() == salesLogBtn) {
+			int fileChooserReturn = fileChooser.showOpenDialog(this);
+			
+			if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				Store.generateStoreInstance().loadSalesLog(file.getAbsolutePath());
+				
+				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();;
+			}
 		}
 		
 	}
@@ -80,7 +89,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setDefaultLookAndFeelDecorated(true);
 		setLayout(new BorderLayout());
-	
+		setTitle(Store.generateStoreInstance().getName() + " Inventory Management Application");
+		
 		createButtons();
 		displayStoreCapital();
 		displayStoreStock();
@@ -100,6 +110,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		buttonPnl.add(exportBtn, constraints);
 		buttonPnl.add(importBtn, constraints);
 		buttonPnl.add(itemPropBtn, constraints);
+		salesLogBtn.addActionListener(this);
 		buttonPnl.add(salesLogBtn, constraints);
 	}
 	

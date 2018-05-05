@@ -18,8 +18,8 @@ public class Stock extends HashMap<Item, Integer>{
 	 * stock orders, sales logs, and truck cargo.
 	 */	
 	
-	public static void loadInItemProperties(String file) {
-		properties = CSVReading.readItemProperties(file);
+	public static void loadInItemProperties(String filePath) {
+		properties = CSVReading.readItemProperties(filePath);
 	}
 	
 	public static ArrayList<Item> getStockProperties(){
