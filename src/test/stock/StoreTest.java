@@ -37,11 +37,11 @@ public class StoreTest {
 	@Test
 	public void loadSalesTest() {
 		//Manually load up item properties
-		Stock.loadInItemProperties("C:\\Users\\gajja\\Downloads\\item_properties.csv");
+		Stock.loadInItemProperties("C:\\Temp\\CAB302\\item_properties.csv");
 		store.generateIntialStock();
 		//Replace with absolute path to sales_log_0.csv off Blackboard
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
-		store.loadSalesLog("C:\\Users\\gajja\\Downloads\\sales_log.csv");
+		store.loadSalesLog("C:\\Temp\\CAB302\\sales_log_0.csv");
 				
 		Item rice = Stock.getStockProperties().get(0);
 		Item beans = Stock.getStockProperties().get(1);

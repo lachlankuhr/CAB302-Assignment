@@ -63,19 +63,6 @@ public class Store {
 		return inventory;
 	}
 	
-	public void loadInSalesLog(String file) {
-		HashMap<String, Integer> salesLog = CSVReading.readSalesLog(file);
-		for (Map.Entry<String, Integer> sale : salesLog.entrySet()) {
-			for (Map.Entry<Item, Integer> item : inventory.entrySet()) {
-				if (item.getKey().getName() == sale.getKey()) {
-					inventory.replace(item.getKey(), item.getValue() - sale.getValue()); // remove items from inventory
-					capital += (item.getKey().getSellPrice() - item.getKey().getManufacturingCost()) * sale.getValue(); // update capital by profit
-				}
-			}
-		}
-		
-	}
-	
 	/**
 	 * Gets the amount of capital
 	 * @return The numerical value of store capital
@@ -105,6 +92,14 @@ public class Store {
 	 * @param filePath - Absolute file path to file storing information about weekly sales
 	 */
 	public void loadSalesLog(String filePath) {
-		
+		HashMap<String, Integer> salesLog = CSVReading.readSalesLog(filePath);
+		for (Map.Entry<String, Integer> sale : salesLog.entrySet()) {
+			for (Map.Entry<Item, Integer> item : inventory.entrySet()) {
+				if (item.getKey().getName() == sale.getKey()) {
+					inventory.replace(item.getKey(), item.getValue() - sale.getValue()); // remove items from inventory
+					capital += (item.getKey().getSellPrice() - item.getKey().getManufacturingCost()) * sale.getValue(); // update capital by profit
+				}
+			}
+		}
 	}
 }
