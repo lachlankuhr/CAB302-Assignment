@@ -46,7 +46,7 @@ public class Item {
 	 * @return The cost price of the item
 	 */
 	public double getManufacturingCost() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return manufacturingCost;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class Item {
 	 * @return The sell price of the item
 	 */
 	public double getSellPrice() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return sellPrice;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class Item {
 	 * @return The reorder point of the item
 	 */
 	public int getReorderPoint() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return reorderPoint;
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class Item {
 	 * @return The reorder point of the item
 	 */
 	public int getReorderAmount() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return reorderAmount;
 	}
 
 	/**
@@ -79,6 +79,6 @@ public class Item {
 	 * @return The maximum temperature the item can be stored at.
 	 */
 	public Double getTemperature() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return temperature;
 	}
 }

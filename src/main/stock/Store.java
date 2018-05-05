@@ -6,6 +6,7 @@ import csv.CSVReading;
 
 public class Store {
 	
+	/*
 	public static void main(String[] args) {
 		Store store = Store.generateStoreInstance();
 		store.loadInItemProperties("C:\\Temp\\CAB302\\item_properties.csv");
@@ -13,6 +14,7 @@ public class Store {
 			System.out.println(item.getName());
 		}
 	}
+	*/
 	
 	/**
 	 * An object for representing the store itself.
@@ -22,7 +24,6 @@ public class Store {
 	private double capital;
 	private Stock inventory; 
 	private String name; 
-	private static ArrayList<Item> properties; 
 	private static Store store; 
 	
 	/**
@@ -34,6 +35,7 @@ public class Store {
 	protected Store(double capital, String name) {
 		this.capital = capital; 
 		this.name = name;
+		inventory = new Stock();
 	}
 	
 	/**
@@ -48,15 +50,16 @@ public class Store {
        return store;
 	}
 	
-	public void loadInItemProperties(String file) {
-		properties = CSVReading.readItemProperties(file);
-	}
 	
 	public void generateIntialStock() {
-		for (Item item : properties) {
+		
+		for (Item item : Stock.getStockProperties()) {
 			inventory.put(item, 0);
 		}
-		
 	}
 
+	public Stock getStock() {
+		return inventory;
+	}
+	
 }
