@@ -42,7 +42,6 @@ public class Manifest {
 				manifest.add(truckHolder);
 			}else if(data.get(i).get(0).equals(ORDINARY_TRUCK_STRING)) {
 				truckHolder = new OrdinaryTruck();
-				System.out.println("In ordinary");
 				numOrdinary++;
 				manifest.add(truckHolder);
 			}else {

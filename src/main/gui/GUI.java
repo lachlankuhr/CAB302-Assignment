@@ -50,50 +50,48 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	public static void main(String[] args) {
 		
 		Store store = Store.generateStoreInstance();
-		
 		SwingUtilities.invokeLater(new GUI());
 	}
 	
+	/**
+	 * Entry point for GUI creation.
+	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		createGUI();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == itemPropBtn) {
-			int fileChooserReturn = fileChooser.showOpenDialog(this);
+		Object button = e.getSource();
+		if(button == itemPropBtn || button == salesLogBtn || button == importBtn) {
+			String filePath = fileSelectingAction();
 			
-			if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
-				File file = fileChooser.getSelectedFile();
-				Stock.loadInItemProperties(file.getAbsolutePath());
-				Store.generateStoreInstance().generateIntialStock();
+			if(filePath != null) {
+				if(button == itemPropBtn) {
+					Stock.loadInItemProperties(filePath);
+					Store.generateStoreInstance().generateIntialStock();
+				}else if(button == salesLogBtn) {
+					Store.generateStoreInstance().loadSalesLog(filePath);
+				}else if(button == importBtn) {
+					Manifest manifest = new Manifest(filePath);
+					Store.generateStoreInstance().importManifest(manifest);
+				}
 				
-				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();;
-			}
-		}else if(e.getSource() == salesLogBtn) {
-			int fileChooserReturn = fileChooser.showOpenDialog(this);
-			
-			if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
-				File file = fileChooser.getSelectedFile();
-				Store.generateStoreInstance().loadSalesLog(file.getAbsolutePath());
-				
-				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();;
-			}
-		}else if(e.getSource() == importBtn) {
-			int fileChooserReturn = fileChooser.showOpenDialog(this);
-			
-			if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
-				File file = fileChooser.getSelectedFile();
-				Manifest manifest = new Manifest(file.getAbsolutePath());
-				
-				Store.generateStoreInstance().importManifest(manifest);
-				
-				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();;
+				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
 			}
 		}
 		
+	}
+	
+	private String fileSelectingAction() {
+		int fileChooserReturn = fileChooser.showOpenDialog(this);
+		File file = null;
+		if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
+			file = fileChooser.getSelectedFile();
+		}
+		
+		return (file != null ? file.getAbsolutePath() : null);
 	}
 	
 	private void createGUI() {
