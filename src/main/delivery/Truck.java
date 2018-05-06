@@ -57,4 +57,6 @@ public abstract class Truck {
 		return getCargo().getStockQuantity();
 	}
 	
+	public abstract String getManifestIdentification();
+	
 }
