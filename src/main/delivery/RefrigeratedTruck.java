@@ -15,6 +15,11 @@ public class RefrigeratedTruck extends Truck {
 	// Fields 
 	private static final int MAX_CARGO = 800;
 	
+	
+	public RefrigeratedTruck() {
+		super();
+	}
+	
 	/** 
 	 * Constructor for Refrigerated Truck. 
 	 */

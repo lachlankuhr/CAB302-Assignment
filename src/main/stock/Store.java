@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import csv.CSVReading;
+import delivery.Manifest;
 
 public class Store {
 	
@@ -50,7 +51,7 @@ public class Store {
 	
 	public void generateIntialStock() {
 		for (Item item : Stock.getStockProperties()) {
-			inventory.put(item, 0);
+			inventory.put(item, 100);
 		}
 	}
 	
@@ -89,7 +90,7 @@ public class Store {
 	
 	/**
 	 * Updates store data based on weekly sales log. Capital increases and inventory decreases.
-	 * @param filePath - Absolute file path to file storing information about weekly sales
+	 * @param filePath - File path to file storing information about weekly sales
 	 */
 	public void loadSalesLog(String filePath) {
 		HashMap<String, Integer> salesLog = CSVReading.readSalesLog(filePath);
@@ -101,5 +102,13 @@ public class Store {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Loads in a manifest file to simulate delivery of items. Capital decreases and inventory increases.
+	 * @param filePath - File path to file storing manifest
+	 */
+	public void importManifest(Manifest manifest) {
+		
 	}
 }

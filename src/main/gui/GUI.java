@@ -21,6 +21,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
+import delivery.Manifest;
 import stock.Stock;
 import stock.Store;
 
@@ -80,6 +81,17 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 				
 				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();;
 			}
+		}else if(e.getSource() == importBtn) {
+			int fileChooserReturn = fileChooser.showOpenDialog(this);
+			
+			if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				Manifest manifest = new Manifest(file.getAbsolutePath());
+				
+				Store.generateStoreInstance().importManifest(manifest);
+				
+				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();;
+			}
 		}
 		
 	}
@@ -106,9 +118,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 1.0;
 		
-		itemPropBtn.addActionListener(this);
+		exportBtn.addActionListener(this);
 		buttonPnl.add(exportBtn, constraints);
+		importBtn.addActionListener(this);
 		buttonPnl.add(importBtn, constraints);
+		itemPropBtn.addActionListener(this);
 		buttonPnl.add(itemPropBtn, constraints);
 		salesLogBtn.addActionListener(this);
 		buttonPnl.add(salesLogBtn, constraints);
@@ -116,7 +130,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	
 	private void displayStoreCapital() {
 		storeDataPnl.setLayout(new BorderLayout());
-		storeCapitalLbl.setText("Store Capital: TBC");
+		storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getCapital());
 		storeCapitalLbl.setFont(new Font("SansSerif", Font.BOLD, 24));
 		storeCapitalLbl.setHorizontalAlignment(JLabel.CENTER);
 		storeDataPnl.add(storeCapitalLbl, BorderLayout.NORTH);

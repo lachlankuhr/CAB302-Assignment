@@ -14,6 +14,10 @@ public abstract class Truck {
 	// Fields 
 	private Stock truckStock;
 	
+	public Truck() {
+		truckStock = new Stock();
+	}
+	
 	/** 
 	 * Constructor for Truck. 
 	 */

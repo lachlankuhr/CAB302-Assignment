@@ -18,7 +18,6 @@ public class ManifestTest {
 	@Before
 	public void Before() {
 		manifest = new Manifest(stock);
-		manifestResult = manifest.calculateOptimisedManifest();
 	}
 
 	@Test

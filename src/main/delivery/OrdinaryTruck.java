@@ -12,6 +12,9 @@ public class OrdinaryTruck extends Truck {
 	// Fields 
 	private static final int MAX_CARGO = 1000;
 	
+	public OrdinaryTruck() {
+		super();
+	}
 	/** 
 	 * Constructor for Ordinary Truck. 
 	 */
