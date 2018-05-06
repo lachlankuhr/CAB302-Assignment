@@ -73,11 +73,14 @@ public class CSVReading {
 				String[] rowArray = row.split(",");
 				data.add(new ArrayList<>(Arrays.asList(rowArray)));
 			}
-		}catch(FileNotFoundException e) {
-			e.printStackTrace();
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+			bufferedReader.close();
+			} catch(FileNotFoundException e) {
+				e.printStackTrace();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+	
+		
 		return data;
 	}
 

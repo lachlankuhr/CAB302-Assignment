@@ -15,7 +15,6 @@ public class RefrigeratedTruck extends Truck {
 	// Fields 
 	private static final int MAX_CARGO = 800;
 	
-	
 	public RefrigeratedTruck() {
 		super();
 	}
@@ -64,6 +63,11 @@ public class RefrigeratedTruck extends Truck {
 			}
 		}
 		return lowestTemp;
+	}
+
+	@Override
+	public String getManifestIdentification() {
+		return ">Refrigerated";
 	}
 
 }

@@ -58,4 +58,8 @@ public class OrdinaryTruck extends Truck {
 		
 		return coldItem;
 	}
+	@Override
+	public String getManifestIdentification() {
+		return ">Ordinary";
+	}
 }
