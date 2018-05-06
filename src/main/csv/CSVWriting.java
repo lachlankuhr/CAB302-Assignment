@@ -18,7 +18,7 @@ public class CSVWriting {
 			
 			for (Truck truck : manifest) {
 				writer.write(truck.getManifestIdentification() + "\n");
-				Stock truckStock = truck.getCargo();
+				Stock truckStock = truck.getCargo(); 
 				for (Map.Entry<Item, Integer> cargo : truckStock.entrySet()) {
 					writer.write(cargo.getKey().getName().toString() + "," + 
 							     cargo.getValue().toString() + "\n");
