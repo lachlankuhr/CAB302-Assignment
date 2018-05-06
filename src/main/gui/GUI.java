@@ -128,7 +128,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	
 	private void displayStoreCapital() {
 		storeDataPnl.setLayout(new BorderLayout());
-		storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getCapital());
+		storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
 		storeCapitalLbl.setFont(new Font("SansSerif", Font.BOLD, 24));
 		storeCapitalLbl.setHorizontalAlignment(JLabel.CENTER);
 		storeDataPnl.add(storeCapitalLbl, BorderLayout.NORTH);

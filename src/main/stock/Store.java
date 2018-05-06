@@ -1,6 +1,7 @@
 package stock;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +86,7 @@ public class Store {
 	 * @return String representation of store capital
 	 */
 	public String getFormattedCapital() {
-		throw new UnsupportedOperationException();
+		return NumberFormat.getCurrencyInstance().format(capital);
 	}
 	
 	/**
