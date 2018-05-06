@@ -2,6 +2,7 @@ package delivery;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import stock.Item;
@@ -11,6 +12,11 @@ public class RefrigeratedTruckTest {
 	
 	Stock stock;
 	Truck refrigeratedTruck;
+	
+	@Before
+	public void before() {
+		stock = new Stock();
+	}
 
 	@Test
 	public void testAddingTooManyItems1() {

@@ -14,7 +14,7 @@ public class OrdinaryTruckTest {
 	
 	@Before
 	public void before() {
-		
+		stock = new Stock();
 	}
 
 	@Test
@@ -51,7 +51,7 @@ public class OrdinaryTruckTest {
 	@Test
 	public void addingCoolItem2() {
 		stock.put(new Item("rice", 2.0, 3.0, 225, 300, null), 100);
-		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, 8.0), 1000);
+		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, 8.0), 800);
 		try {
 			ordinaryTruck = new OrdinaryTruck(stock); 
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class OrdinaryTruckTest {
 	@Test 
 	public void testgetCargoQuantity2() throws DeliveryException {
 		stock.put(new Item("rice", 2.0, 3.0, 225, 300, null), 100);
-		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, 8.0), 700);
+		stock.put(new Item("chocolate", 5.0, 8.0, 250, 375, null), 700);
 		ordinaryTruck = new OrdinaryTruck(stock); 
 		assertEquals(ordinaryTruck.getCargoQuantity(), 800);
 	}

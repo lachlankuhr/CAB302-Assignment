@@ -10,7 +10,7 @@ public class OrdinaryTruck extends Truck {
 	 */
 	
 	// Fields 
-	private static final int maxCargo = 1000;
+	private static final int MAX_CARGO = 1000;
 	
 	/** 
 	 * Constructor for Ordinary Truck. 
@@ -18,6 +18,14 @@ public class OrdinaryTruck extends Truck {
 	
 	public OrdinaryTruck(Stock truckStock) throws DeliveryException{
 		super(truckStock);
+		
+		if(getCargoQuantity() > MAX_CARGO) {
+			throw new DeliveryException("Added too much cargo.");
+		}
+		
+		if(coldItemCheck()) {
+			throw new DeliveryException("Added cool item to ordinary truck.");
+		}
 	}
 	
 	/**
@@ -27,12 +35,7 @@ public class OrdinaryTruck extends Truck {
 
 	@Override
 	public double calculateCostOfDelivery() {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-
-	@Override
-	public int getCargoQuantity() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return (750.0+0.25*getCargoQuantity());
 	}
 
 	@Override
@@ -40,9 +43,16 @@ public class OrdinaryTruck extends Truck {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
-	@Override
-	public Stock getCargo() {
-		throw new UnsupportedOperationException("Not implemented yet");
+	private boolean coldItemCheck() {
+		Stock stock = getCargo();
+		boolean coldItem = false;
+		
+		for(Item item: stock.keySet()) {
+			if(item.getTemperature() != null) {
+				coldItem = true;
+			}
+		}
+		
+		return coldItem;
 	}
-
 }

@@ -26,7 +26,25 @@ public class Stock extends HashMap<Item, Integer>{
 		return properties;
 	}
 	
-
+	public int getStockQuantity() {
+		int count = 0;
+		
+		for(Item item : this.keySet()) {
+			count += this.get(item);
+		}
+		
+		return count;
+	}
+	
+	public double calculateCostOfCargo() {
+		double cost = 0.0;
+		
+		for(Item item : this.keySet()) {
+			cost += this.get(item) * item.getManufacturingCost();
+		}
+		
+		return cost; 
+	}
 }
 
 

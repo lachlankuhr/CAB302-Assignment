@@ -19,7 +19,7 @@ public abstract class Truck {
 	 */
 	
 	public Truck(Stock truckStock) {
-		throw new UnsupportedOperationException("Not implemented yet");
+		this.truckStock = truckStock;
 	}
 	
 	/** 
@@ -28,14 +28,7 @@ public abstract class Truck {
 	 */
 	
 	public abstract double calculateCostOfDelivery();
-	
-	/** 
-	 * Gets the quantity of cargo in the truck.
-	 * @return - The quantity of cargo in the truck. 
-	 */
-	
-	public abstract int getCargoQuantity();
-	
+		
 	/**
 	 * Adds items to the truck. 
 	 * @param quantity - The quantity of the item to add. 
@@ -48,9 +41,16 @@ public abstract class Truck {
 	 * Gets the cargo on the truck. 
 	 * @return The cargo on the truck. 
 	 */
-	public abstract Stock getCargo(); 
+	public Stock getCargo() {
+		return truckStock;
+	}
 	
-	
-	
+	/** 
+	 * Gets the quantity of cargo in the truck.
+	 * @return - The quantity of cargo in the truck. 
+	 */
+	public int getCargoQuantity() {
+		return getCargo().getStockQuantity();
+	}
 	
 }

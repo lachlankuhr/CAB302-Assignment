@@ -1,5 +1,8 @@
 package delivery;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import stock.Item;
 import stock.Stock;
 
@@ -10,7 +13,7 @@ public class RefrigeratedTruck extends Truck {
 	 */
 	
 	// Fields 
-	private static final int maxCargo = 800;
+	private static final int MAX_CARGO = 800;
 	
 	/** 
 	 * Constructor for Refrigerated Truck. 
@@ -27,13 +30,12 @@ public class RefrigeratedTruck extends Truck {
 
 	@Override
 	public double calculateCostOfDelivery() {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
-	
-	@Override
-	public int getCargoQuantity() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		Double lowestTemperature = findLowestTemperature();
+		lowestTemperature = (lowestTemperature == null) ? 0 : lowestTemperature;
+		double cost = 900.0 + 200.0 * Math.pow(0.7, lowestTemperature/5.0);
+		
+		BigDecimal roundedCost = new BigDecimal(cost).setScale(2, RoundingMode.HALF_UP);	
+		return roundedCost.doubleValue();
 	}
 	
 
@@ -41,13 +43,22 @@ public class RefrigeratedTruck extends Truck {
 	public void addCargo(int quantity, Item item) {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
-
-	@Override
-	public Stock getCargo() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private Double findLowestTemperature() {
+		Stock stock = getCargo();
+		Double lowestTemp = null;
+		for(Item item: stock.keySet()) {
+			Double itemTemp = item.getTemperature();
+			if(itemTemp == null) {
+				continue;
+			}
+			if(lowestTemp == null) {
+				lowestTemp = itemTemp;
+			}else if(itemTemp < lowestTemp) {
+				lowestTemp = itemTemp;
+			}
+		}
+		return lowestTemp;
 	}
-	
-	
 
 }
