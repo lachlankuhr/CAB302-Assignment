@@ -25,6 +25,11 @@ public class RefrigeratedTruck extends Truck {
 	
 	public RefrigeratedTruck(Stock truckStock) throws DeliveryException {
 		super(truckStock);
+		
+
+		if(getCargoQuantity() > MAX_CARGO) {
+			throw new DeliveryException("Added too much cargo.");
+		}
 	}
 	
 	/**
