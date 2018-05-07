@@ -49,7 +49,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	private JLabel storeCapitalLbl = new JLabel(); 
 	private JTable stockDataTbl = new JTable();
 	
-	private JFileChooser fileChooser = new JFileChooser();
+	private JFileChooser fileChooser = new JFileChooser(".\\files");
 	private JOptionPane optionPane = new JOptionPane();
 	
 	
