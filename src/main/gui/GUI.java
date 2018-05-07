@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -46,10 +47,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	private JTable stockDataTbl = new JTable();
 	
 	private JFileChooser fileChooser = new JFileChooser();
+	private JOptionPane optionPane = new JOptionPane();
+	
+	private final String DEFAULT_PROPERTIES_PATH = "\\files\\item_properties.csv";
 	
 	public static void main(String[] args) {
 		
 		Store store = Store.generateStoreInstance();
+		
 		SwingUtilities.invokeLater(new GUI());
 	}
 	
@@ -70,12 +75,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			if(filePath != null) {
 				if(button == itemPropBtn) {
 					Stock.loadInItemProperties(filePath);
-					Store.generateStoreInstance().generateIntialStock();
 				}else if(button == salesLogBtn) {
 					Store.generateStoreInstance().loadSalesLog(filePath);
 				}else if(button == importBtn) {
 					Manifest manifest = new Manifest(filePath);
-					Store.generateStoreInstance().importManifest(manifest);
+					//Store.generateStoreInstance().importManifest(manifest);
 				}
 				
 				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
@@ -100,14 +104,33 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		setDefaultLookAndFeelDecorated(true);
 		setLayout(new BorderLayout());
 		setTitle(Store.generateStoreInstance().getName() + " Inventory Management Application");
-		
+
+
 		createButtons();
 		displayStoreCapital();
 		displayStoreStock();
-		
 		addPanels();
-
+		
 		this.setVisible(true);
+		initialItemPropertiesSelection();
+	}
+	
+	private void initialItemPropertiesSelection() {
+		String title = "Select item properties";
+		String message = "Select item properties. 'Cancel' uses default.";
+		int answer = optionPane.showConfirmDialog(this, message, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		if(answer == JOptionPane.OK_OPTION) {
+			String filePath = fileSelectingAction();
+			if(filePath != null) {
+				Stock.loadInItemProperties(filePath);
+			}else {
+				Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
+			}
+		} else {
+			Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
+		}
+		Store.generateStoreInstance().generateIntialStock();
+		((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
 	}
 	
 	private void createButtons() {
