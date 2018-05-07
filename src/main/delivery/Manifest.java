@@ -87,5 +87,9 @@ public class Manifest {
 		return numOrdinary;
 	}
 	
+	public ArrayList<Truck> getManifestCollection() {
+		return manifest;
+	}
+	
 	
 }

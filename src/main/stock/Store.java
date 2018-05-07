@@ -2,10 +2,13 @@ package stock;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import csv.CSVReading;
+import delivery.Manifest;
+import delivery.Truck;
 
 public class Store {
 	
@@ -105,67 +108,37 @@ public class Store {
 	
 	/**
 	 * Loads in a manifest file to simulate delivery of items. Capital decreases and inventory increases.
-	 * @param filePath - File path to file storing manifest
-	 * @throws StockException 
+	 * @param manifest 
 	 */
-	// Potentially some of the worst logic I've ever come up with.
-	// Verbose commenting for this reason. 
-	public void importManifest(String filePath) throws StockException {
-		ArrayList<Item> itemProperties = Stock.getStockProperties();
-		double cost = 0;
-		int cargoQuantity = 0; 
+	public void importManifest(Manifest manifest) {
+		boolean refrigTruck;
+		int cargoQuantity;
 		Double lowestTemp = null;
-		String truckType = "";
-		Item currentItem = null;
-		ArrayList<ArrayList<String>> manifest = CSVReading.readManifest(filePath);
-		for (ArrayList<String> manifestRow : manifest) {
-			
-			// If there's only one attribute in the row, it's the
-			// truck type
-			if (manifestRow.size() == 1) {
-				truckType = manifestRow.get(0); // get the truck type
-				continue; // we can continue after this
-			}
-			
-			// Find the current item being read in the items properties list
-			// Should always assign 
-			for (Item item : itemProperties) {
-				if (manifestRow.get(0) == item.getName()) {
-					currentItem = item; // set currentItem to the item identified
+		double cost = 0;
+		for (Truck truck : manifest.getManifestCollection()) {
+			lowestTemp = null;
+			refrigTruck = false;
+			cargoQuantity = 0;
+			for (Map.Entry<Item, Integer> itemCargo : truck.getCargo().entrySet()) {
+				if (itemCargo.getKey().getTemperature() == null) {
+					addItemsToInventory(itemCargo.getKey(), itemCargo.getValue());
+					cargoQuantity += itemCargo.getValue();
 				} else {
-					throw new StockException("Couldn't locate item from manifesting being loaded in.");
+					refrigTruck = true;
+					if (itemCargo.getKey().getTemperature() < lowestTemp || lowestTemp == null) {
+						lowestTemp = itemCargo.getKey().getTemperature(); 
+					}
+					addItemsToInventory(itemCargo.getKey(), itemCargo.getValue());
 				}
 			}
-			
-			// Process logic for each truck type
-			if (truckType == ">Ordinary") {
-				cargoQuantity += Integer.parseInt(manifestRow.get(1)); // ordinary truck cost is only 
-				// dependent on cargo quantity 
-				addItemsToInventory(currentItem, Integer.parseInt(manifestRow.get(1))); // add items to inventory
-			} else if (truckType == ">>Refrigerated") {
-				// Set temperature to first occurrence of a temperature
-				// This is done so that further comparisons can be made to detect lower temperatures. 
-				if (lowestTemp == null && currentItem.getTemperature() != null) {
-					lowestTemp = currentItem.getTemperature();
-				}
-				// Test if it's a lower temperature 
-				// Should never be entered immediately after the previous if statement
-				if (currentItem.getTemperature() < lowestTemp) {
-					lowestTemp = currentItem.getTemperature(); 
-				}
-				addItemsToInventory(currentItem, Integer.parseInt(manifestRow.get(1))); // add items to inventory
+			if (refrigTruck) {
+				cost += 900 + 200 * Math.pow(0.7, lowestTemp / 5);
+			} else {
+				cost += 750 + 0.25 * cargoQuantity;
 			}
-				
-			}
-		
-		// Process the capital reduction logic 
-		if (truckType == ">Ordinary") {
-			capital += 750 + 0.25 * cargoQuantity;
-		} else if (truckType == ">>Refrigerated") {
-			capital += 900 + 200 * Math.pow(0.7, cargoQuantity / 5);
 		}
 		
-		System.out.println(capital);
+		capital -= cost; 
 		
 	}
 	
