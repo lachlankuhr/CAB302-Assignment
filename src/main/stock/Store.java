@@ -53,7 +53,7 @@ public class Store {
 	
 	public void generateIntialStock() {
 		for (Item item : Stock.getStockProperties()) {
-			inventory.put(item, 100);
+			inventory.put(item, 0);
 		}
 	}
 	
@@ -95,14 +95,13 @@ public class Store {
 	 * @param filePath - File path to file storing information about weekly sales
 	 */
 	public void loadSalesLog(String filePath) {
-		HashMap<String, Integer> salesLog = CSVReading.readSalesLog(filePath);
-		for (Map.Entry<String, Integer> sale : salesLog.entrySet()) {
-			for (Map.Entry<Item, Integer> item : inventory.entrySet()) {
-				if (item.getKey().getName() == sale.getKey()) {
-					inventory.replace(item.getKey(), item.getValue() - sale.getValue()); // remove items from inventory
-					capital += (item.getKey().getSellPrice() - item.getKey().getManufacturingCost()) * sale.getValue(); // update capital by profit
-				}
-			}
+		ArrayList<ArrayList<String>> salesLog = CSVReading.readSalesLog(filePath);
+		for (ArrayList<String> sale : salesLog) {
+			String itemName = sale.get(0);
+			int saleAmount = Integer.parseInt(sale.get(1));
+			Item item = Stock.getItem(itemName); 
+			inventory.replace(item, inventory.get(item) - saleAmount); // remove items from inventory
+			capital += (item.getSellPrice() - item.getManufacturingCost()) * saleAmount; // update capital by profit
 		}
 	}
 	
@@ -111,35 +110,12 @@ public class Store {
 	 * @param manifest 
 	 */
 	public void importManifest(Manifest manifest) {
-		boolean refrigTruck;
-		int cargoQuantity;
-		Double lowestTemp = null;
-		double cost = 0;
 		for (Truck truck : manifest.getManifestCollection()) {
-			lowestTemp = null;
-			refrigTruck = false;
-			cargoQuantity = 0;
 			for (Map.Entry<Item, Integer> itemCargo : truck.getCargo().entrySet()) {
-				if (itemCargo.getKey().getTemperature() == null) {
-					addItemsToInventory(itemCargo.getKey(), itemCargo.getValue());
-					cargoQuantity += itemCargo.getValue();
-				} else {
-					refrigTruck = true;
-					if (itemCargo.getKey().getTemperature() < lowestTemp || lowestTemp == null) {
-						lowestTemp = itemCargo.getKey().getTemperature(); 
-					}
-					addItemsToInventory(itemCargo.getKey(), itemCargo.getValue());
-				}
-			}
-			if (refrigTruck) {
-				cost += 900 + 200 * Math.pow(0.7, lowestTemp / 5);
-			} else {
-				cost += 750 + 0.25 * cargoQuantity;
+				addItemsToInventory(itemCargo.getKey(), itemCargo.getValue());
 			}
 		}
-		
-		capital -= cost; 
-		
+		capital -= manifest.calculateCostOfManifest(); 
 	}
 	
 	/**

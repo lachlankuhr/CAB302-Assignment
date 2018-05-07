@@ -91,5 +91,17 @@ public class Manifest {
 		return manifest;
 	}
 	
+	/**
+	 * Calculates the cost of the entire manifest. 
+	 */
+	
+	public double calculateCostOfManifest() {
+		double cost = 0;
+		for (Truck truck : manifest) {
+			cost += truck.calculateCostOfDelivery();
+		}
+		return cost;
+	}
+	
 	
 }

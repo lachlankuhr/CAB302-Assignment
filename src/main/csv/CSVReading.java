@@ -13,7 +13,8 @@ import stock.Item;
 public class CSVReading {
 	
 	private static ArrayList<Item> itemList = new ArrayList<Item>(); 
-	private static HashMap<String, Integer> salesLog = new HashMap<String, Integer>();
+	private static ArrayList<ArrayList<String>> salesLog = new ArrayList<ArrayList<String>>();
+	
 	
 	public static ArrayList<Item> readItemProperties(String filePath)  {
 		try {
@@ -45,7 +46,7 @@ public class CSVReading {
 		return itemList;
 	}
 	
-	public static HashMap<String, Integer> readSalesLog(String file) {
+	public static ArrayList<ArrayList<String>> readSalesLog(String file) {
 		try {
 			FileReader reader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(reader);
@@ -54,7 +55,7 @@ public class CSVReading {
 			while ((row = bufferedReader.readLine()) != null) {
 					String[] rowArray = row.split(",");
 					
-					salesLog.put(rowArray[0], Integer.parseInt(rowArray[1]));
+					salesLog.add(new ArrayList<>(Arrays.asList(rowArray)));
 			}
 			bufferedReader.close();
 		} catch (Exception e) {
