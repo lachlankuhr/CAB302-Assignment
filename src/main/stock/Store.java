@@ -160,10 +160,12 @@ public class Store {
 		
 		// Process the capital reduction logic 
 		if (truckType == ">Ordinary") {
-			capital -= 750 + 0.25 * cargoQuantity;
+			capital += 750 + 0.25 * cargoQuantity;
 		} else if (truckType == ">>Refrigerated") {
-			capital -= 900 + 200 * Math.pow(0.7, cargoQuantity / 5);
+			capital += 900 + 200 * Math.pow(0.7, cargoQuantity / 5);
 		}
+		
+		System.out.println(capital);
 		
 	}
 	
