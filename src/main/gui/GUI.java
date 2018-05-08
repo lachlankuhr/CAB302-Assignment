@@ -82,9 +82,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 					Stock.loadInItemProperties(filePath);
 				}else if(button == salesLogBtn) {
 					Store.generateStoreInstance().loadSalesLog(filePath);
+					storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
 				}else if(button == importBtn) {
 					Manifest manifest = new Manifest(filePath);
 					Store.generateStoreInstance().importManifest(manifest);
+					storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
 				}
 				
 				//Update the GUI table display to reflect these changes
