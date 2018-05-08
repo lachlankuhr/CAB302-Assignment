@@ -36,7 +36,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	private static final long serialVersionUID = -3175409517730839439L;
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 600;
-	private final String DEFAULT_PROPERTIES_PATH = "\\files\\item_properties.csv";
+	private final String DEFAULT_PROPERTIES_PATH = "/files/item_properties.csv";
 	
 	private JPanel buttonPnl = new JPanel();
 	private JPanel storeDataPnl = new JPanel();
@@ -149,6 +149,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 				Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
 			}
 		} else {
+			System.out.println(new File("").getAbsolutePath() + new File(DEFAULT_PROPERTIES_PATH).getAbsolutePath());
 			Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
 		}
 		Store.generateStoreInstance().generateIntialStock();
