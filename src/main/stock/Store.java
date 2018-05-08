@@ -95,7 +95,7 @@ public class Store {
 	 * @param filePath - File path to file storing information about weekly sales
 	 */
 	public void loadSalesLog(String filePath) {
-		ArrayList<ArrayList<String>> salesLog = CSVReading.readSalesLog(filePath);
+		ArrayList<ArrayList<String>> salesLog = CSVReading.readCSV(filePath);
 		for (ArrayList<String> sale : salesLog) {
 			String itemName = sale.get(0);
 			int saleAmount = Integer.parseInt(sale.get(1));

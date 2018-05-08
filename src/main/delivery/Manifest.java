@@ -31,7 +31,7 @@ public class Manifest {
 	 * @param filePath - File path to .csv file
 	 */
 	public Manifest(String filePath) {
-		ArrayList<ArrayList<String>> data = CSVReading.readManifest(filePath);
+		ArrayList<ArrayList<String>> data = CSVReading.readCSV(filePath);
 		
 		Truck truckHolder = null;
 		for(int i = 0; i < data.size(); i++) {
@@ -102,6 +102,5 @@ public class Manifest {
 		}
 		return cost;
 	}
-	
 	
 }

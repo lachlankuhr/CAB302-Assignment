@@ -58,7 +58,5 @@ public class StoreTest {
 		assertEquals(Integer.valueOf(-394), store.getStock().get(biscuits));
 		assertEquals(Integer.valueOf(-36), store.getStock().get(nuts));
 		
-		System.out.println(store.getCapital());
-
 	}
 }

@@ -11,7 +11,7 @@ public class Stock extends HashMap<Item, Integer>{
 	 * Serial ID
 	 */
 	private static final long serialVersionUID = 5985815780948161216L;
-	private static ArrayList<Item> properties; 
+	private static ArrayList<Item> properties = new ArrayList<Item>();
 	private static HashMap<String, Item> propertiesLookUp = new HashMap<String, Item>();
  
 	/**
@@ -20,7 +20,21 @@ public class Stock extends HashMap<Item, Integer>{
 	 */	
 	
 	public static void loadInItemProperties(String filePath) {
-		properties = CSVReading.readItemProperties(filePath);
+		ArrayList<ArrayList<String>> data = CSVReading.readCSV(filePath);
+		Double temperature; 
+		for (ArrayList<String> row : data) {
+			if (row.size() == 5) {
+				temperature = null;
+			} else {
+				temperature = Double.valueOf(row.get(5));
+			}
+			properties.add(new Item(row.get(0), Double.parseDouble(row.get(1)), 
+					Double.parseDouble(row.get(2)), 
+					Integer.parseInt(row.get(3)),
+					Integer.parseInt(row.get(4)),
+					temperature));
+		}
+		
 		propertiesLookUp = generatePropertiesLookUp();
 	}
 	
