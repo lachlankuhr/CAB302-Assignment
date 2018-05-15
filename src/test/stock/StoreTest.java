@@ -38,7 +38,7 @@ public class StoreTest {
 	@Test
 	public void loadSalesTest() {
 		//Manually load up item properties
-		Stock.loadInItemProperties("C:\\Temp\\CAB302\\item_properties.csv");
+		Stock.loadInItemProperties("./files/item_properties.csv");
 		store.generateIntialStock();
 		
 		//Replace with absolute path to sales_log_0.csv off Blackboard
