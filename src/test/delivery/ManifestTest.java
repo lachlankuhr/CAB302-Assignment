@@ -12,21 +12,29 @@ import stock.*;
 public class ManifestTest {
 	
 	private Manifest manifest; 
-	private Stock stock;
-	private ArrayList<Truck> manifestResult;
+	private Stock stock = new Stock();
+	private Store store = Store.generateStoreInstance();
 	
-	@Before
-	public void Before() {
-		manifest = new Manifest(stock);
-	}
+	@Before 
+	public void before() {
+		stock = new Stock();
 
+	}
+	
 	@Test
 	public void testConstructorOfManifest() {
-		assertEquals(manifest, new Manifest(stock));
+		stock.put(new Item("rice", 2.0, 3.0, 225, 375, null), 10);
+		try {
+			manifest = new Manifest(stock);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 	
 	@Test
-	public void testManifestGeneration() {
+	public void testManifestPrice1() {
+		
 	}
 
 }
