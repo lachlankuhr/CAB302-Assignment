@@ -28,7 +28,7 @@ public class ManifestTest {
 		Item rice = Stock.getStockProperties().get(0);
 		stock.put(rice, rice.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
-		assertEquals(manifest.calculateCostOfManifest(), 825, 0.1);
+		assertEquals(manifest.calculateCostOfManifest(), 1425, 0.1);
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class ManifestTest {
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(beans, beans.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
-		assertEquals(manifest.calculateCostOfManifest(), 956.25, 0.1);
+		assertEquals(manifest.calculateCostOfManifest(), 3656.25, 0.1);
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class ManifestTest {
 		stock.put(beans, beans.getReorderAmount());
 		stock.put(pasta, pasta.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
-		assertEquals(manifest.calculateCostOfManifest(), 1768.75, 0.1);
+		assertEquals(manifest.calculateCostOfManifest(), 5218.75, 0.1);
 	}
 	
 	/**
@@ -67,13 +67,13 @@ public class ManifestTest {
 		Item rice = Stock.getStockProperties().get(0);
 		Item beans = Stock.getStockProperties().get(1);
 		Item pasta = Stock.getStockProperties().get(2);
-		Item biscuits = Stock.getStockProperties().get(2);
+		Item biscuits = Stock.getStockProperties().get(3);
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(beans, beans.getReorderAmount());
 		stock.put(pasta, pasta.getReorderAmount());
 		stock.put(biscuits, biscuits.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
-		assertEquals(manifest.calculateCostOfManifest(), 912.5, 0.1);
+		assertEquals(manifest.calculateCostOfManifest(), 6512.5, 0.1);
 	}
 	
 	
@@ -83,29 +83,29 @@ public class ManifestTest {
 	@Test
 	public void testWithRoomAndColdTruck() {
 		Item rice = Stock.getStockProperties().get(0);
-		Item tomat = Stock.getStockProperties().get(10);
+		Item tomat = Stock.getStockProperties().get(9);
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(tomat, tomat.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
-		assertEquals(manifest.calculateCostOfManifest(), 1823, 0.1);
+		assertEquals(manifest.calculateCostOfManifest(), 1998, 0.1);
 	}
 	
 	/**
 	 * Author: Lachlan Kuhr
 	 */
 	@Test
-	public void testWithRoomAndTwoColdTrucks() {
+	public void testWithRoomAndTwoColdTrucks() {	
 		Item rice = Stock.getStockProperties().get(0);
-		Item tomat = Stock.getStockProperties().get(10);
-		Item tomat2 = Stock.getStockProperties().get(11);
-		Item tomat3 = Stock.getStockProperties().get(12);
-		Item tomat4 = Stock.getStockProperties().get(13);
+		Item tomat = Stock.getStockProperties().get(9);
+		Item lettuce = Stock.getStockProperties().get(10);
+		Item grapes = Stock.getStockProperties().get(11);
+		Item asparagus = Stock.getStockProperties().get(12);
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(tomat, tomat.getReorderAmount());
-		stock.put(tomat2, tomat2.getReorderAmount());
-		stock.put(tomat3, tomat3.getReorderAmount());
-		stock.put(tomat4, tomat4.getReorderAmount());
+		stock.put(lettuce, lettuce.getReorderAmount());
+		stock.put(grapes, grapes.getReorderAmount());
+		stock.put(asparagus, asparagus.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
-		assertEquals(manifest.calculateCostOfManifest(), 1946.02, 0.1);
+		assertEquals(manifest.calculateCostOfManifest(), 6611.0282, 0.1);
 	}
 }
