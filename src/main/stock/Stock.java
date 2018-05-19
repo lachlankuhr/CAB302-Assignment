@@ -73,6 +73,35 @@ public class Stock extends HashMap<Item, Integer>{
 		return propertiesLookUp.get(itemName);
 	}
 	
+	/**
+	 * Provides the item in the stock that needs the lowest temperature to be maintained.
+	 * If no item needs temperature control, returns null
+	 * @return The coldest item in the stock
+	 * @author Lachlan Kuhr
+	 */
+	public Item findColdestItem() {
+		Double lowestTemp = null;
+		Item coldestItem = null;
+		for(Item item: this.keySet()) {	
+			Double itemTemp = item.getTemperature();
+			
+			if(coldestItem == null) {
+				coldestItem = item;
+				lowestTemp = itemTemp;
+				continue;
+			}
+			
+			if(lowestTemp == null) {
+				lowestTemp = itemTemp;
+				coldestItem = item;
+			}else if(itemTemp != null && itemTemp < lowestTemp) {
+				lowestTemp = itemTemp;
+				coldestItem = item;
+			}
+		}
+		return coldestItem;
+	}
+	
 }
 
 
