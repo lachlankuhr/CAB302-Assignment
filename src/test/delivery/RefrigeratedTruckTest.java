@@ -182,6 +182,20 @@ public class RefrigeratedTruckTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
+	public void testAddingCargo3() throws DeliveryException {
+		Item rice = new Item("rice", 2.0, 3.0, 225, 300, null);
+		stock.put(rice, 50);
+		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, 8.0), 400);
+		refrigeratedTruck = new RefrigeratedTruck(stock); 
+		refrigeratedTruck.addCargo(50, rice);
+		assertTrue(refrigeratedTruck.getCargo().containsKey(rice));
+		assertTrue(refrigeratedTruck.getCargo().get(rice) == 100);
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
 	public void testFindLowestTemperature() throws DeliveryException {
 		stock.put(new Item("rice", 2.0, 3.0, 225, 300, null), 50);
 		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, 8.0), 400);

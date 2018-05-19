@@ -16,6 +16,47 @@ public class OrdinaryTruckTest {
 	public void before() {
 		stock = new Stock();
 	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test 
+	public void testConstructor() {
+		try {
+			new OrdinaryTruck(stock);
+			assertTrue(true);
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test 
+	public void testConstructorWithNoParameters() {
+		try {
+			new OrdinaryTruck();
+			assertTrue(true);
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test 
+	public void testConstructorDifferentItems() {
+		stock.put(new Item("rice", 2.0, 3.0, 225, 300, null), 300);
+		try {
+			new OrdinaryTruck(stock);
+			assertTrue(true);
+		} catch (Exception e) {
+			fail();
+		}
+	}
 
 	@Test
 	public void testAddingTooManyItems1() {
@@ -91,5 +132,47 @@ public class OrdinaryTruckTest {
 		ordinaryTruck = new OrdinaryTruck(stock); 
 		assertEquals(ordinaryTruck.getCargoQuantity(), 800);
 	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
+	public void testAddingCargo() throws DeliveryException {
+		stock.put(new Item("rice", 2.0, 3.0, 225, 300, null), 50);
+		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, null), 400);
+		ordinaryTruck = new OrdinaryTruck(stock); 
+		Item chips = new Item("chips", 2.0, 4.0, 125, 200, null);
+		ordinaryTruck.addCargo(50, chips);
+		assertTrue(ordinaryTruck.getCargo().containsKey(chips));
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
+	public void testAddingCargo2() throws DeliveryException {
+		stock.put(new Item("rice", 2.0, 3.0, 225, 300, null), 50);
+		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, null), 400);
+		ordinaryTruck = new OrdinaryTruck(stock); 
+		Item chips = new Item("chips", 2.0, 4.0, 125, 200, null);
+		ordinaryTruck.addCargo(50, chips);
+		assertTrue(ordinaryTruck.getCargo().containsKey(chips));
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
+	public void testAddingCargo3() throws DeliveryException {
+		Item rice = new Item("rice", 2.0, 3.0, 225, 300, null);
+		stock.put(rice, 50);
+		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, null), 400);
+		ordinaryTruck = new OrdinaryTruck(stock); 
+		ordinaryTruck.addCargo(50, rice);
+		assertTrue(ordinaryTruck.getCargo().containsKey(rice));
+		assertTrue(ordinaryTruck.getCargo().get(rice) == 100);
+	}
+	
+	
 
 }

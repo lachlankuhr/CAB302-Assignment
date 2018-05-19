@@ -7,15 +7,19 @@ import org.junit.*;
 
 public class TruckTest {
 	
+	Truck truck;
 	
 	@Before
 	public void before() {
-		
 	}
 
+	/**
+	 * Author: Lachlan Kuhr
+	 */
+	
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testAddingStock() {
+		
 	}
 
 }
