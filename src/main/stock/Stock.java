@@ -77,15 +77,6 @@ public class Stock extends HashMap<Item, Integer>{
 	 * Provides the item in the stock that needs the lowest temperature to be maintained.
 	 * If no item needs temperature control, returns null
 	 * @return The coldest item in the stock
-	 */
-	public Item findColdestItem() {
-		return null;
-	}
-	
-	/**
-	 * Provides the item in the stock that needs the lowest temperature to be maintained.
-	 * If no item needs temperature control, returns null
-	 * @return The coldest item in the stock
 	 * @author Lachlan Kuhr
 	 */
 	public Item findColdestItem() {
