@@ -16,7 +16,7 @@ public class RefrigeratedTruck extends Truck {
 	private static final int MAX_CARGO = 800;
 	
 	public RefrigeratedTruck() {
-		super();
+		super(MAX_CARGO);
 	}
 	
 	/** 
@@ -53,21 +53,8 @@ public class RefrigeratedTruck extends Truck {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	
-	public Double findLowestTemperature() {
-		Stock stock = getCargo();
-		Double lowestTemp = null;
-		for(Item item: stock.keySet()) {
-			Double itemTemp = item.getTemperature();
-			if(itemTemp == null) {
-				continue;
-			}
-			if(lowestTemp == null) {
-				lowestTemp = itemTemp;
-			}else if(itemTemp < lowestTemp) {
-				lowestTemp = itemTemp;
-			}
-		}
-		return lowestTemp;
+	private Double findLowestTemperature() {
+		return getCargo().findColdestItem().getTemperature();
 	}
 
 	@Override
