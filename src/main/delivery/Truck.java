@@ -13,9 +13,11 @@ public abstract class Truck {
 	
 	// Fields 
 	private Stock truckStock;
+	public static int MAX_CARGO;
 	
-	public Truck() {
+	public Truck(int maxCargo) {
 		truckStock = new Stock();
+		MAX_CARGO = maxCargo;
 	}
 	
 	/** 
