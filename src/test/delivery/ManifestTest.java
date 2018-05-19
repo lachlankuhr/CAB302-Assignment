@@ -18,7 +18,7 @@ public class ManifestTest {
 	@Before 
 	public void before() {
 		Stock.loadInItemProperties(File.separator + "files" + File.separator + "item_properties.csv");
-		store.generateIntialStock();
+		store.generateInitialStock();
 		stock = new Stock();
 	}
 	
@@ -122,6 +122,6 @@ public class ManifestTest {
 		stock.put(grapes, grapes.getReorderAmount());
 		stock.put(asparagus, asparagus.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
-		assertEquals(manifest.calculateCostOfManifest(), 6611.0282, 0.1);
+		assertEquals(manifest.calculateCostOfManifest(), 4811.0282, 0.1);
 	}
 }

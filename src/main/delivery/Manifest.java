@@ -22,8 +22,8 @@ public class Manifest {
 	 * 	@param stock - Stock object containing inventory of store to generate manifest from
 	 */
 	
-	public Manifest(Stock stock) {
-		calculateOptimisedManifest(stock);
+	public Manifest(Stock reorderStock) {
+		calculateOptimisedManifest(reorderStock);
 	}
 	
 	/**
@@ -45,16 +45,9 @@ public class Manifest {
 				numOrdinary++;
 				manifest.add(truckHolder);
 			}else {
-				//Should really change how item properties are kept
 				String itemName = data.get(i).get(0);
-				ArrayList<Item> itemProperties = Stock.getStockProperties();
-				for(int j = 0; j < itemProperties.size(); j++) {
-					Item item = itemProperties.get(j);
-					if(item.getName().equals(itemName)) {
-						truckHolder.getCargo().put(item, Integer.valueOf(data.get(i).get(1)));
-					}
-				}
-
+				Item item = Stock.getItem(itemName);				
+				truckHolder.getCargo().put(item, Integer.valueOf(data.get(i).get(1)));
 			}
 			
 		}
@@ -62,10 +55,45 @@ public class Manifest {
 	
 	/**
 	 * Calculates the optimised manifest. 
+	 * @author Atrey Gajjar
 	 */
 	
-	private ArrayList<Truck> calculateOptimisedManifest(Stock stock) {
-		throw new UnsupportedOperationException("Not implemented yet");
+	private void calculateOptimisedManifest(Stock reorderStock) {
+		
+		Truck currentTruck = null;
+		
+		while(reorderStock.size() > 0) {
+
+			Item coldestItem = reorderStock.findColdestItem();
+			
+			if(currentTruck == null) {
+				if(coldestItem.getTemperature() == null) {
+					currentTruck = new OrdinaryTruck();
+				}else {
+					currentTruck = new RefrigeratedTruck();
+				}
+			}
+			
+	
+			int remainingSpace = currentTruck.MAX_CARGO - currentTruck.getCargoQuantity();
+			
+			if(remainingSpace > 0) {
+				int itemQuantity = reorderStock.get(coldestItem);
+				if(remainingSpace >= itemQuantity) {
+					currentTruck.getCargo().put(coldestItem, itemQuantity);
+					reorderStock.remove(coldestItem);
+				}else {
+					currentTruck.getCargo().put(coldestItem, remainingSpace);
+					reorderStock.put(coldestItem, itemQuantity - remainingSpace);
+				}
+			}else {
+				manifest.add(currentTruck);
+				currentTruck = null;
+			}
+		}
+		
+		manifest.add(currentTruck);
+		
 	}
 	
 	
@@ -96,9 +124,11 @@ public class Manifest {
 	 */
 	
 	public double calculateCostOfManifest() {
+		
 		double cost = 0;
 		for (Truck truck : manifest) {
 			cost += truck.calculateCostOfDelivery();
+			cost += truck.getCargo().calculateCostOfCargo();
 		}
 		return cost;
 	}

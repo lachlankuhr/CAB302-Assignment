@@ -201,7 +201,7 @@ public class RefrigeratedTruckTest {
 		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, 8.0), 400);
 		RefrigeratedTruck refrigeratedTruck = new RefrigeratedTruck(stock); 
 		Item chips = new Item("chips", 2.0, 4.0, 125, 200, null);
-		assertEquals(refrigeratedTruck.findLowestTemperature(), 8.0, 0.1);
+		assertEquals(refrigeratedTruck.getCargo().findColdestItem().getTemperature(), 8.0, 0.1);
 	}
 	
 	@Test

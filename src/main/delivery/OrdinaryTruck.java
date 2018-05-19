@@ -13,7 +13,7 @@ public class OrdinaryTruck extends Truck {
 	private static final int MAX_CARGO = 1000;
 	
 	public OrdinaryTruck() {
-		super();
+		super(MAX_CARGO);
 	}
 	/** 
 	 * Constructor for Ordinary Truck. 
@@ -39,11 +39,6 @@ public class OrdinaryTruck extends Truck {
 	@Override
 	public double calculateCostOfDelivery() {
 		return (750.0+0.25*getCargoQuantity());
-	}
-
-	@Override
-	public void addCargo(int quantity, Item item) {
-		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	private boolean coldItemCheck() {

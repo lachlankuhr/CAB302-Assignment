@@ -2,6 +2,7 @@ package csv;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -16,7 +17,7 @@ import stock.Stock;
 public class CSVTest {
 
 	@Test
-	public void test() throws DeliveryException {
+	public void test() throws DeliveryException, IOException {
 		Stock stock1 = new Stock();
 		Stock stock2 = new Stock();
 		stock1.put(new Item("rice", 2.0, 3.0, 225, 300, null), 77);

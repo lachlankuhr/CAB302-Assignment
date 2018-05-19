@@ -2,6 +2,8 @@ package stock;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,25 +40,44 @@ public class StoreTest {
 	@Test
 	public void loadSalesTest() {
 		//Manually load up item properties
-		Stock.loadInItemProperties("./files/item_properties.csv");
-		store.generateIntialStock();
+		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
+		store.generateInitialStock();
 		
 		//Replace with absolute path to sales_log_0.csv off Blackboard
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
 		Item beans = Stock.getStockProperties().get(1);
-		store.loadSalesLog("C:\\Temp\\CAB302\\sales_log_0.csv");
+		store.loadSalesLog("." + File.separator + "files" + File.separator + "sales_log_0.csv");
 				
 		Item rice = Stock.getStockProperties().get(0);
 		Item pasta = Stock.getStockProperties().get(2);
 		Item biscuits = Stock.getStockProperties().get(3);
 		Item nuts = Stock.getStockProperties().get(4);
 
-		
 		assertEquals(Integer.valueOf(-88), store.getStock().get(rice));
 		assertEquals(Integer.valueOf(-423), store.getStock().get(beans));
 		assertEquals(Integer.valueOf(-43), store.getStock().get(pasta));
 		assertEquals(Integer.valueOf(-394), store.getStock().get(biscuits));
 		assertEquals(Integer.valueOf(-36), store.getStock().get(nuts));
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void getReorderStockTest() {
+		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
+		store.generateInitialStock();
+		
+		Item rice = Stock.getStockProperties().get(0);
+		Item pasta = Stock.getStockProperties().get(2);
+		store.getStock().put(rice, 100);
+		store.getStock().put(pasta, 50);
+		
+		Stock reorderStock = store.getReorderStock();
+		
+		assertEquals(Integer.valueOf(300), reorderStock.get(rice));
+		assertEquals(Integer.valueOf(250), reorderStock.get(pasta));
+		
 		
 	}
 }

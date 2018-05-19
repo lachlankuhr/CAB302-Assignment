@@ -11,28 +11,21 @@ import stock.Stock;
 
 public class CSVWriting {
 	
-	public static void writeManifest(ArrayList<Truck> manifest, String filePath) {
+	public static void writeManifest(ArrayList<Truck> manifest, String filePath) throws IOException {
 		FileWriter writer;
-		try {
-			writer = new FileWriter(filePath);
-			
-			for (Truck truck : manifest) {
-				writer.write(truck.getManifestIdentification() + "\n");
-				Stock truckStock = truck.getCargo(); 
-				for (Map.Entry<Item, Integer> cargo : truckStock.entrySet()) {
-					writer.write(cargo.getKey().getName().toString() + "," + 
-							     cargo.getValue().toString() + "\n");
-				}
+		
+		writer = new FileWriter(filePath);
+		
+		for (Truck truck : manifest) {
+			writer.write(truck.getManifestIdentification() + "\n");
+			Stock truckStock = truck.getCargo(); 
+			for (Map.Entry<Item, Integer> cargo : truckStock.entrySet()) {
+				writer.write(cargo.getKey().getName().toString() + "," + 
+						     cargo.getValue().toString() + "\n");
 			}
-			
-			writer.close();
-			
-		} catch (IOException e) {
-			// We should be handling exceptions in the GUI
-			e.printStackTrace();
 		}
+		
+		writer.close();
 
 	}
-	
-
 }

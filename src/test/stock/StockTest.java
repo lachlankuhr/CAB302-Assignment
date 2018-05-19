@@ -7,8 +7,9 @@ import org.junit.Test;
 
 public class StockTest {
 	
-	Item rice =  new Item("rice", 2, 3, 225, 300, null);
-	Item iceCream = new Item("ice cream", 8, 14, 175, 250, (double) -20);
+	Item rice; 
+	Item iceCream; 
+	Item colderIceCream;
 	Stock shopStock;
 	
 	/**
@@ -17,6 +18,9 @@ public class StockTest {
 	@Before
 	public void setup() {
 		shopStock = new Stock();
+		rice =  new Item("rice", 2, 3, 225, 300, null);
+		iceCream = new Item("ice cream", 8, 14, 175, 250, (double) -20);
+		colderIceCream = new Item("ice cream super cold", 8, 14, 175, 250, (double) -30);
 	}
 	
 	/**
@@ -62,7 +66,7 @@ public class StockTest {
 	@Test
 	public void findColdestItemTest1() {
 		shopStock.put(rice, 400);
-		assertEquals(null, shopStock.findColdestItem());
+		assertEquals(rice, shopStock.findColdestItem());
 	}
 	
 	/**
@@ -72,6 +76,18 @@ public class StockTest {
 	public void findColdestItemTest2() {
 		shopStock.put(rice, 100);
 		shopStock.put(iceCream, 200);
-		assertEquals(-20.0, shopStock.findColdestItem());		
+		assertEquals(iceCream, shopStock.findColdestItem());		
 	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void findColdestItemTest3() {
+		shopStock.put(rice, 100);
+		shopStock.put(iceCream, 200);
+		shopStock.put(colderIceCream, 200);
+		assertEquals(colderIceCream, shopStock.findColdestItem());	
+	}
+	
 }
