@@ -53,7 +53,7 @@ public class RefrigeratedTruck extends Truck {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	
-	private Double findLowestTemperature() {
+	public Double findLowestTemperature() {
 		Stock stock = getCargo();
 		Double lowestTemp = null;
 		for(Item item: stock.keySet()) {
