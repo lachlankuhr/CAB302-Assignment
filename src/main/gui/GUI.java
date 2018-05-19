@@ -2,12 +2,14 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -18,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileFilter;
@@ -44,16 +47,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	private JPanel buttonPnl = new JPanel();
 	private JPanel storeDataPnl = new JPanel();
 	
-	private JButton exportBtn = new JButton("Export Manifest");
-	private JButton importBtn = new JButton("Import Manifest");
-	private JButton itemPropBtn = new JButton("Set Items");
-	private JButton salesLogBtn = new JButton("Load Sales");
+	private JButton exportBtn;
+	private JButton importBtn;
+	private JButton itemPropBtn;
+	private JButton salesLogBtn;
 
-	private JLabel storeCapitalLbl = new JLabel(); 
-	private JTable stockDataTbl = new JTable();
+	private JLabel storeCapitalLbl; 
+	private JTable stockDataTbl;
 	
-	private JFileChooser fileChooser = new JFileChooser("." + File.separator + "files");
-	private JOptionPane optionPane = new JOptionPane();
+	private JFileChooser fileChooser;
+	private JOptionPane optionPane;
 	
 	
 	public static void main(String[] args) {
@@ -70,15 +73,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	}
 
 	/**
-	 * Event listening function that handles all button c	lick events.
+	 * Event listening function that handles all button click events.
 	 * Opens a file selector on setting item properties, updating sales logs, and importing manifests.
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object button = e.getSource();
+	public void actionPerformed(ActionEvent evt) {
+		Object button = evt.getSource();
 		if(button == itemPropBtn || button == salesLogBtn || button == importBtn) {
-			String filePath = fileSelectingAction();
-			
+			String filePath = fileSelectingAction(true);
 			//If the user has selected a file, execute the relevant action associated with the button.
 			if(filePath != null) {
 				if(button == itemPropBtn) {
@@ -96,12 +98,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
 			}
 		} else if(button == exportBtn) {
-			String filePath = fileSelectingAction();
+			String filePath = fileSelectingAction(false);
 			
 			if(filePath != null) {
 				Stock reorderStock = Store.generateStoreInstance().getReorderStock();
 				Manifest manifest = new Manifest(reorderStock);
-				CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
+				try {
+					CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
+				}catch (IOException e) {
+					//Handle exception here
+				}
 			}
 		}
 		
@@ -111,9 +117,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 * Helper method for opening a file selecting dialog and selecting a file.
 	 * @return The absolute file path of the selected file or {@code null} if not selected
 	 */
-	private String fileSelectingAction() {
-		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
-		int fileChooserReturn = fileChooser.showOpenDialog(this);
+	private String fileSelectingAction(boolean open) {
+		int fileChooserReturn;
+		if(open) {			
+			fileChooserReturn = fileChooser.showOpenDialog(this);
+		}else {
+			fileChooserReturn = fileChooser.showSaveDialog(this);
+		}
 		File file = null;
 		if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
 			file = fileChooser.getSelectedFile();
@@ -129,10 +139,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	private void createGUI() {
 		//Setting up the JFrame
 		setSize(WIDTH, HEIGHT);
+		setMinimumSize(new Dimension(500, 300));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setDefaultLookAndFeelDecorated(true);
 		setLayout(new BorderLayout());
 		setTitle(Store.generateStoreInstance().getName() + " Inventory Management Application");
+		try {			
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}catch(Exception e) {
+			setDefaultLookAndFeelDecorated(true);
+		}
 
 		//Creating buttons, label for store capital, and table for store inventory.
 		createButtons();
@@ -142,6 +157,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		this.setVisible(true);
 		
 		//Dialog box to select initial item properties.
+		fileChooser = new JFileChooser("." + File.separator + "files");
+		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
+		optionPane = new JOptionPane();
 		initialItemPropertiesSelection();
 	}
 	
@@ -150,11 +168,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 * Initial item properties is set to the file selected by the user, or otherwise a default included within the project.
 	 */
 	private void initialItemPropertiesSelection() {
-		String title = "Select item properties";
-		String message = "Select item properties. 'Cancel' uses default.";
-		int answer = optionPane.showConfirmDialog(this, message, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		int answer = optionPane.showConfirmDialog(this, "Select item properties. 'Cancel' uses default.", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		if(answer == JOptionPane.OK_OPTION) {
-			String filePath = fileSelectingAction();
+			String filePath = fileSelectingAction(true);
 			if(filePath != null) {
 				Stock.loadInItemProperties(filePath);
 			}else {
@@ -173,16 +189,22 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 */
 	private void createButtons() {
 		buttonPnl.setLayout(new GridBagLayout());
-		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 1.0;
-		
+	
+		exportBtn = new JButton("Export Manifest");
 		exportBtn.addActionListener(this);
 		buttonPnl.add(exportBtn, constraints);
+
+		importBtn = new JButton("Import Manifest");
 		importBtn.addActionListener(this);
 		buttonPnl.add(importBtn, constraints);
+
+		itemPropBtn = new JButton("Setup Items");
 		itemPropBtn.addActionListener(this);
 		buttonPnl.add(itemPropBtn, constraints);
+
+		salesLogBtn = new JButton("Load Sales");
 		salesLogBtn.addActionListener(this);
 		buttonPnl.add(salesLogBtn, constraints);
 	}
@@ -192,6 +214,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 */
 	private void displayStoreCapital() {
 		storeDataPnl.setLayout(new BorderLayout());
+		
+		storeCapitalLbl = new JLabel();
 		storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
 		storeCapitalLbl.setFont(new Font("SansSerif", Font.BOLD, 24));
 		storeCapitalLbl.setHorizontalAlignment(JLabel.CENTER);
@@ -204,6 +228,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 */
 	private void displayStoreStock() {
 		Stock inventory = Store.generateStoreInstance().getStock();
+		
+		stockDataTbl = new JTable();
 		stockDataTbl.setModel(new StockTableModel(inventory));
 		
 		JScrollPane scrollPane = new JScrollPane(stockDataTbl);
