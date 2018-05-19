@@ -185,13 +185,14 @@ public class RefrigeratedTruckTest {
 	public void testFindLowestTemperature() throws DeliveryException {
 		stock.put(new Item("rice", 2.0, 3.0, 225, 300, null), 50);
 		stock.put(new Item("asparagus", 2.0, 4.0, 175, 275, 8.0), 400);
-		refrigeratedTruck = new RefrigeratedTruck(stock); 
+		RefrigeratedTruck refrigeratedTruck = new RefrigeratedTruck(stock); 
 		Item chips = new Item("chips", 2.0, 4.0, 125, 200, null);
-		refrigeratedTruck.addCargo(50, chips);
+		assertEquals(refrigeratedTruck.findLowestTemperature(), 8.0, 0.1);
 	}
 	
 	@Test
-	public void testId() {
+	public void testId() throws DeliveryException {
+		refrigeratedTruck = new RefrigeratedTruck(stock);
 		assertEquals(refrigeratedTruck.getManifestIdentification(), ">Refrigerated");
 	}
 
