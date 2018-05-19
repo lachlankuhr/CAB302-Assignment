@@ -2,6 +2,7 @@ package delivery;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.junit.*;
@@ -12,16 +13,31 @@ import stock.*;
 public class ManifestTest {
 	
 	Store store = Store.generateStoreInstance();
-	private Stock stock = new Stock();
+	private Stock stock;
 	
 	@Before 
 	public void before() {
-		Stock.loadInItemProperties("./files/item_properties.csv");
+		Stock.loadInItemProperties(File.separator + "files" + File.separator + "item_properties.csv");
 		store.generateIntialStock();
+		stock = new Stock();
 	}
 	
 	/**
-	 * Author: Lachlan Kuhr
+	 * @author Lachlan Kuhr
+	 */
+	@Test 
+	public void testConstructor() {
+		try {
+			new Manifest(stock);
+			assertTrue(true);
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	
+	/**
+	 * @author Lachlan Kuhr
 	 */
 	@Test
 	public void testWithOneItem() {
@@ -32,7 +48,7 @@ public class ManifestTest {
 	}
 	
 	/**
-	 * Author: Lachlan Kuhr
+	 * @author Lachlan Kuhr
 	 */
 	@Test
 	public void testWithTwoItems() {
@@ -45,7 +61,7 @@ public class ManifestTest {
 	}
 	
 	/**
-	 * Author: Lachlan Kuhr
+	 * @author Lachlan Kuhr
 	 */
 	@Test
 	public void testWithThreeItems() {
@@ -60,7 +76,7 @@ public class ManifestTest {
 	}
 	
 	/**
-	 * Author: Lachlan Kuhr
+	 * @author Lachlan Kuhr
 	 */
 	@Test
 	public void testWithFourItems() {
@@ -78,7 +94,7 @@ public class ManifestTest {
 	
 	
 	/**
-	 * Author: Lachlan Kuhr
+	 * @author Lachlan Kuhr
 	 */
 	@Test
 	public void testWithRoomAndColdTruck() {
@@ -91,7 +107,7 @@ public class ManifestTest {
 	}
 	
 	/**
-	 * Author: Lachlan Kuhr
+	 * @author Lachlan Kuhr
 	 */
 	@Test
 	public void testWithRoomAndTwoColdTrucks() {	
