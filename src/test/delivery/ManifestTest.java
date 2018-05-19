@@ -17,7 +17,7 @@ public class ManifestTest {
 	
 	@Before 
 	public void before() {
-		Stock.loadInItemProperties(File.separator + "files" + File.separator + "item_properties.csv");
+		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
 		store.generateInitialStock();
 		stock = new Stock();
 	}
@@ -41,7 +41,7 @@ public class ManifestTest {
 	 */
 	@Test
 	public void testWithOneItem() {
-		Item rice = Stock.getStockProperties().get(0);
+		Item rice = Stock.getItem("rice");
 		stock.put(rice, rice.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
 		assertEquals(manifest.calculateCostOfManifest(), 1425, 0.1);
@@ -52,8 +52,8 @@ public class ManifestTest {
 	 */
 	@Test
 	public void testWithTwoItems() {
-		Item rice = Stock.getStockProperties().get(0);
-		Item beans = Stock.getStockProperties().get(1);
+		Item rice = Stock.getItem("rice");
+		Item beans = Stock.getItem("beans");
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(beans, beans.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
@@ -65,9 +65,9 @@ public class ManifestTest {
 	 */
 	@Test
 	public void testWithThreeItems() {
-		Item rice = Stock.getStockProperties().get(0);
-		Item beans = Stock.getStockProperties().get(1);
-		Item pasta = Stock.getStockProperties().get(2);
+		Item rice = Stock.getItem("rice");
+		Item beans = Stock.getItem("beans");
+		Item pasta = Stock.getItem("pasta");
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(beans, beans.getReorderAmount());
 		stock.put(pasta, pasta.getReorderAmount());
@@ -80,10 +80,10 @@ public class ManifestTest {
 	 */
 	@Test
 	public void testWithFourItems() {
-		Item rice = Stock.getStockProperties().get(0);
-		Item beans = Stock.getStockProperties().get(1);
-		Item pasta = Stock.getStockProperties().get(2);
-		Item biscuits = Stock.getStockProperties().get(3);
+		Item rice = Stock.getItem("rice");
+		Item beans = Stock.getItem("beans");
+		Item pasta = Stock.getItem("pasta");
+		Item biscuits = Stock.getItem("biscuits");
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(beans, beans.getReorderAmount());
 		stock.put(pasta, pasta.getReorderAmount());
@@ -98,8 +98,8 @@ public class ManifestTest {
 	 */
 	@Test
 	public void testWithRoomAndColdTruck() {
-		Item rice = Stock.getStockProperties().get(0);
-		Item tomat = Stock.getStockProperties().get(9);
+		Item rice = Stock.getItem("rice");
+		Item tomat = Stock.getItem("tomatoes");
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(tomat, tomat.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
@@ -111,11 +111,11 @@ public class ManifestTest {
 	 */
 	@Test
 	public void testWithRoomAndTwoColdTrucks() {	
-		Item rice = Stock.getStockProperties().get(0);
-		Item tomat = Stock.getStockProperties().get(9);
-		Item lettuce = Stock.getStockProperties().get(10);
-		Item grapes = Stock.getStockProperties().get(11);
-		Item asparagus = Stock.getStockProperties().get(12);
+		Item rice = Stock.getItem("rice");
+		Item tomat = Stock.getItem("tomatoes");
+		Item lettuce = Stock.getItem("lettuce");
+		Item grapes = Stock.getItem("grapes");
+		Item asparagus = Stock.getItem("asparagus");
 		stock.put(rice, rice.getReorderAmount());
 		stock.put(tomat, tomat.getReorderAmount());
 		stock.put(lettuce, lettuce.getReorderAmount());
