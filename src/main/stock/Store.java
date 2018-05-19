@@ -158,4 +158,12 @@ public class Store {
 		return reorderStock;
 	}
 	
+	/** 
+	 * Method to destroy store instance for fresh store. 
+	 */
+	
+	public static void destoryStore() {
+		store = null;
+	}
+	
 }
