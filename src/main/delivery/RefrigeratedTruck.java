@@ -39,7 +39,7 @@ public class RefrigeratedTruck extends Truck {
 
 	@Override
 	public double calculateCostOfDelivery() {
-		Double lowestTemperature = findLowestTemperature();
+		Double lowestTemperature = getCargo().findColdestItem().getTemperature();
 		lowestTemperature = (lowestTemperature == null) ? 0 : lowestTemperature;
 		double cost = 900.0 + 200.0 * Math.pow(0.7, lowestTemperature/5.0);
 		
@@ -51,10 +51,6 @@ public class RefrigeratedTruck extends Truck {
 	@Override
 	public void addCargo(int quantity, Item item) {
 		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
-	private Double findLowestTemperature() {
-		return getCargo().findColdestItem().getTemperature();
 	}
 
 	@Override

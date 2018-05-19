@@ -17,7 +17,7 @@ public class ManifestTest {
 	@Before 
 	public void before() {
 		Stock.loadInItemProperties("./files/item_properties.csv");
-		store.generateIntialStock();
+		store.generateInitialStock();
 	}
 	
 	/**

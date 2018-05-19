@@ -45,16 +45,9 @@ public class Manifest {
 				numOrdinary++;
 				manifest.add(truckHolder);
 			}else {
-				//Should really change how item properties are kept
 				String itemName = data.get(i).get(0);
-				ArrayList<Item> itemProperties = Stock.getStockProperties();
-				for(int j = 0; j < itemProperties.size(); j++) {
-					Item item = itemProperties.get(j);
-					if(item.getName().equals(itemName)) {
-						truckHolder.getCargo().put(item, Integer.valueOf(data.get(i).get(1)));
-					}
-				}
-
+				Item item = Stock.getItem(itemName);				
+				truckHolder.getCargo().put(item, Integer.valueOf(data.get(i).get(1)));
 			}
 			
 		}

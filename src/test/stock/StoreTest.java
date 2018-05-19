@@ -41,7 +41,7 @@ public class StoreTest {
 	public void loadSalesTest() {
 		//Manually load up item properties
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
-		store.generateIntialStock();
+		store.generateInitialStock();
 		
 		//Replace with absolute path to sales_log_0.csv off Blackboard
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
@@ -53,7 +53,6 @@ public class StoreTest {
 		Item biscuits = Stock.getStockProperties().get(3);
 		Item nuts = Stock.getStockProperties().get(4);
 
-		
 		assertEquals(Integer.valueOf(-88), store.getStock().get(rice));
 		assertEquals(Integer.valueOf(-423), store.getStock().get(beans));
 		assertEquals(Integer.valueOf(-43), store.getStock().get(pasta));
@@ -67,7 +66,7 @@ public class StoreTest {
 	@Test
 	public void getReorderStockTest() {
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
-		store.generateIntialStock();
+		store.generateInitialStock();
 		
 		Item rice = Stock.getStockProperties().get(0);
 		Item pasta = Stock.getStockProperties().get(2);
