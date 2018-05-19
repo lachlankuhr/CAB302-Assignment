@@ -51,9 +51,23 @@ public class Store {
 	 * 
 	 */
 	
-	public void generateIntialStock() {
-		for (Item item : Stock.getStockProperties()) {
-			inventory.put(item, 0);
+	public void generateInitialStock() {
+		for (Item item : Stock.getStockProperties().values()) {
+			
+			Item oldItemSaved = null;
+			for(Item oldItem: inventory.keySet()) {
+				if(oldItem.getName().equals(item.getName())){
+					oldItemSaved = oldItem;
+					break;
+				}
+			}
+			
+			if(oldItemSaved != null) {
+				inventory.put(item, inventory.get(oldItemSaved));
+				inventory.remove(oldItemSaved);
+			}else {				
+				inventory.put(item, 0);
+			}
 		}
 	}
 	
@@ -101,7 +115,7 @@ public class Store {
 			int saleAmount = Integer.parseInt(sale.get(1));
 			Item item = Stock.getItem(itemName); 
 			inventory.replace(item, inventory.get(item) - saleAmount); // remove items from inventory
-			capital += (item.getSellPrice() - item.getManufacturingCost()) * saleAmount; // update capital by profit
+			capital += item.getSellPrice() * saleAmount; // update capital by profit
 		}
 	}
 	
@@ -126,6 +140,22 @@ public class Store {
 	
 	public void addItemsToInventory(Item item, int quantity) {
 		inventory.replace(item, inventory.get(item) + quantity);
+	}
+	
+	/**
+	 * Reorders item from stock.
+	 * @return Stock
+	 * @author Lachlan Kuhr
+	 */
+	
+	public Stock getReorderStock() {
+		Stock reorderStock = new Stock();
+		for(Item item : inventory.keySet()) {
+			if(item.getReorderPoint() >= inventory.get(item)) {
+				reorderStock.put(item, item.getReorderAmount());
+			}
+		}
+		return reorderStock;
 	}
 	
 }
