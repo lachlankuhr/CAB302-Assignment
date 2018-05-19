@@ -1,18 +1,18 @@
 package stock;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 import csv.CSVReading;
 
 
-public class Stock extends HashMap<Item, Integer>{
+public class Stock extends LinkedHashMap<Item, Integer>{
 
 	/**
 	 * Serial ID
 	 */
 	private static final long serialVersionUID = 5985815780948161216L;
-	private static ArrayList<Item> properties = new ArrayList<Item>();
-	private static HashMap<String, Item> propertiesLookUp = new HashMap<String, Item>();
+	private static LinkedHashMap<String, Item> properties = new LinkedHashMap<String, Item>();
  
 	/**
 	 * A collection of items. Can be used for representing store inventory,
@@ -28,24 +28,15 @@ public class Stock extends HashMap<Item, Integer>{
 			} else {
 				temperature = Double.valueOf(row.get(5));
 			}
-			properties.add(new Item(row.get(0), Double.parseDouble(row.get(1)), 
+			properties.put(row.get(0), new Item(row.get(0), Double.parseDouble(row.get(1)), 
 					Double.parseDouble(row.get(2)), 
 					Integer.parseInt(row.get(3)),
 					Integer.parseInt(row.get(4)),
 					temperature));
-		}
-		
-		propertiesLookUp = generatePropertiesLookUp();
+		}	
 	}
 	
-	public static HashMap<String, Item> generatePropertiesLookUp() {
-		for (Item item : properties) {
-			propertiesLookUp.put(item.getName(), item);
-		}
-		return propertiesLookUp;
-	}
-	
-	public static ArrayList<Item> getStockProperties(){
+	public static LinkedHashMap<String, Item> getStockProperties(){
 		return properties;
 	}
 	
@@ -70,7 +61,7 @@ public class Stock extends HashMap<Item, Integer>{
 	}
 	
 	public static Item getItem(String itemName) {
-		return propertiesLookUp.get(itemName);
+		return properties.get(itemName);
 	}
 
 	/**
@@ -103,7 +94,3 @@ public class Stock extends HashMap<Item, Integer>{
 	}
 	
 }
-
-
-
-
