@@ -66,7 +66,6 @@ public class StockTest {
 	@Test
 	public void findColdestItemTest1() {
 		shopStock.put(rice, 400);
-		System.out.println(shopStock.findColdestItem());
 		assertEquals(rice, shopStock.findColdestItem());
 	}
 	
@@ -77,7 +76,6 @@ public class StockTest {
 	public void findColdestItemTest2() {
 		shopStock.put(rice, 100);
 		shopStock.put(iceCream, 200);
-		System.out.println(shopStock.findColdestItem());
 		assertEquals(iceCream, shopStock.findColdestItem());		
 	}
 	
@@ -91,4 +89,5 @@ public class StockTest {
 		shopStock.put(colderIceCream, 200);
 		assertEquals(colderIceCream, shopStock.findColdestItem());	
 	}
+	
 }
