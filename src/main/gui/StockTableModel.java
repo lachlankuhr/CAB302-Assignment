@@ -21,9 +21,6 @@ public class StockTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		if(data == null) {
-			System.out.println("Something gonee worng0");
-		}
 		return data.size();
 	}
 

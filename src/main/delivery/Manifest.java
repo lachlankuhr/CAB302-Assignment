@@ -70,7 +70,7 @@ public class Manifest {
 		Truck currentTruck = null;
 		
 		while(reorderStock.size() > 0) {
-			//findColdestItem in stock
+
 			Item coldestItem = reorderStock.findColdestItem();
 			
 			if(currentTruck == null) {
@@ -134,7 +134,6 @@ public class Manifest {
 		
 		double cost = 0;
 		for (Truck truck : manifest) {
-			System.out.println(truck.getCargo().calculateCostOfCargo());
 			cost += truck.calculateCostOfDelivery();
 			cost += truck.getCargo().calculateCostOfCargo();
 		}

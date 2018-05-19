@@ -20,8 +20,11 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 
+import csv.CSVWriting;
 import delivery.Manifest;
 import stock.Stock;
 import stock.Store;
@@ -67,7 +70,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	}
 
 	/**
-	 * Event listening function that handles all button click events.
+	 * Event listening function that handles all button c	lick events.
 	 * Opens a file selector on setting item properties, updating sales logs, and importing manifests.
 	 */
 	@Override
@@ -92,6 +95,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 				//Update the GUI table display to reflect these changes
 				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
 			}
+		} else if(button == exportBtn) {
+			String filePath = fileSelectingAction();
+			
+			if(filePath != null) {
+				Stock reorderStock = Store.generateStoreInstance().getReorderStock();
+				Manifest manifest = new Manifest(reorderStock);
+				CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
+			}
 		}
 		
 	}
@@ -101,6 +112,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 * @return The absolute file path of the selected file or {@code null} if not selected
 	 */
 	private String fileSelectingAction() {
+		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
 		int fileChooserReturn = fileChooser.showOpenDialog(this);
 		File file = null;
 		if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
