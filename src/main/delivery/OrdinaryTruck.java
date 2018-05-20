@@ -41,11 +41,6 @@ public class OrdinaryTruck extends Truck {
 		return (750.0+0.25*getCargoQuantity());
 	}
 
-	@Override
-	public void addCargo(int quantity, Item item) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-
 	private boolean coldItemCheck() {
 		Stock stock = getCargo();
 		boolean coldItem = false;

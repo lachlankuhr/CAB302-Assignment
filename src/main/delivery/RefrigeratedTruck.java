@@ -49,11 +49,6 @@ public class RefrigeratedTruck extends Truck {
 	
 
 	@Override
-	public void addCargo(int quantity, Item item) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-
-	@Override
 	public String getManifestIdentification() {
 		return ">Refrigerated";
 	}

@@ -41,7 +41,14 @@ public abstract class Truck {
 	 * @param item - The item to add. 
 	 */
 	
-	public abstract void addCargo(int quantity, Item item); 
+	public void addCargo(int quantity, Item item){
+		if (this.getCargo().containsKey(item)) {
+			int currentQuantity = this.getCargo().get(item);
+			this.getCargo().replace(item, currentQuantity + quantity);
+		} else {
+			this.getCargo().put(item, quantity);
+		}
+	}
 	
 	/**
 	 * Gets the cargo on the truck. 
