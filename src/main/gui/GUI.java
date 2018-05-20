@@ -85,6 +85,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			if(filePath != null) {
 				if(button == itemPropBtn) {
 					Stock.loadInItemProperties(filePath);
+					Store.generateStoreInstance().generateInitialStock();
+					
 				}else if(button == salesLogBtn) {
 					Store.generateStoreInstance().loadSalesLog(filePath);
 					storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
@@ -179,7 +181,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		} else {
 			Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
 		}
-		Store.generateStoreInstance().generateIntialStock();
+		Store.generateStoreInstance().generateInitialStock();
 		((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
 	}
 	

@@ -1,9 +1,12 @@
 package gui;
 
+import java.util.ArrayList;
+
 import javax.swing.table.AbstractTableModel;
 
 import stock.Item;
 import stock.Stock;
+import stock.Store;
 
 public class StockTableModel extends AbstractTableModel {
 	
@@ -27,7 +30,9 @@ public class StockTableModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 
-		Item item = Stock.getStockProperties().get(rowIndex);
+		
+		ArrayList<Item> list = new ArrayList<Item>(Stock.getStockProperties().values());
+		Item item = list.get(rowIndex);
 		
 		Object result = null;
 		
