@@ -3,6 +3,7 @@ package delivery;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.*;
@@ -16,7 +17,7 @@ public class ManifestTest {
 	private Stock stock;
 	
 	@Before 
-	public void before() {
+	public void before() throws IOException {
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
 		store.generateInitialStock();
 		stock = new Stock();
