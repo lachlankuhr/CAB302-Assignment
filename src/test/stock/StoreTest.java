@@ -3,6 +3,7 @@ package stock;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class StoreTest {
 	}
 	
 	@Test
-	public void loadSalesTest() {
+	public void loadSalesTest() throws IOException {
 		//Manually load up item properties
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
 		store.generateInitialStock();
@@ -62,9 +63,10 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
+	 * @throws IOException 
 	 */
 	@Test
-	public void getReorderStockTest() {
+	public void getReorderStockTest() throws IOException {
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
 		store.generateInitialStock();
 		

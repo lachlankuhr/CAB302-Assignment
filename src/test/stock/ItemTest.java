@@ -9,37 +9,57 @@ public class ItemTest {
 
 	Item item;
 	
-	//Initialising an item for testing
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Before
 	public void initialiseItems() {
 		item = new Item("rice", 2, 3, 225, 300, null);		
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void getNameTest() {
 		assertEquals(item.getName(), "rice");
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void getManufacturingCostTest() {
 		assertEquals(item.getManufacturingCost(), 2, 1e-15);
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void getSellPriceTest() {
 		assertEquals(item.getSellPrice(), 3, 1e-15);
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void getReorderPointTest() {
 		assertEquals(item.getReorderPoint(), 225);
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void getReorderAmountTest() {
 		assertEquals(item.getReorderAmount(), 300);
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void getTemperatureTest() {
 		//Testing dry good
