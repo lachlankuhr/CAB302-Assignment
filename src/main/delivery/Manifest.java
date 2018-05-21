@@ -1,5 +1,6 @@
 package delivery;
 
+import java.io.IOException;
 import java.util.*;
 
 import csv.CSVReading;
@@ -29,8 +30,9 @@ public class Manifest {
 	/**
 	 * Constructor for manifest that creates a manifest representation of a .csv file
 	 * @param filePath - File path to .csv file
+	 * @throws IOException 
 	 */
-	public Manifest(String filePath) {
+	public Manifest(String filePath) throws IOException {
 		ArrayList<ArrayList<String>> data = CSVReading.readCSV(filePath);
 		
 		Truck truckHolder = null;

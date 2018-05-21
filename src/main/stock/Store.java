@@ -1,5 +1,6 @@
 package stock;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,8 +108,9 @@ public class Store {
 	/**
 	 * Updates store data based on weekly sales log. Capital increases and inventory decreases.
 	 * @param filePath - File path to file storing information about weekly sales
+	 * @throws IOException 
 	 */
-	public void loadSalesLog(String filePath) {
+	public void loadSalesLog(String filePath) throws IOException {
 		ArrayList<ArrayList<String>> salesLog = CSVReading.readCSV(filePath);
 		for (ArrayList<String> sale : salesLog) {
 			String itemName = sale.get(0);

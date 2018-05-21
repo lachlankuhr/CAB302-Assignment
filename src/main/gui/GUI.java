@@ -105,11 +105,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			if(filePath != null) {
 				Stock reorderStock = Store.generateStoreInstance().getReorderStock();
 				Manifest manifest = new Manifest(reorderStock);
-				try {
-					CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
-				}catch (IOException e) {
-					//Handle exception here
-				}
+				CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
 			}
 		}
 		

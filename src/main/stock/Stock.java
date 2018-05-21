@@ -1,5 +1,6 @@
 package stock;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -17,9 +18,10 @@ public class Stock extends LinkedHashMap<Item, Integer>{
 	/**
 	 * A collection of items. Can be used for representing store inventory,
 	 * stock orders, sales logs, and truck cargo.
+	 * @throws IOException 
 	 */	
 	
-	public static void loadInItemProperties(String filePath) {
+	public static void loadInItemProperties(String filePath) throws IOException {
 		ArrayList<ArrayList<String>> data = CSVReading.readCSV(filePath);
 		Double temperature; 
 		for (ArrayList<String> row : data) {

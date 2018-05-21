@@ -12,9 +12,9 @@ import stock.Item;
 
 public class CSVReading {
 	
-	public static ArrayList<ArrayList<String>> readCSV(String filePath) {
+	public static ArrayList<ArrayList<String>> readCSV(String filePath) throws IOException {
 		ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-		try {
+
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
 			String row;
 			
@@ -23,11 +23,7 @@ public class CSVReading {
 				data.add(new ArrayList<>(Arrays.asList(rowArray)));
 			}
 			bufferedReader.close();
-			} catch(FileNotFoundException e) {
-				e.printStackTrace();
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
+
 		
 		return data;
 	}
