@@ -14,52 +14,55 @@ public class Manifest {
 	 */
 	
 	private ArrayList<Truck> manifest = new ArrayList<Truck>(); // List of trucks
-	private final String REFRIGERATED_TRUCK_STRING = ">Refrigerated";
-	private final String ORDINARY_TRUCK_STRING = ">Ordinary";
-	private int numRefrigerated = 0;
-	private int numOrdinary = 0;
+
 	/** 
-	 * The constructor for the manifest.
-	 * 	@param stock - Stock object containing inventory of store to generate manifest from
+	 * The constructor for the manifest during the reorder/export period.
+	 * Calls an optimisation method that creates manifest from the stock needing reordering.
+	 * @param stock - Stock object containing inventory of store to generate manifest from.
+	 * @author Atrey Gajjar
 	 */
-	
 	public Manifest(Stock reorderStock) {
 		calculateOptimisedManifest(reorderStock);
 	}
 	
 	/**
-	 * Constructor for manifest that creates a manifest representation of a .csv file
+	 * Constructor for manifest that creates a manifest representation of the information in a .csv file
 	 * @param filePath - File path to .csv file
 	 * @throws IOException 
+	 * @author Atrey Gajjar
 	 */
-	public Manifest(String filePath) throws IOException {
+	public Manifest(String filePath) throws IOException, DeliveryException {
 		ArrayList<ArrayList<String>> data = CSVReading.readCSV(filePath);
 		
 		Truck truckHolder = null;
 		for(int i = 0; i < data.size(); i++) {
 			
-			if(data.get(i).get(0).equals(REFRIGERATED_TRUCK_STRING)) {
+			if(data.get(i).get(0).equals(RefrigeratedTruck.MANIFEST_TAG)) {
 				truckHolder = new RefrigeratedTruck();
-				numRefrigerated++;
 				manifest.add(truckHolder);
-			}else if(data.get(i).get(0).equals(ORDINARY_TRUCK_STRING)) {
+			}else if(data.get(i).get(0).equals(OrdinaryTruck.MANIFEST_TAG)) {
 				truckHolder = new OrdinaryTruck();
-				numOrdinary++;
 				manifest.add(truckHolder);
 			}else {
 				String itemName = data.get(i).get(0);
-				Item item = Stock.getItem(itemName);				
-				truckHolder.getCargo().put(item, Integer.valueOf(data.get(i).get(1)));
+				Item item = Stock.getItem(itemName);
+				
+				if(item.getTemperature() != null && truckHolder.getManifestIdentification().equals(OrdinaryTruck.MANIFEST_TAG)) {
+					throw new DeliveryException("Adding cold item to an ordinary truck!");
+				}
+				
+				truckHolder.addCargo(Integer.valueOf(data.get(i).get(1)), item);
 			}
 			
 		}
 	}
 	
 	/**
-	 * Calculates the optimised manifest. 
+	 * Calculates the optimised manifest based on what items need to be reordered.
+	 * Limits the number of refrigerated trucks and empty spaces in each truck.
+	 * @param reorderStock - Stock object representing what items need to be reordered and their quantities
 	 * @author Atrey Gajjar
 	 */
-	
 	private void calculateOptimisedManifest(Stock reorderStock) {
 		
 		Truck currentTruck = null;
@@ -77,7 +80,7 @@ public class Manifest {
 			}
 			
 	
-			int remainingSpace = currentTruck.MAX_CARGO - currentTruck.getCargoQuantity();
+			int remainingSpace = currentTruck.getMaxCargo() - currentTruck.getCargoQuantity();
 			
 			if(remainingSpace > 0) {
 				int itemQuantity = reorderStock.get(coldestItem);
@@ -98,31 +101,20 @@ public class Manifest {
 		
 	}
 	
-	
 	/**
-	 * Gets the number of refrigerated trucks in manifest.
-	 * @return Number of refrigerated trucks in manifest
+	 * Gets the manifest, represented as a collection of trucks
+	 * @return An ArrayList of trucks in the manifest
+	 * @author Atrey Gajjar
 	 */
-	
-	public int getNumberOfRefrigeratedTrucks() {
-		return numRefrigerated;
-	}
-	
-	/**
-	 * Gets the number of cold trucks in manifest.
-	 * @return Number of cold trucks in manifest
-	 */
-	
-	public int getNumberOfOrdinaryTrucks() {
-		return numOrdinary;
-	}
-	
 	public ArrayList<Truck> getManifestCollection() {
 		return manifest;
 	}
 	
 	/**
-	 * Calculates the cost of the entire manifest. 
+	 * Calculates the cost of the entire manifest. Includes both the truck delivery costs and item purchasing costs.
+	 * @throws DeliveryException 
+	 * @return The total cost of receiving the manifest
+	 * @author Atrey Gajjar
 	 */
 	
 	public double calculateCostOfManifest() {
