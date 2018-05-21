@@ -24,6 +24,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 
 import csv.CSVWriting;
+import delivery.DeliveryException;
 import delivery.Manifest;
 import stock.Stock;
 import stock.Store;
@@ -88,14 +89,19 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 						Store.generateStoreInstance().loadSalesLog(filePath);
 						storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
 					}else if(button == importBtn) {
-						Manifest manifest = new Manifest(filePath);
-						Store.generateStoreInstance().importManifest(manifest);
-						storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
+						try {
+							Manifest manifest = new Manifest(filePath);
+							Store.generateStoreInstance().importManifest(manifest);
+							storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());							
+						} catch (DeliveryException e) {
+							e.printStackTrace();
+							optionPane.showMessageDialog(this, "Error loading in the manifest! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 					//Update the GUI table display to reflect these changes
 					((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
 				} catch (IOException e) {
-					System.out.println(e.getMessage());
+					e.printStackTrace();
 					optionPane.showMessageDialog(this, "Error loading in the file! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
@@ -110,7 +116,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 					Manifest manifest = new Manifest(reorderStock);
 					CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
 				} catch (IOException e) {
-					System.out.println(e.getMessage());
+					e.printStackTrace();
 					optionPane.showMessageDialog(this, "Error saving in the file! Please try again", "Save Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -190,7 +196,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 				Store.generateStoreInstance().generateInitialStock();
 				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				optionPane.showMessageDialog(this, "Error loading in the properties! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
