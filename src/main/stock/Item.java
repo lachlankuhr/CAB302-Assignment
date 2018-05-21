@@ -3,7 +3,8 @@ package stock;
 public class Item {
 	
 	/**
-	 * An item with the below properties. 
+	 * An item with the below properties.
+	 * @author Lachlan Kuhr 
 	 */
 	
 	// Item properties / fields
@@ -22,6 +23,7 @@ public class Item {
 	 * @param reorderPoint - The reorder point of the item. 
 	 * @param reorderAmount - The reorder amount of the item. 
 	 * @param temperature - The temperature of the item. Is a boxed object (i.e. class) and hence is null-able if no temperature is associated with the item. 
+	 * @author Lachlan Kuhr
 	 */
 	
 	public Item(String name, double manufacturingCost, double sellPrice, int reorderPoint, int reorderAmount, Double temperature) {
@@ -36,6 +38,7 @@ public class Item {
 	/**
 	 * Gets the name of this item.
 	 * @return The name of the item.
+	 * @author Lachlan Kuhr
 	 */
 	public String getName() {
 		return name;
@@ -43,7 +46,8 @@ public class Item {
 	
 	/**
 	 * Gets the cost price of this item for the store.
-	 * @return The cost price of the item
+	 * @return The cost price of the item.
+	 * @author Lachlan Kuhr
 	 */
 	public double getManufacturingCost() {
 		return manufacturingCost;
@@ -51,7 +55,8 @@ public class Item {
 
 	/**
 	 * Gets the price this item is sold to customers at.
-	 * @return The sell price of the item
+	 * @return The sell price of the item.
+	 * @author Lachlan Kuhr
 	 */
 	public double getSellPrice() {
 		return sellPrice;
@@ -59,7 +64,8 @@ public class Item {
 
 	/**
 	 * Gets the threshold level of stock, this item has to fall below to be reordered.
-	 * @return The reorder point of the item
+	 * @return The reorder point of the item.
+	 * @author Lachlan Kuhr
 	 */
 	public int getReorderPoint() {
 		return reorderPoint;
@@ -67,16 +73,18 @@ public class Item {
 
 	/**
 	 * Gets the quantity that is ordered, when this item is reordered.
-	 * @return The reorder point of the item
+	 * @return The reorder point of the item.
+	 * @author Lachlan Kuhr
 	 */
 	public int getReorderAmount() {
 		return reorderAmount;
 	}
 
 	/**
-	 * Gets the temperature level (in Celcius) this item needs to be kept under.
+	 * Gets the temperature level (in Celsius) this item needs to be kept under.
 	 * Items that do not need temperature maintenance have a null value.
 	 * @return The maximum temperature the item can be stored at.
+	 * @author Lachlan Kuhr
 	 */
 	public Double getTemperature() {
 		return temperature;
