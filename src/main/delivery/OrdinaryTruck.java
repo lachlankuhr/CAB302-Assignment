@@ -15,21 +15,6 @@ public class OrdinaryTruck extends Truck {
 	public OrdinaryTruck() {
 		super(MAX_CARGO);
 	}
-	/** 
-	 * Constructor for Ordinary Truck. 
-	 */
-	
-	public OrdinaryTruck(Stock truckStock) throws DeliveryException{
-		super(truckStock);
-		
-		if(getCargoQuantity() > MAX_CARGO) {
-			throw new DeliveryException("Added too much cargo.");
-		}
-		
-		if(coldItemCheck()) {
-			throw new DeliveryException("Added cool item to ordinary truck.");
-		}
-	}
 	
 	/**
 	 * Methods calculates the cost of delivery for a Ordinary Truck. 

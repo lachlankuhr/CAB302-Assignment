@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -21,9 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 
@@ -83,29 +79,40 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			String filePath = fileSelectingAction(true);
 			//If the user has selected a file, execute the relevant action associated with the button.
 			if(filePath != null) {
-				if(button == itemPropBtn) {
-					Stock.loadInItemProperties(filePath);
-					Store.generateStoreInstance().generateInitialStock();
-					
-				}else if(button == salesLogBtn) {
-					Store.generateStoreInstance().loadSalesLog(filePath);
-					storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
-				}else if(button == importBtn) {
-					Manifest manifest = new Manifest(filePath);
-					Store.generateStoreInstance().importManifest(manifest);
-					storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
+				try {					
+					if(button == itemPropBtn) {
+						Stock.loadInItemProperties(filePath);
+						Store.generateStoreInstance().generateInitialStock();
+						
+					}else if(button == salesLogBtn) {
+						Store.generateStoreInstance().loadSalesLog(filePath);
+						storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
+					}else if(button == importBtn) {
+						Manifest manifest = new Manifest(filePath);
+						Store.generateStoreInstance().importManifest(manifest);
+						storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
+					}
+					//Update the GUI table display to reflect these changes
+					((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+					optionPane.showMessageDialog(this, "Error loading in the file! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
-				//Update the GUI table display to reflect these changes
-				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
+				
 			}
 		} else if(button == exportBtn) {
 			String filePath = fileSelectingAction(false);
 			
 			if(filePath != null) {
-				Stock reorderStock = Store.generateStoreInstance().getReorderStock();
-				Manifest manifest = new Manifest(reorderStock);
-				CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
+				try {
+					Stock reorderStock = Store.generateStoreInstance().getReorderStock();
+					Manifest manifest = new Manifest(reorderStock);
+					CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+					optionPane.showMessageDialog(this, "Error saving in the file! Please try again", "Save Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 		
@@ -167,18 +174,27 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 */
 	private void initialItemPropertiesSelection() {
 		int answer = optionPane.showConfirmDialog(this, "Select item properties. 'Cancel' uses default.", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-		if(answer == JOptionPane.OK_OPTION) {
-			String filePath = fileSelectingAction(true);
-			if(filePath != null) {
-				Stock.loadInItemProperties(filePath);
-			}else {
-				Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
+		
+		while(Stock.getStockProperties().size() == 0) {			
+			try {				
+				if(answer == JOptionPane.OK_OPTION) {
+					String filePath = fileSelectingAction(true);
+					if(filePath != null) {
+						Stock.loadInItemProperties(filePath);
+					}else {
+						Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
+					}
+				} else {
+					Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
+				}
+				Store.generateStoreInstance().generateInitialStock();
+				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				optionPane.showMessageDialog(this, "Error loading in the properties! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
 			}
-		} else {
-			Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
 		}
-		Store.generateStoreInstance().generateInitialStock();
-		((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
+		
 	}
 	
 	/**

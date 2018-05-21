@@ -19,19 +19,6 @@ public class RefrigeratedTruck extends Truck {
 		super(MAX_CARGO);
 	}
 	
-	/** 
-	 * Constructor for Refrigerated Truck. 
-	 */
-	
-	public RefrigeratedTruck(Stock truckStock) throws DeliveryException {
-		super(truckStock);
-		
-
-		if(getCargoQuantity() > MAX_CARGO) {
-			throw new DeliveryException("Added too much cargo.");
-		}
-	}
-	
 	/**
 	 * Methods calculates the cost of delivery for a Refrigerated Truck. 
 	 * Accurate to two decimal places 
