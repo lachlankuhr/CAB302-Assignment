@@ -13,15 +13,156 @@ import stock.*;
 
 public class ManifestTest {
 	
-	Store store = Store.generateStoreInstance();
+	Store store;
 	private Stock stock;
+	Manifest manifest;
 	
 	@Before 
 	public void before() throws IOException {
+		stock = new Stock();
+		store = Store.generateStoreInstance();
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
 		store.generateInitialStock();
-		stock = new Stock();
 	}
+	
+	@After 
+	public void after() {
+		Store.destoryStore();
+		manifest = null;
+	}
+	
+	// Exceptional behavior tests
+	
+	/**
+	 * @author Lachlan Kuhr
+	 * @throws DeliveryException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testLoadingManifestWithColdItemInOrdinaryTruck() throws IOException {
+		try {
+		manifest = new Manifest("." + File.separator + "files" + File.separator + 
+				"manifest-tests" + File.separator + 
+				"testLoadingManifestWithColdItemInOrdinaryTruck.csv");
+		} catch (DeliveryException e) {
+			assertEquals("There was at least one cold item in an ordinary truck. Check manifest file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 * @throws IOException 
+	 */
+	@Test
+	public void testingLoadingManifestWithTooManyItemsInOrdinaryTruck() throws IOException {
+		try {
+		manifest = new Manifest("." + File.separator + "files" + File.separator + 
+				"manifest-tests" + File.separator + 
+				"testingLoadingManifestWithTooManyItemsInOrdinaryTruck.csv");
+		} catch (DeliveryException e) {
+			assertEquals("There was too many items in an ordinary truck. Check manifest file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 * @throws IOException 
+	 */
+	@Test
+	public void testingLoadingManifestWithTooManyItemsInRefrigeratedTruck() throws IOException {
+		try {
+			manifest = new Manifest("." + File.separator + "files" + File.separator + 
+					"manifest-tests" + File.separator + 
+					"testingLoadingManifestWithTooManyItemsInRefrigeratedTruck.csv");
+			} catch (DeliveryException e) {
+				assertEquals("There was too many items in a refrigerated truck. Check manifest file.", e.getMessage());
+			}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 * @throws IOException 
+	 */
+	@Test
+	public void testLoadingManifestWithUnknownTruckTypeOrdinary() throws IOException {
+		try {
+			manifest = new Manifest("." + File.separator + "files" + File.separator + 
+					"manifest-tests" + File.separator + 
+					"testLoadingManifestWithUnknownTruckTypeOrdinary.csv");
+			} catch (DeliveryException e) {
+				assertEquals("There was an unkown truck type loaded in. Check manifest file.", e.getMessage());
+			}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 * @throws IOException 
+	 */
+	@Test
+	public void testLoadingManifestWithUnknownTruckTypeRefrigerated() throws IOException {
+		try {
+			manifest = new Manifest("." + File.separator + "files" + File.separator + 
+					"manifest-tests" + File.separator + 
+					"testLoadingManifestWithUnknownTruckTypeRefrigerated.csv");
+			} catch (DeliveryException e) {
+				assertEquals("There was an unkown truck type loaded in. Check manifest file.", e.getMessage());
+			}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 * @throws IOException 
+	 */
+	@Test
+	public void testLoadingManifestWithNegativeItemQuantities() throws IOException {
+		try {
+			manifest = new Manifest("." + File.separator + "files" + File.separator + 
+					"manifest-tests" + File.separator + 
+					"testLoadingManifestWithNegativeItemQuantities.csv");
+			} catch (DeliveryException e) {
+				assertEquals("There was a negative amount of items in manifest. Check manifest file.", e.getMessage());
+			}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 * @throws IOException 
+	 */
+	@Test
+	public void testLoadingManifestUnknownItem1() throws IOException {
+		try {
+			manifest = new Manifest("." + File.separator + "files" + File.separator + 
+					"manifest-tests" + File.separator + 
+					"testLoadingManifestUnknownItem1.csv");
+			} catch (DeliveryException e) {
+				assertEquals("The manifest contain an item not contained in the currently known item properties. Check manifest file.", e.getMessage());
+			}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 * @throws IOException 
+	 */
+	@Test
+	public void testLoadingManifestUnknownItem2() throws IOException {
+		try {
+			manifest = new Manifest("." + File.separator + "files" + File.separator + 
+					"manifest-tests" + File.separator + 
+					"testLoadingManifestUnknownItem2.csv");
+			} catch (DeliveryException e) {
+				assertEquals("The manifest contain an item not contained in the currently known item properties. Check manifest file.", e.getMessage());
+			}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test 
+	public void testGettingManifestCollection() {
+		manifest = new Manifest(stock);
+		assertTrue(manifest.getManifestCollection() instanceof ArrayList<?>);
+	}
+	
 	
 	/**
 	 * @author Lachlan Kuhr
