@@ -22,7 +22,7 @@ public class RefrigeratedTruck extends Truck {
 	 * @author Atrey Gajjar
 	 */
 	public RefrigeratedTruck() {
-		super(MAX_CARGO, MANIFEST_TAG);
+		super();
 	}
 	
 	/**
@@ -38,5 +38,25 @@ public class RefrigeratedTruck extends Truck {
 		
 		BigDecimal roundedCost = new BigDecimal(cost).setScale(2, RoundingMode.HALF_UP);	
 		return roundedCost.doubleValue();
+	}
+
+	/**
+	 * Get the string tag used to represent a refrigerated truck. Used to read and write the manifest
+	 * @return String representing a refrigerated truck
+	 * @author Atrey Gajjar
+	 */
+	@Override
+	public String getManifestIdentification() {
+		return MANIFEST_TAG;
+	}
+	
+	/**
+	 * Gets the maximum quantity of items a refrigerated truck can hold.
+	 * @return The maximum quantity of cargo a refrigerated truck can hold.
+	 * @author Atrey Gajjar
+	 */
+	@Override
+	public int getMaxCargo() {
+		return MAX_CARGO;
 	}
 }

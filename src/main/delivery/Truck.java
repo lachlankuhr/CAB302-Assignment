@@ -12,22 +12,9 @@ public abstract class Truck {
 	
 	// Stock object storing items truck is carrying
 	private Stock truckStock;
-	private int maxCargo;
-	private String manifestIdentification;
 	
-	public Truck(int maxCargo, String manifestIdentification) {
+	public Truck() {
 		truckStock = new Stock();
-		this.maxCargo = maxCargo;
-		this.manifestIdentification = manifestIdentification;
-	}
-	
-	/** 
-	 * Constructor for Truck. Sets up a new stock object to associate with the truck.
-	 * @author Atrey Gajjar
-	 */
-	
-	public Truck(Stock truckStock) {
-		this.truckStock = truckStock;
 	}
 	
 	/** 
@@ -41,6 +28,20 @@ public abstract class Truck {
 	public abstract double calculateCostOfDelivery();
 		
 	/**
+	 * Get the string tag used to represent the type of truck. Used to read and write the manifest
+	 * @return String representing the type of truck
+	 * @author Atrey Gajjar
+	 */
+	public abstract String getManifestIdentification();
+	
+	/**
+	 * Gets the maximum quantity of items the truck can hold.
+	 * @return The maximum quantity of cargo the type of truck can hold.
+	 * @author Atrey Gajjar
+	 */
+	public abstract int getMaxCargo();
+	
+	/**
 	 * Adds items to the truck. 
 	 * @param quantity - The quantity of the item to add. 
 	 * @param item - The item to add. 
@@ -49,14 +50,18 @@ public abstract class Truck {
 	 */
 	
 	public void addCargo(int quantity, Item item) throws DeliveryException{
+		
+		if(item.getTemperature() != null && getManifestIdentification().equals(OrdinaryTruck.MANIFEST_TAG)) {
+			throw new DeliveryException("Added cool item to ordinary truck.");
+		}
+		
+		if(getCargoQuantity() + quantity > getMaxCargo()) {
+			throw new DeliveryException("Added too much cargo.");
+		}
+		
 		if (this.getCargo().containsKey(item)) {
-			int currentQuantity = this.getCargo().get(item);
-			
-			if(currentQuantity + quantity > maxCargo) {
-				throw new DeliveryException("Adding too much cargo to truck");
-			}
-			
-			this.getCargo().replace(item, currentQuantity + quantity);
+			int currentQuantity = this.getCargo().get(item);			
+			this.getCargo().put(item, currentQuantity + quantity);
 		} else {
 			this.getCargo().put(item, quantity);
 		}
@@ -71,14 +76,6 @@ public abstract class Truck {
 		return truckStock;
 	}
 	
-	/**
-	 * Gets the maximum quantity of items the truck can hold.
-	 * @return The maximum quantity of cargo the type of truck can hold.
-	 * @author Atrey Gajjar
-	 */
-	public int getMaxCargo() {
-		return maxCargo;
-	}
 	
 	/** 
 	 * Gets the quantity of cargo in the truck.
@@ -87,15 +84,6 @@ public abstract class Truck {
 	 */
 	public int getCargoQuantity() {
 		return getCargo().getStockQuantity();
-	}
-	
-	/**
-	 * Get the string tag used to represent the type of truck. Used to read and write the manifest
-	 * @return String representing the type of truck
-	 * @author Atrey Gajjar
-	 */
-	public String getManifestIdentification() {
-		return manifestIdentification;
 	}
 	
 	/**

@@ -10,13 +10,15 @@ import stock.Stock;
 public class Manifest {
 	
 	/**
-	 * A collection of trucks.
+	 * A collection of trucks that 'deliver' ordered items to the store.
+	 * @author Atrey Gajjar
 	 */
 	
-	private ArrayList<Truck> manifest = new ArrayList<Truck>(); // List of trucks
+	//Collection storing the truck objects.
+	private ArrayList<Truck> manifest = new ArrayList<Truck>();
 
 	/** 
-	 * The constructor for the manifest during the reorder/export period.
+	 * Constructor for the manifest during the reorder/export period.
 	 * Calls an optimisation method that creates manifest from the stock needing reordering.
 	 * @param stock - Stock object containing inventory of store to generate manifest from.
 	 * @author Atrey Gajjar
@@ -26,7 +28,8 @@ public class Manifest {
 	}
 	
 	/**
-	 * Constructor for manifest that creates a manifest representation of the information in a .csv file
+	 * Constructor for manifest during the delivery/import period.
+	 * Creates a manifest representation of the information in a .csv file.
 	 * @param filePath - File path to .csv file
 	 * @throws IOException 
 	 * @author Atrey Gajjar
@@ -46,11 +49,7 @@ public class Manifest {
 			}else {
 				String itemName = data.get(i).get(0);
 				Item item = Stock.getItem(itemName);
-				
-				if(item.getTemperature() != null && truckHolder.getManifestIdentification().equals(OrdinaryTruck.MANIFEST_TAG)) {
-					throw new DeliveryException("Adding cold item to an ordinary truck!");
-				}
-				
+
 				truckHolder.addCargo(Integer.valueOf(data.get(i).get(1)), item);
 			}
 			

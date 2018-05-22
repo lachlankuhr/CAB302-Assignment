@@ -14,7 +14,7 @@ public class OrdinaryTruckTest {
 	/**
 	 * @author Lachlan Kuhr
 	 */
-	@Test(expected = Exception.class)
+	@Test
 	public void testConstructor() {
 		try {
 			new OrdinaryTruck();

@@ -17,7 +17,6 @@ public class StoreTest {
 	public void before() throws IOException {
 		store = Store.generateStoreInstance();
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
-		store.generateInitialStock();
 	}
 	
 	@After 
@@ -54,13 +53,14 @@ public class StoreTest {
 	@Test
 	public void loadSalesTest() throws IOException {
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
-		Item beans = Stock.getStockProperties().get(1);
+		store.generateInitialStock();
 		store.loadSalesLog("." + File.separator + "files" + File.separator + "sales_log_0.csv");
 				
-		Item rice = Stock.getStockProperties().get(0);
-		Item pasta = Stock.getStockProperties().get(2);
-		Item biscuits = Stock.getStockProperties().get(3);
-		Item nuts = Stock.getStockProperties().get(4);
+		Item rice = Stock.getItem("rice");
+		Item beans = Stock.getItem("beans");
+		Item pasta = Stock.getItem("pasta");
+		Item biscuits = Stock.getItem("biscuits");
+		Item nuts = Stock.getItem("nuts");
 
 		assertEquals(Integer.valueOf(-88), store.getStock().get(rice));
 		assertEquals(Integer.valueOf(-423), store.getStock().get(beans));
@@ -75,11 +75,10 @@ public class StoreTest {
 	 */
 	@Test
 	public void getReorderStockTest() throws IOException {
-		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
 		store.generateInitialStock();
 		
-		Item rice = Stock.getStockProperties().get(0);
-		Item pasta = Stock.getStockProperties().get(2);
+		Item rice = Stock.getItem("rice");
+		Item pasta = Stock.getItem("pasta");
 		store.getStock().put(rice, 100);
 		store.getStock().put(pasta, 50);
 		

@@ -19,7 +19,7 @@ public class OrdinaryTruck extends Truck {
 	 * @author Atrey Gajjar
 	 */
 	public OrdinaryTruck() {
-		super(MAX_CARGO, MANIFEST_TAG);
+		super();
 	}
 	
 	/**
@@ -31,5 +31,25 @@ public class OrdinaryTruck extends Truck {
 	@Override
 	public double calculateCostOfDelivery() {
 		return (750.0+0.25*getCargoQuantity());
+	}
+
+	/**
+	 * Get the string tag used to represent the an ordinary truck. Used to read and write the manifest
+	 * @return String representing an ordinary truck
+	 * @author Atrey Gajjar
+	 */
+	@Override
+	public String getManifestIdentification() {
+		return MANIFEST_TAG;
+	}
+	
+	/**
+	 * Gets the maximum quantity of items an ordinary truck can hold.
+	 * @return The maximum quantity of cargo an ordinary truck can hold.
+	 * @author Atrey Gajjar
+	 */
+	@Override
+	public int getMaxCargo() {
+		return MAX_CARGO;
 	}
 }

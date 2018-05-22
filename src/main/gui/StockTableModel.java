@@ -6,9 +6,13 @@ import javax.swing.table.AbstractTableModel;
 
 import stock.Item;
 import stock.Stock;
-import stock.Store;
 
+@SuppressWarnings("serial")
 public class StockTableModel extends AbstractTableModel {
+	
+	/**
+	 * An extension of the AbstractTableModel to
+	 */
 	
 	private String[] columnNames = {"Name", "Quantity", "Manufacturing Cost ($)", "Sell Price ($)", "Reorder Point", "Reorder Amount", "Temperature (°C)"};
 	private Stock data;
