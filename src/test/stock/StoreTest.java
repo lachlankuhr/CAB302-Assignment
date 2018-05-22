@@ -5,12 +5,25 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class StoreTest {
 	
-	Store store = Store.generateStoreInstance();
+	Store store;
+	
+	@Before 
+	public void before() throws IOException {
+		store = Store.generateStoreInstance();
+		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
+		store.generateInitialStock();
+	}
+	
+	@After 
+	public void after() {
+		Store.destoryStore();
+	}
 	
 	@Test
 	public void getNameTest() {
@@ -40,11 +53,6 @@ public class StoreTest {
 	
 	@Test
 	public void loadSalesTest() throws IOException {
-		//Manually load up item properties
-		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
-		store.generateInitialStock();
-		
-		//Replace with absolute path to sales_log_0.csv off Blackboard
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
 		Item beans = Stock.getStockProperties().get(1);
 		store.loadSalesLog("." + File.separator + "files" + File.separator + "sales_log_0.csv");
