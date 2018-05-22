@@ -14,35 +14,8 @@ public class OrdinaryTruckTest {
 	/**
 	 * @author Lachlan Kuhr
 	 */
-	@Test 
+	@Test(expected = Exception.class)
 	public void testConstructor() {
-		try {
-			new OrdinaryTruck();
-			assertTrue(true);
-		} catch (Exception e) {
-			fail();
-		}
-	}
-	
-	/**
-	 * @author Lachlan Kuhr
-	 */
-	@Test 
-	public void testConstructorWithNoParameters() {
-		try {
-			new OrdinaryTruck();
-			assertTrue(true);
-		} catch (Exception e) {
-			fail();
-		}
-	}
-	
-	
-	/**
-	 * @author Lachlan Kuhr
-	 */
-	@Test 
-	public void testConstructorDifferentItems() {
 		try {
 			new OrdinaryTruck();
 			assertTrue(true);
@@ -57,7 +30,7 @@ public class OrdinaryTruckTest {
 			ordinaryTruck = new OrdinaryTruck(); 
 			ordinaryTruck.addCargo(1100, new Item("rice", 2.0, 3.0, 225, 300, null));
 			fail();
-		} catch (Exception e) {
+		} catch (DeliveryException e) {
 			assertEquals(e.getMessage(), "Added too much cargo.");
 		}
 	}
@@ -69,10 +42,25 @@ public class OrdinaryTruckTest {
 			ordinaryTruck.addCargo(100, new Item("rice", 2.0, 3.0, 225, 300, null));
 			ordinaryTruck.addCargo(1000, new Item("asparagus", 2.0, 4.0, 175, 275, null));
 			fail();
-		} catch (Exception e) {
+		} catch (DeliveryException e) {
 			assertEquals(e.getMessage(), "Added too much cargo.");
 		}
 	}
+	
+	@Test
+	public void testAddingTooManyItems3() {
+		try {
+			ordinaryTruck = new OrdinaryTruck();
+			ordinaryTruck.addCargo(100, new Item("rice", 2.0, 3.0, 225, 300, null));
+			Item asparagus = new Item("asparagus", 2.0, 4.0, 175, 275, null);
+			ordinaryTruck.addCargo(200, asparagus);
+			ordinaryTruck.addCargo(1000, asparagus);
+			fail();
+		} catch (DeliveryException e) {
+			assertEquals(e.getMessage(), "Added too much cargo.");
+		}
+	}
+	
 	
 	@Test
 	public void addingCoolItem1() {
@@ -80,7 +68,7 @@ public class OrdinaryTruckTest {
 			ordinaryTruck = new OrdinaryTruck(); 
 			ordinaryTruck.addCargo(1000, new Item("asparagus", 2.0, 4.0, 175, 275, 8.0));
 			fail();
-		} catch (Exception e) {
+		} catch (DeliveryException e) {
 			assertEquals(e.getMessage(), "Added cool item to ordinary truck.");
 		}
 	}
@@ -92,7 +80,7 @@ public class OrdinaryTruckTest {
 			ordinaryTruck.addCargo(100, new Item("rice", 2.0, 3.0, 225, 300, null));
 			ordinaryTruck.addCargo(800, new Item("asparagus", 2.0, 4.0, 175, 275, 8.0));
 			fail();
-		} catch (Exception e) {
+		} catch (DeliveryException e) {
 			assertEquals(e.getMessage(), "Added cool item to ordinary truck.");
 		}
 	}
