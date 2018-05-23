@@ -52,11 +52,15 @@ public abstract class Truck {
 	public void addCargo(int quantity, Item item) throws DeliveryException{
 		
 		if(item.getTemperature() != null && getManifestIdentification().equals(OrdinaryTruck.MANIFEST_TAG)) {
-			throw new DeliveryException("Added cool item to ordinary truck.");
+			throw new DeliveryException("There was at least one cold item in an ordinary truck. Check manifest file.");
 		}
 		
 		if(getCargoQuantity() + quantity > getMaxCargo()) {
-			throw new DeliveryException("Added too much cargo.");
+			if(getManifestIdentification().equals(OrdinaryTruck.MANIFEST_TAG)) {
+				throw new DeliveryException("There was too many items in an ordinary truck. Check manifest file.");
+			}else if(getManifestIdentification().equals(RefrigeratedTruck.MANIFEST_TAG)) {				
+				throw new DeliveryException("There was too many items in a refrigerated truck. Check manifest file.");
+			}
 		}
 		
 		if (this.getCargo().containsKey(item)) {

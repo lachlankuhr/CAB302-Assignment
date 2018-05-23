@@ -46,6 +46,8 @@ public class Manifest {
 			}else if(data.get(i).get(0).equals(OrdinaryTruck.MANIFEST_TAG)) {
 				truckHolder = new OrdinaryTruck();
 				manifest.add(truckHolder);
+			}else if(data.get(i).get(0).startsWith(">")){
+				throw new DeliveryException("There was an unkown truck type loaded in. Check manifest file.");
 			}else {
 				String itemName = data.get(i).get(0);
 				Item item = Stock.getItem(itemName);
