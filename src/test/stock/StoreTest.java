@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import delivery.Manifest;
+
 public class StoreTest {
 	
 	Store store;
@@ -69,12 +71,43 @@ public class StoreTest {
 		assertEquals(Integer.valueOf(-36), store.getStock().get(nuts));
 	}
 	
+	@Test
+	public void importManifestTest() {
+		store.generateInitialStock();
+		Stock simulatedStock = new Stock();
+		
+		Item rice = Stock.getItem("rice");
+		Item beans = Stock.getItem("beans");
+		Item pasta = Stock.getItem("pasta");
+		Item biscuits = Stock.getItem("biscuits");
+		Item nuts = Stock.getItem("nuts");
+		
+		simulatedStock.put(rice, 300);
+		simulatedStock.put(beans, 525);
+		simulatedStock.put(pasta, 250);
+		simulatedStock.put(biscuits, 575);
+		simulatedStock.put(nuts, 250);
+		
+		Manifest manifest = new Manifest(simulatedStock);
+		store.importManifest(manifest);
+		
+		assertEquals(Integer.valueOf(300), store.getStock().get(rice));
+		assertEquals(Integer.valueOf(525), store.getStock().get(beans));
+		assertEquals(Integer.valueOf(250), store.getStock().get(pasta));
+		assertEquals(Integer.valueOf(575), store.getStock().get(biscuits));
+		assertEquals(Integer.valueOf(250), store.getStock().get(nuts));
+
+		//Delivery cost - $1975.00
+		//Item cost - $5850.0
+		assertEquals(92175.0, store.getCapital(), 0.1);
+	}
+	
+	
 	/**
 	 * @author Atrey Gajjar
-	 * @throws IOException 
 	 */
 	@Test
-	public void getReorderStockTest() throws IOException {
+	public void getReorderStockBeforePointTest() {
 		store.generateInitialStock();
 		
 		Item rice = Stock.getItem("rice");
@@ -86,7 +119,56 @@ public class StoreTest {
 		
 		assertEquals(Integer.valueOf(300), reorderStock.get(rice));
 		assertEquals(Integer.valueOf(250), reorderStock.get(pasta));
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void getReorderStockAtPointTest() {
+		store.generateInitialStock();
+		Item rice = Stock.getItem("rice");
+		store.getStock().put(rice, 225);
 		
+		Stock reorderStock = store.getReorderStock();
 		
+		assertEquals(Integer.valueOf(300), reorderStock.get(rice));
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void getReorderStockAbovePointTest() {
+		store.generateInitialStock();
+		Item rice = Stock.getItem("rice");
+		store.getStock().put(rice, 300);
+		
+		Stock reorderStock = store.getReorderStock();
+		
+		//Null as the reorder stock shouldn't include any rice
+		assertEquals(null, reorderStock.get(rice));
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void changePropertiesTest() throws IOException {
+		store.generateInitialStock();
+		Item rice = Stock.getItem("rice");
+		store.getStock().put(rice, 225);
+		
+		assertEquals(2.0, rice.getManufacturingCost(), 0.1);
+		assertEquals(Integer.valueOf(225), store.getStock().get(rice));
+		assertEquals(Integer.valueOf(0), store.getStock().get(Stock.getItem("beans")));
+		
+		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties_increased_prices.csv");
+		store.generateInitialStock();
+		Item newRice = Stock.getItem("rice");
+		
+		assertEquals(200.0, newRice.getManufacturingCost(), 0.1);
+		assertEquals(Integer.valueOf(225), store.getStock().get(newRice));
+		assertEquals(Integer.valueOf(0), store.getStock().get(Stock.getItem("beans")));
 	}
 }
