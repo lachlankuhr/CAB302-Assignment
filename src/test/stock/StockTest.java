@@ -91,33 +91,5 @@ public class StockTest {
 		shopStock.put(iceCream, 200);
 		shopStock.put(colderIceCream, 200);
 		assertEquals(colderIceCream, shopStock.findColdestItem());	
-	}
-	
-	/**
-	 * @author Atrey Gajjar
-	 */
-	@Test
-	public void negativeItemNumberTest() {
-		try {
-			shopStock.put(rice, -100);
-			fail();
-		} catch (StockException e) {
-			assertEquals("Adding negative quantity to an item", e.getMessage());
-		}
-	}
-	
-	/**
-	 * @author Atrey Gajjar
-	 */
-	@Test
-	public void addingUnknownItem() throws IOException {
-		Stock.loadInItemProperties(File.separator + "files" + File.separator + "item_properties.csv");
-		
-		try {
-			Item pizza = new Item("pizza", 5, 10, 250, 300, (double) -5);
-			shopStock.put(pizza, 100);			
-		} catch (StockException e) {
-			assertEquals("Unknown item being added to stock", e.getMessage());
-		}
 	}	
 }

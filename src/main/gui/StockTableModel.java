@@ -14,7 +14,7 @@ public class StockTableModel extends AbstractTableModel {
 	 * An extension of the AbstractTableModel to
 	 */
 	
-	private String[] columnNames = {"Name", "Quantity", "Manufacturing Cost ($)", "Sell Price ($)", "Reorder Point", "Reorder Amount", "Temperature (°C)"};
+	private String[] columnNames = {"Name", "Quantity", "Manufacturing Cost ($)", "Sell Price ($)", "Reorder Point", "Reorder Amount", "Temperature (\u00b0C)"};
 	private Stock data;
 	
 	public StockTableModel(Stock data) {

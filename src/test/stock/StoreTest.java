@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import delivery.DeliveryException;
 import delivery.Manifest;
 
 public class StoreTest {
@@ -170,5 +171,77 @@ public class StoreTest {
 		assertEquals(200.0, newRice.getManufacturingCost(), 0.1);
 		assertEquals(Integer.valueOf(225), store.getStock().get(newRice));
 		assertEquals(Integer.valueOf(0), store.getStock().get(Stock.getItem("beans")));
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void loadSalesWithNegativeQuantityTest() throws IOException{
+		try {
+			store.generateInitialStock();
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_negative.csv");
+			fail();
+		} catch (StockException e) {
+			assertEquals("There was a negative number of items sold. Check sales log file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void loadSalesAddingUnknownItemTest() throws IOException {		
+		try {
+			store.generateInitialStock();
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_unknown_item.csv");
+			fail();
+		} catch (StockException e) {
+			assertEquals("There was an unknown item sold. Check sales log file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void soldMoreThanStockTest() throws IOException{
+		try {
+			store.generateInitialStock();
+			Item rice = Stock.getItem("rice");
+			store.getStock().put(rice, 10);
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_oversold.csv");
+			fail();
+		} catch (StockException e) {
+			assertEquals("Sold more quantity than in the store. Check sales log file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void incorrectQuantitySalesTest() throws IOException{
+		try {
+			store.generateInitialStock();
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_corrupted_quantities.csv");
+			fail();
+		} catch (StockException e) {
+			assertEquals("Unable to parse sale quantities. Check sales log file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void missingValuesSalesTest() throws IOException{
+		try {
+			store.generateInitialStock();
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_missing_values.csv");
+			fail();
+		} catch (StockException e) {
+			assertEquals("Missing item name or quantity. Check sales log file.", e.getMessage());
+		}
 	}
 }
