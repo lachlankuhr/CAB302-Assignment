@@ -124,13 +124,37 @@ public class Store {
 	 * @author Lachlan Kuhr
 	 */
 	
-	public void loadSalesLog(String filePath) throws IOException {
+	public void loadSalesLog(String filePath) throws IOException, StockException {
 		ArrayList<ArrayList<String>> salesLog = CSVReading.readCSV(filePath); // read in the sales log
 		// process the sales log
+		
 		for (ArrayList<String> sale : salesLog) { 
-			String itemName = sale.get(0); // index zero is the name 
-			int saleAmount = Integer.parseInt(sale.get(1)); // index one is the sales amount
+			if (sale.size() != 2 || sale.get(0).isEmpty()  || sale.get(1).isEmpty()) {
+				throw new StockException("Missing item name or quantity. Check sales log file.");
+			}
+			String itemName;
+			if (Stock.getItem(sale.get(0)) != null) {
+				itemName = sale.get(0); // index zero is the name 
+			} else {
+				throw new StockException("There was an unknown item sold. Check sales log file.");
+			}
+			int saleAmount;
+			try {
+				Integer.parseInt(sale.get(1));
+			} catch (Exception e) {
+				throw new StockException("Unable to parse sale quantities. Check sales log file.");
+			}
+			
+			if (Integer.parseInt(sale.get(1)) >= 0) {
+				saleAmount = Integer.parseInt(sale.get(1)); // index one is the sales amount
+			} else { // the quantity is negative 
+				throw new StockException("There was a negative number of items sold. Check sales log file.");
+			}
+			
 			Item item = Stock.getItem(itemName); 
+			if (inventory.get(item) < saleAmount) {
+				throw new StockException("Sold more quantity than in the store. Check sales log file.");
+			} 
 			inventory.replace(item, inventory.get(item) - saleAmount); // remove items from inventory
 			capital += item.getSellPrice() * saleAmount; // update capital by profit
 		}
