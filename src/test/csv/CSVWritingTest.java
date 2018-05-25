@@ -1,7 +1,5 @@
 package csv;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,12 +11,11 @@ import delivery.OrdinaryTruck;
 import delivery.RefrigeratedTruck;
 import delivery.Truck;
 import stock.Item;
-import stock.Stock;
 
 public class CSVWritingTest {
 
 	@Test
-	public void testWritingManifest1() throws DeliveryException, IOException {;
+	public void testWritingManifest1() throws DeliveryException, IOException {
 		Truck truck1 = new OrdinaryTruck();
 		Truck truck2 = new RefrigeratedTruck();
 		
@@ -29,14 +26,17 @@ public class CSVWritingTest {
 		manifest.add(truck1);
 		manifest.add(truck2);
 		
-		CSVWriting.writeManifest(manifest, "." + File.separator + "files" + File.separator + "manifest-tests" + File.separator + "manifest-writing-tests" + File.separator + "manifest_test_writing1.csv");
+		//Using object for static method solely for coverage - other test uses static method to test both.
+		//.writeManifest method can be called statically.
+		CSVWriting csvWriter = new CSVWriting();
+		csvWriter.writeManifest(manifest, "." + File.separator + "files" + File.separator + "manifest-tests" + File.separator + "manifest-writing-tests" + File.separator + "manifest_test_writing1.csv");
 		// check to see if generated correctly ["worked on my computer"]
 		// passing of this test doesn't mean it is implemented correctly 
 		// need to check if file looks correct by looking at the above directory. 
 	}
 	
 	@Test
-	public void testWritingManifest2() throws DeliveryException, IOException {;
+	public void testWritingManifest2() throws DeliveryException, IOException {
 		Truck truck1 = new OrdinaryTruck();
 		Truck truck2 = new RefrigeratedTruck();
 		
@@ -51,6 +51,7 @@ public class CSVWritingTest {
 		manifest.add(truck1);
 		manifest.add(truck2);
 		
+		//Using static access to method .writeManifest - other test tests object access.
 		CSVWriting.writeManifest(manifest, "." + File.separator + "files" + File.separator + "manifest-tests" + File.separator + "manifest-writing-tests" + File.separator + "manifest_test_writing2.csv");
 		// check to see if generated correctly ["worked on my computer"]
 		// passing of this test doesn't mean it is implemented correctly 

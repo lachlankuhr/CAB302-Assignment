@@ -146,8 +146,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			Store.generateStoreInstance().loadSalesLog(filePath);
 			storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
 			JOptionPane.showMessageDialog(this, "Successfully imported the sales log file!", "Sales Log Loaded", JOptionPane.INFORMATION_MESSAGE);
-		//} catch (StockException e) {
-			//optionPane.showMessageDialog(this, "Error loading in the sales log! " + e.getMessage(), "Sales Log Error", JOptionPane.ERROR_MESSAGE);
+		} catch (StockException e) {
+			JOptionPane.showMessageDialog(this, "Error loading in the sales log! " + e.getMessage(), "Sales Log Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "Error loading in the sales log. Ensure the file path is correct and file is not corrupted.", "Load Error", JOptionPane.ERROR_MESSAGE);
 		}

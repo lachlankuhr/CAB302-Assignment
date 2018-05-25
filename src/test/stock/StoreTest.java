@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import csv.CSVFormatException;
 import delivery.DeliveryException;
 import delivery.Manifest;
 
@@ -57,19 +58,26 @@ public class StoreTest {
 	public void loadSalesTest() throws IOException, StockException {
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
 		store.generateInitialStock();
-		store.loadSalesLog("." + File.separator + "files" + File.separator + "sales_log_0.csv");
 				
 		Item rice = Stock.getItem("rice");
 		Item beans = Stock.getItem("beans");
 		Item pasta = Stock.getItem("pasta");
 		Item biscuits = Stock.getItem("biscuits");
 		Item nuts = Stock.getItem("nuts");
+		
+		store.getStock().put(rice, 88);
+		store.getStock().put(beans, 423);
+		store.getStock().put(pasta, 43);
+		store.getStock().put(biscuits, 394);
+		store.getStock().put(nuts, 36);
 
-		assertEquals(Integer.valueOf(-88), store.getStock().get(rice));
-		assertEquals(Integer.valueOf(-423), store.getStock().get(beans));
-		assertEquals(Integer.valueOf(-43), store.getStock().get(pasta));
-		assertEquals(Integer.valueOf(-394), store.getStock().get(biscuits));
-		assertEquals(Integer.valueOf(-36), store.getStock().get(nuts));
+		store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator + "sales_log_primary.csv");
+
+		assertEquals(Integer.valueOf(0), store.getStock().get(rice));
+		assertEquals(Integer.valueOf(0), store.getStock().get(beans));
+		assertEquals(Integer.valueOf(0), store.getStock().get(pasta));
+		assertEquals(Integer.valueOf(0), store.getStock().get(biscuits));
+		assertEquals(Integer.valueOf(0), store.getStock().get(nuts));
 	}
 	
 	@Test
@@ -242,6 +250,34 @@ public class StoreTest {
 			fail();
 		} catch (StockException e) {
 			assertEquals("Missing item name or quantity. Check sales log file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void testUsingWrongFile1() throws IOException, StockException {
+		try {
+			store.generateInitialStock();
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "initial_export.csv");
+			fail();
+		} catch (CSVFormatException e) {
+			assertEquals("File does not match required format. Check sales log file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void testUsingWrongFile2() throws IOException, StockException {
+		try {
+			store.generateInitialStock();
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "item_properties.csv");
+			fail();
+		} catch (CSVFormatException e) {
+			assertEquals("File does not match required format. Check sales log file.", e.getMessage());
 		}
 	}
 }
