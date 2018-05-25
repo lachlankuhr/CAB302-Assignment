@@ -54,7 +54,7 @@ public class StoreTest {
 	}
 	
 	@Test
-	public void loadSalesTest() throws IOException {
+	public void loadSalesTest() throws IOException, StockException {
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
 		store.generateInitialStock();
 		store.loadSalesLog("." + File.separator + "files" + File.separator + "sales_log_0.csv");
@@ -180,7 +180,7 @@ public class StoreTest {
 	public void loadSalesWithNegativeQuantityTest() throws IOException{
 		try {
 			store.generateInitialStock();
-			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_negative.csv");
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator + "sales_log_negative.csv");
 			fail();
 		} catch (StockException e) {
 			assertEquals("There was a negative number of items sold. Check sales log file.", e.getMessage());
@@ -194,7 +194,7 @@ public class StoreTest {
 	public void loadSalesAddingUnknownItemTest() throws IOException {		
 		try {
 			store.generateInitialStock();
-			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_unknown_item.csv");
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator +  "sales_log_unknown_item.csv");
 			fail();
 		} catch (StockException e) {
 			assertEquals("There was an unknown item sold. Check sales log file.", e.getMessage());
@@ -210,7 +210,7 @@ public class StoreTest {
 			store.generateInitialStock();
 			Item rice = Stock.getItem("rice");
 			store.getStock().put(rice, 10);
-			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_oversold.csv");
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator + "sales_log_oversold.csv");
 			fail();
 		} catch (StockException e) {
 			assertEquals("Sold more quantity than in the store. Check sales log file.", e.getMessage());
@@ -224,7 +224,7 @@ public class StoreTest {
 	public void incorrectQuantitySalesTest() throws IOException{
 		try {
 			store.generateInitialStock();
-			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_corrupted_quantities.csv");
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator + "sales_log_corrupted_quantities.csv");
 			fail();
 		} catch (StockException e) {
 			assertEquals("Unable to parse sale quantities. Check sales log file.", e.getMessage());
@@ -238,7 +238,7 @@ public class StoreTest {
 	public void missingValuesSalesTest() throws IOException{
 		try {
 			store.generateInitialStock();
-			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + "sales_log_missing_values.csv");
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator + "sales_log_missing_values.csv");
 			fail();
 		} catch (StockException e) {
 			assertEquals("Missing item name or quantity. Check sales log file.", e.getMessage());
