@@ -1,4 +1,4 @@
-other dry item,2,3,225,300,
+dry item extra,2,3,225,300,
 rice,2,3,225,300,
 beans,4,6,450,525,
 pasta,3,4,125,250,
@@ -23,4 +23,4 @@ ice cream,8,14,175,250,-20
 ice,2,5,225,325,-10
 frozen meat,10,14,450,575,-14
 frozen vegetable mix,5,8,225,325,-12
-other frozen item,5,8,225,325,-12
+cold item extra,5,8,225,325,-12
