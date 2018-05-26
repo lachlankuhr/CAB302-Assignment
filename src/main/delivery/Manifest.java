@@ -3,6 +3,7 @@ package delivery;
 import java.io.IOException;
 import java.util.*;
 
+import csv.CSVFormatException;
 import csv.CSVReading;
 import stock.Item;
 import stock.Stock;
@@ -34,11 +35,19 @@ public class Manifest {
 	 * @throws IOException 
 	 * @author Atrey Gajjar
 	 */
-	public Manifest(String filePath) throws IOException, DeliveryException {
+	public Manifest(String filePath) throws IOException, DeliveryException, CSVFormatException {
 		ArrayList<ArrayList<String>> data = CSVReading.readCSV(filePath);
+		
+		if(!data.get(0).get(0).startsWith(">")) {
+			throw new CSVFormatException("File does not match required format. Check manifest file.");
+		}
 		
 		Truck truckHolder = null;
 		for(int i = 0; i < data.size(); i++) {
+			
+			if(data.get(i).size() != 1 && data.get(i).size() != 2) {
+				throw new CSVFormatException("File does not match required format. Check manifest file.");
+			}
 			
 			if(data.get(i).get(0).equals(RefrigeratedTruck.MANIFEST_TAG)) {
 				truckHolder = new RefrigeratedTruck();

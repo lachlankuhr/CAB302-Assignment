@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 
+import csv.CSVFormatException;
 import csv.CSVWriting;
 import delivery.DeliveryException;
 import delivery.Manifest;
@@ -164,7 +165,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			Store.generateStoreInstance().importManifest(manifest);
 			storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
 			JOptionPane.showMessageDialog(this, "Successfully imported the manifest file!", "Manifest Imported", JOptionPane.INFORMATION_MESSAGE);
-		} catch (DeliveryException e) {
+		} catch (CSVFormatException | DeliveryException e) {
 			JOptionPane.showMessageDialog(this, "Error importing the manifest. " + e.getMessage(), "Manifest Import Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "Error importing the manifest. Ensure the file path is correct and file is not corrupted.", "Load Error", JOptionPane.ERROR_MESSAGE);

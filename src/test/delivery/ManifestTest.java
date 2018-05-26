@@ -38,9 +38,10 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 * @throws DeliveryException 
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void testLoadingManifestWithColdItemInOrdinaryTruck() throws IOException {
+	public void testLoadingManifestWithColdItemInOrdinaryTruck() throws IOException, CSVFormatException {
 		try {
 		manifest = new Manifest("." + File.separator + "files" + File.separator + 
 				"manifest-tests" + File.separator + 
@@ -53,9 +54,10 @@ public class ManifestTest {
 	/**
 	 * @author Lachlan Kuhr
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void testingLoadingManifestWithTooManyItemsInOrdinaryTruck() throws IOException {
+	public void testingLoadingManifestWithTooManyItemsInOrdinaryTruck() throws IOException, CSVFormatException {
 		try {
 		manifest = new Manifest("." + File.separator + "files" + File.separator + 
 				"manifest-tests" + File.separator + 
@@ -68,9 +70,10 @@ public class ManifestTest {
 	/**
 	 * @author Lachlan Kuhr
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void testingLoadingManifestWithTooManyItemsInRefrigeratedTruck() throws IOException {
+	public void testingLoadingManifestWithTooManyItemsInRefrigeratedTruck() throws IOException, CSVFormatException {
 		try {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
@@ -83,9 +86,10 @@ public class ManifestTest {
 	/**
 	 * @author Lachlan Kuhr
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void testLoadingManifestWithUnknownTruckTypeOrdinary() throws IOException {
+	public void testLoadingManifestWithUnknownTruckTypeOrdinary() throws IOException, CSVFormatException {
 		try {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
@@ -98,9 +102,10 @@ public class ManifestTest {
 	/**
 	 * @author Lachlan Kuhr
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void testLoadingManifestWithUnknownTruckTypeRefrigerated() throws IOException {
+	public void testLoadingManifestWithUnknownTruckTypeRefrigerated() throws IOException, CSVFormatException {
 		try {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
@@ -113,9 +118,10 @@ public class ManifestTest {
 	/**
 	 * @author Lachlan Kuhr
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void testLoadingManifestWithNegativeItemQuantities() throws IOException {
+	public void testLoadingManifestWithNegativeItemQuantities() throws IOException, CSVFormatException {
 		try {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
@@ -128,9 +134,10 @@ public class ManifestTest {
 	/**
 	 * @author Lachlan Kuhr
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void testLoadingManifestUnknownItem1() throws IOException {
+	public void testLoadingManifestUnknownItem1() throws IOException, CSVFormatException {
 		try {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
@@ -143,9 +150,10 @@ public class ManifestTest {
 	/**
 	 * @author Lachlan Kuhr
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void testLoadingManifestUnknownItem2() throws IOException {
+	public void testLoadingManifestUnknownItem2() throws IOException, CSVFormatException {
 		try {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
