@@ -12,12 +12,14 @@ import csv.CSVReading;
 import delivery.Manifest;
 import delivery.Truck;
 
+/**
+ * An object for representing the store itself.
+ * Implements the singleton design pattern.  
+ * @author Lachlan Kuhr
+ *
+ */
+
 public class Store {
-	
-	/**
-	 * An object for representing the store itself.
-	 * @author Lachlan Kuhr
-	 */
 	
 	// Fields
 	private double capital;
@@ -31,7 +33,6 @@ public class Store {
 	 * @param name The name of the store. 
 	 * @author Lachlan Kuhr
 	 */
-	
 	private Store(double capital, String name) {
 		this.capital = capital; 
 		this.name = name;
@@ -44,7 +45,6 @@ public class Store {
 	 * @return The initial store object. 
 	 * @author Lachlan Kuhr
 	 */
-	
 	public static Store generateStoreInstance() {
       if(store == null) {
           store = new Store(100000, "SuperMart");
@@ -56,7 +56,6 @@ public class Store {
 	 * Generates stock based on initial item properties file.
 	 * @author Lachlan Kuhr
 	 */
-	
 	public void generateInitialStock() {
 		
 		Stock newInventory = new Stock();
@@ -88,7 +87,6 @@ public class Store {
 	 * @return The inventory of the store.
 	 * @author Lachlan Kuhr
 	 */
-	
 	public Stock getStock() {
 		return inventory;
 	}
@@ -98,7 +96,6 @@ public class Store {
 	 * @return The numerical value of store capital.
 	 * @author Lachlan Kuhr
 	 */
-	
 	public double getCapital() {
 		return capital;
 	}
@@ -108,7 +105,6 @@ public class Store {
 	 * @return The name of the store.
 	 * @author Lachlan Kuhr
 	 */
-	
 	public String getName() {
 		return name;
 	}
@@ -118,7 +114,6 @@ public class Store {
 	 * @return String representation of store capital.
 	 * @author Lachlan Kuhr
 	 */
-	
 	public String getFormattedCapital() {
 		return NumberFormat.getCurrencyInstance().format(capital);
 	}
@@ -127,33 +122,33 @@ public class Store {
 	 * Updates store data based on weekly sales log. Capital increases and inventory decreases.
 	 * @param filePath - File path to file storing information about weekly sales.
 	 * @throws IOException Exception thrown upon file reading.
-	 * @throws CSVFormatException 
-	 * @throws StockException
+	 * @throws CSVFormatException When the format of the csv differs to that expected for a sales log.
+	 * @throws StockException Thrown when there is either an unknown item, more items have been sold than in stock, or unable to parse values.
 	 * @author Lachlan Kuhr
 	 */
-	
 	public void loadSalesLog(String filePath) throws IOException, StockException, CSVFormatException {
 		ArrayList<ArrayList<String>> salesLog = CSVReading.readCSV(filePath); // read in the sales log
 		// process the sales log
 		
 		for (ArrayList<String> sale : salesLog) { 
+			// check file format
 			if (sale.size() !=2) {
 				throw new CSVFormatException("File does not match required format. Check sales log file.");
 			}
-			
+			// to ensure that both item name and quantity exists
 			if (sale.get(0).isEmpty()  || sale.get(1).isEmpty()) {
 				throw new StockException("Missing item name or quantity. Check sales log file.");
 			}
 			String itemName;
 			if (Stock.getItem(sale.get(0)) != null) {
 				itemName = sale.get(0); // index zero is the name 
-			} else {
+			} else { // to ensure there is an object representation of the item name
 				throw new StockException("There was an unknown item sold. Check sales log file.");
 			}
 			int saleAmount;
 			try {
 				Integer.parseInt(sale.get(1));
-			} catch (Exception e) {
+			} catch (Exception e) { // 
 				throw new StockException("Unable to parse sale quantities. Check sales log file.");
 			}
 			
@@ -174,9 +169,8 @@ public class Store {
 	
 	/**
 	 * Loads in a manifest file to simulate delivery of items. Capital decreases and inventory increases.
-	 * @param manifest 
+	 * @param manifest The manifest to be 
 	 */
-	
 	public void importManifest(Manifest manifest) {
 		for (Truck truck : manifest.getManifestCollection()) { // for each truck
 			for (Map.Entry<Item, Integer> itemCargo : truck.getCargo().entrySet()) {  // for each item 
@@ -188,20 +182,18 @@ public class Store {
 	
 	/**
 	 * Adds items to current inventory.
-	 * @param item - Item to be added. 
-	 * @param quantity - The quantity of the item to be added. 
+	 * @param item Item to be added. 
+	 * @param quantity The quantity of the item to be added. 
 	 */
-	
 	public void addItemsToInventory(Item item, int quantity) {
 		inventory.replace(item, inventory.get(item) + quantity);
 	}
 	
 	/**
-	 * Reorders item from stock.
-	 * @return Stock
+	 * Reorders item from stock given the reorder level and reorder amounts. 
+	 * @return Stock The reorder stock. 
 	 * @author Lachlan Kuhr
 	 */
-	
 	public Stock getReorderStock() {
 		Stock reorderStock = new Stock();
 		// identify which items need to be reorder
@@ -216,9 +208,9 @@ public class Store {
 	
 	/** 
 	 * Method to destroy store instance for fresh store. 
+	 * Used when changing store in same session of GUI (due to the use of the singleton design pattern). 
 	 * @author Lachlan Kuhr
 	 */
-	
 	public static void destoryStore() {
 		store = null;
 	}

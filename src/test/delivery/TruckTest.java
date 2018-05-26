@@ -7,22 +7,27 @@ import org.junit.*;
 import stock.Item;
 import stock.Stock;
 
+/**
+ * Test cases for the ordinary truck class. 
+ * @author Lachlan Kuhr
+ */
 
 public class TruckTest {
 	
 	Truck truck;
 	Stock truckStock;
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Before
 	public void before() {
 		truckStock = new Stock(); 
 	}
 
 	/**
-	 * Author: Lachlan Kuhr
-	 * @throws DeliveryException 
+	 * @author Lachlan Kuhr
 	 */
-	
 	@Test
 	public void testColdItemCheck() throws DeliveryException {
 		truck = new RefrigeratedTruck();
@@ -31,15 +36,12 @@ public class TruckTest {
 	}
 	
 	/**
-	 * Author: Lachlan Kuhr
-	 * @throws DeliveryException 
+	 * @author Lachlan Kuhr
 	 */
-	
 	@Test
 	public void testColdItemCheck2() throws DeliveryException {
 		truck = new RefrigeratedTruck();
 		truck.addCargo(50, new Item("pasta", 3.0, 4.0, 125, 250, null));
 		assertTrue(!truck.coldItemCheck());
 	}
-
 }

@@ -66,12 +66,17 @@ public class Manifest {
 				throw new DeliveryException("There was an unkown truck type loaded in. Check manifest file.");
 			}else {
 				
-				//Find item from stock through and place it in the cargo of a truck. Throws error if the item cannot be found.
+				//Find item from stock through and place it in the cargo of a truck. Throws error if the item cannot be found or quantity is negative.
 				String itemName = data.get(i).get(0);
 				Item item = Stock.getItem(itemName);
-
+				int quantity = Integer.valueOf(data.get(i).get(1));
+				
+				if(quantity < 0) {
+					throw new DeliveryException("There was a negative amount of items in manifest. Check manifest file.");
+				}
+				
 				if(item != null) {					
-					truckHolder.addCargo(Integer.valueOf(data.get(i).get(1)), item);
+					truckHolder.addCargo(quantity, item);
 				} else {
 					throw new DeliveryException("The manifest contain an item not contained in the currently known item properties. Check manifest file.");
 				}

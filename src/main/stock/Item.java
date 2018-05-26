@@ -1,11 +1,11 @@
 package stock;
 
+/**
+ * The object representation of an item. 
+ * @author Lachlan Kuhr 
+ */
+
 public class Item {
-	
-	/**
-	 * An item with the below properties.
-	 * @author Lachlan Kuhr 
-	 */
 	
 	// Item properties / fields
 	private String name; 
@@ -17,15 +17,14 @@ public class Item {
 	
 	/**
 	 * The constructor for item. 
-	 * @param name - The name of the item. 
-	 * @param manufacturingCost - The manufacturing cost of the item. 
-	 * @param sellPrice - The sell price of the item. 
-	 * @param reorderPoint - The reorder point of the item. 
-	 * @param reorderAmount - The reorder amount of the item. 
-	 * @param temperature - The temperature of the item. Is a boxed object (i.e. class) and hence is null-able if no temperature is associated with the item. 
+	 * @param name The name of the item. 
+	 * @param manufacturingCost The manufacturing cost of the item. 
+	 * @param sellPrice The sell price of the item. 
+	 * @param reorderPoint The reorder point of the item. 
+	 * @param reorderAmount The reorder amount of the item. 
+	 * @param temperature The temperature of the item. Is a boxed object (i.e. class) and hence is null-able if no temperature is associated with the item. 
 	 * @author Lachlan Kuhr
 	 */
-	
 	public Item(String name, double manufacturingCost, double sellPrice, int reorderPoint, int reorderAmount, Double temperature) {
 		this.name = name;
 		this.manufacturingCost = manufacturingCost;

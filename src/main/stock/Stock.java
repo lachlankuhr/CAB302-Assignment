@@ -7,25 +7,23 @@ import java.util.LinkedHashMap;
 import csv.CSVFormatException;
 import csv.CSVReading;
 
+/**
+ * A collection of items. Can be used for representing store inventory,
+ * stock orders, sales logs, and truck cargo.
+ * @author Lachlan Kuhr
+ */	
 
+@SuppressWarnings("serial")
 public class Stock extends LinkedHashMap<Item, Integer>{
 
 	// Fields 
-	private static final long serialVersionUID = 5985815780948161216L;
 	private static LinkedHashMap<String, Item> properties = new LinkedHashMap<String, Item>();
- 
-	/**
-	 * A collection of items. Can be used for representing store inventory,
-	 * stock orders, sales logs, and truck cargo.
-	 * @throws IOException 
-	 * @author Lachlan Kuhr
-	 */	
 	
 	/**
 	 * Loads in the item properties initially. 
 	 * @param filePath The file path the item properties are to be generated from. 
-	 * @throws IOException 
-	 * @throws CSVFormatException 
+	 * @throws IOException When the file is unable to be read. 
+	 * @throws CSVFormatException When the format of the csv differs to that expected for item properties.
 	 * @author Lachlan Kuhr
 	 */
 	
@@ -56,7 +54,6 @@ public class Stock extends LinkedHashMap<Item, Integer>{
 	 * @return Properties field. 
 	 * @author Lachlan Kuhr
 	 */
-	
 	public static LinkedHashMap<String, Item> getStockProperties(){
 		return properties;
 	}
@@ -66,7 +63,6 @@ public class Stock extends LinkedHashMap<Item, Integer>{
 	 * @return The number of items in the stock. 
 	 * @author Lachlan Kuhr
 	 */
-	
 	public int getStockQuantity() {
 		int count = 0;
 		
@@ -82,7 +78,6 @@ public class Stock extends LinkedHashMap<Item, Integer>{
 	 * @return The total cost of items. 
 	 * @author Lachlan Kuhr
 	 */
-	
 	public double calculateCostOfCargo() {
 		double cost = 0.0;
 		
@@ -95,11 +90,10 @@ public class Stock extends LinkedHashMap<Item, Integer>{
 	
 	/**
 	 * Getter method to return the item specified by itemName. 
-	 * @param itemName
+	 * @param itemName The name of the object represented of the item to be returned .
 	 * @return Item corresponding to itemName string. 
 	 * @author Lachlan Kuhr
 	 */
-	
 	public static Item getItem(String itemName) {
 		return properties.get(itemName);
 	}
