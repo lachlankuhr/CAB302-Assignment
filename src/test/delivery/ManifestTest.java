@@ -209,6 +209,8 @@ public class ManifestTest {
 	 */
 	@Test 
 	public void testGettingManifestCollection() throws DeliveryException {
+		Item rice = new Item("rice", 2.0, 3.0, 225, 300, null);
+		stock.put(rice, 200);
 		manifest = new Manifest(stock);
 		assertTrue(manifest.getManifestCollection() instanceof ArrayList<?>);
 	}
@@ -220,6 +222,8 @@ public class ManifestTest {
 	@Test 
 	public void testConstructor() {
 		try {
+			Item rice = new Item("rice", 2.0, 3.0, 225, 300, null);
+			stock.put(rice, 200);
 			new Manifest(stock);
 			assertTrue(true);
 		} catch (Exception e) {
@@ -227,6 +231,31 @@ public class ManifestTest {
 		}
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
+	public void testNoNeedForReorder() {
+		try {
+			new Manifest(stock);
+			fail();
+		} catch(DeliveryException e) {
+			assertEquals("All items are stocked appropriately, hence a manifest cannot be created.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
+	public void testingNormal() throws IOException, CSVFormatException, DeliveryException {
+		try {	
+			manifest = new Manifest("." + File.separator + "files" + File.separator + "initial_export.csv");
+			assertTrue(true);
+		} catch (Exception e) {
+			fail();
+		}
+	}
 	
 	/**
 	 * @author Lachlan Kuhr
