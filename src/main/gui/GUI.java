@@ -27,14 +27,23 @@ import csv.CSVWriting;
 import delivery.DeliveryException;
 import delivery.Manifest;
 import stock.Stock;
+import stock.StockException;
 import stock.Store;
 
+/**
+ * User interface class for the program. Allows the user to view inventory, item properties, and capital.
+ * Provides buttons to set item properties, load sales logs, import and export manifests.
+ * Uses the default theme based on what system the program is running on.
+ * @author Atrey Gajjar
+ */
 public class GUI extends JFrame implements ActionListener, Runnable {
 
+	
 	/**
 	 * Variable declarations:
 	 * - Constants for the default size of the GUI, and default file paths
 	 * - Object creation for components of the GUI (including panels, buttons, label, etc)
+	 * @author Atrey Gajjar
 	 */
 	private static final long serialVersionUID = -3175409517730839439L;
 	private static final int WIDTH = 800;
@@ -52,9 +61,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	private JLabel storeCapitalLbl; 
 	private JTable stockDataTbl;
 	
-	private JFileChooser fileChooser;
-	private JOptionPane optionPane;
-	
+	private JFileChooser fileChooser;	
 	
 	public static void main(String[] args) {
 		//Thread safe creation of the GUI window
@@ -62,7 +69,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	}
 	
 	/**
-	 * Entry point for GUI creation. Runs as soon as the program starts.
+	 * Entry point for GUI creation. Runs as soon as the program starts from the main method.
+	 * @author Atrey Gajjar
 	 */
 	@Override
 	public void run() {
@@ -72,75 +80,105 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	/**
 	 * Event listening function that handles all button click events.
 	 * Opens a file selector on setting item properties, updating sales logs, and importing manifests.
+	 * Opens a file saver on exporting manifests. Ensures that a file has been selected, and runs the appropriate code
+	 * based on which button was pressed.
+	 * @author Atrey Gajjar
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		Object button = evt.getSource();
+		int fileChooserReturn = -1;
+		String filePath;
+		
+		if(button == itemPropBtn && JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(this, "This will override current item properties (but retain quantities), are you sure you wish to continue?", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE)) {
+			return;
+		}
+		
 		if(button == itemPropBtn || button == salesLogBtn || button == importBtn) {
-			String filePath = fileSelectingAction(true);
-			//If the user has selected a file, execute the relevant action associated with the button.
-			if(filePath != null) {
-				try {					
-					if(button == itemPropBtn) {
-						Stock.loadInItemProperties(filePath);
-						Store.generateStoreInstance().generateInitialStock();
-						
-					}else if(button == salesLogBtn) {
-						Store.generateStoreInstance().loadSalesLog(filePath);
-						storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
-					}else if(button == importBtn) {
-						try {
-							Manifest manifest = new Manifest(filePath);
-							Store.generateStoreInstance().importManifest(manifest);
-							storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());							
-						} catch (DeliveryException e) {
-							e.printStackTrace();
-							optionPane.showMessageDialog(this, "Error loading in the manifest! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
-						}
-					}
-					//Update the GUI table display to reflect these changes
-					((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
-				} catch (IOException e) {
-					e.printStackTrace();
-					optionPane.showMessageDialog(this, "Error loading in the file! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
-				}
-				
-				
-			}
+			fileChooserReturn = fileChooser.showOpenDialog(this);
+		}else if(button == exportBtn) {
+			fileChooserReturn = fileChooser.showSaveDialog(this);
+		}
+		
+		if(fileChooserReturn == JOptionPane.OK_OPTION) {
+			filePath = fileChooser.getSelectedFile().getAbsolutePath();
+		}else {
+			return;
+		}
+		
+		if(button == itemPropBtn) {
+			updateItemProperties(filePath);			
+		} else if (button == salesLogBtn) {
+			updateSalesLog(filePath);
+		} else if (button == importBtn) {
+			importManifest(filePath);
 		} else if(button == exportBtn) {
-			String filePath = fileSelectingAction(false);
-			
-			if(filePath != null) {
-				try {
-					Stock reorderStock = Store.generateStoreInstance().getReorderStock();
-					Manifest manifest = new Manifest(reorderStock);
-					CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
-				} catch (IOException e) {
-					e.printStackTrace();
-					optionPane.showMessageDialog(this, "Error saving in the file! Please try again", "Save Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
+			exportManifest(filePath);
+		}
+		
+		//Update the GUI table display to reflect any changes
+		((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
+	}
+	
+	/**
+	 * Updates the properties of the items within the store. Loads in the properties from the specified .csv file, providing prompts on success or errors.
+	 * @param filePath - Absolute path to .csv file storing item properties. 
+	 * @author Atrey Gajjar
+	 */
+	private void updateItemProperties(String filePath) {
+		try {
+			Stock.loadInItemProperties(filePath);
+			Store.generateStoreInstance().generateInitialStock();
+			JOptionPane.showMessageDialog(this, "Successfully updated the item properties!", "Item Properties Updated", JOptionPane.INFORMATION_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Error loading in the properties. Ensure the file path is correct and file is not corrupted.", "Load Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * Updates the sales log of the store. Loads in the sales log from the specified .csv file, providing prompts on success or errors.
+	 * Additionally, the store capital is updated.
+	 * @param filePath - Absolute path to .csv file storing sales log. 
+	 * @author Atrey Gajjar
+	 */
+	private void updateSalesLog(String filePath) {
+		try {
+			Store.generateStoreInstance().loadSalesLog(filePath);
+			storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
+			JOptionPane.showMessageDialog(this, "Successfully imported the sales log file!", "Sales Log Loaded", JOptionPane.INFORMATION_MESSAGE);
+		} catch (StockException e) {
+			JOptionPane.showMessageDialog(this, "Error loading in the sales log! " + e.getMessage(), "Sales Log Error", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Error loading in the sales log. Ensure the file path is correct and file is not corrupted.", "Load Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}
 	
 	/**
-	 * Helper method for opening a file selecting dialog and selecting a file.
-	 * @return The absolute file path of the selected file or {@code null} if not selected
+	 * Imports a manifest file, representing a delivery of ordered goods.
+	 * @param filePath
 	 */
-	private String fileSelectingAction(boolean open) {
-		int fileChooserReturn;
-		if(open) {			
-			fileChooserReturn = fileChooser.showOpenDialog(this);
-		}else {
-			fileChooserReturn = fileChooser.showSaveDialog(this);
+	private void importManifest(String filePath) {
+		try {
+			Manifest manifest = new Manifest(filePath);
+			Store.generateStoreInstance().importManifest(manifest);
+			storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
+			JOptionPane.showMessageDialog(this, "Successfully imported the manifest file!", "Manifest Imported", JOptionPane.INFORMATION_MESSAGE);
+		} catch (DeliveryException e) {
+			JOptionPane.showMessageDialog(this, "Error importing the manifest. " + e.getMessage(), "Manifest Import Error", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Error importing the manifest. Ensure the file path is correct and file is not corrupted.", "Load Error", JOptionPane.ERROR_MESSAGE);
 		}
-		File file = null;
-		if(fileChooserReturn == JFileChooser.APPROVE_OPTION) {
-			file = fileChooser.getSelectedFile();
+	}
+	
+	private void exportManifest(String filePath) {
+		try {
+			Stock reorderStock = Store.generateStoreInstance().getReorderStock();
+			Manifest manifest = new Manifest(reorderStock);
+			CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Error importing the manifest. Ensure the file name is valid and write permissions are available.", "Save Error", JOptionPane.ERROR_MESSAGE);
 		}
-		
-		return (file != null ? file.getAbsolutePath() : null);
 	}
 	
 	/**
@@ -170,7 +208,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		//Dialog box to select initial item properties.
 		fileChooser = new JFileChooser("." + File.separator + "files");
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
-		optionPane = new JOptionPane();
 		initialItemPropertiesSelection();
 	}
 	
@@ -179,27 +216,30 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 * Initial item properties is set to the file selected by the user, or otherwise a default included within the project.
 	 */
 	private void initialItemPropertiesSelection() {
-		int answer = optionPane.showConfirmDialog(this, "Select item properties. 'Cancel' uses default.", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		int answer = JOptionPane.showConfirmDialog(this, "Select item properties. 'Cancel' uses default.", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		
-		while(Stock.getStockProperties().size() == 0) {			
+		do{
 			try {				
 				if(answer == JOptionPane.OK_OPTION) {
-					String filePath = fileSelectingAction(true);
-					if(filePath != null) {
-						Stock.loadInItemProperties(filePath);
+					int fileChooserReturn = fileChooser.showOpenDialog(this);
+					
+					if(fileChooserReturn == JOptionPane.OK_OPTION) {
+						Stock.loadInItemProperties(fileChooser.getSelectedFile().getAbsolutePath());
+						JOptionPane.showMessageDialog(this, "Selected item properties initialised successfully.", "Loaded Properties", JOptionPane.INFORMATION_MESSAGE);
 					}else {
 						Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
+						JOptionPane.showMessageDialog(this, "Process cancelled. Using default properties.", "Loaded Properties", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
 					Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
+					JOptionPane.showMessageDialog(this, "Using default properties.", "Loaded Properties", JOptionPane.INFORMATION_MESSAGE);
 				}
 				Store.generateStoreInstance().generateInitialStock();
 				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
 			} catch (IOException e) {
-				e.printStackTrace();
-				optionPane.showMessageDialog(this, "Error loading in the properties! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Error loading in the properties! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
 			}
-		}
+		}while(Stock.getStockProperties().size() == 0);
 		
 	}
 	

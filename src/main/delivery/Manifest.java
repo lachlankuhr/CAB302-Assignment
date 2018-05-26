@@ -49,10 +49,15 @@ public class Manifest {
 			}else if(data.get(i).get(0).startsWith(">")){
 				throw new DeliveryException("There was an unkown truck type loaded in. Check manifest file.");
 			}else {
+				
 				String itemName = data.get(i).get(0);
 				Item item = Stock.getItem(itemName);
 
-				truckHolder.addCargo(Integer.valueOf(data.get(i).get(1)), item);
+				if(item != null) {					
+					truckHolder.addCargo(Integer.valueOf(data.get(i).get(1)), item);
+				} else {
+					throw new DeliveryException("The manifest contain an item not contained in the currently known item properties. Check manifest file.");
+				}
 			}
 			
 		}
