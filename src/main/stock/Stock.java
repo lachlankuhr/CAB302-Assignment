@@ -28,6 +28,7 @@ public class Stock extends LinkedHashMap<Item, Integer>{
 	 */
 	
 	public static void loadInItemProperties(String filePath) throws IOException {
+		properties = new LinkedHashMap<String, Item>();
 		ArrayList<ArrayList<String>> data = CSVReading.readCSV(filePath); // return CSV
 		Double temperature; 
 		for (ArrayList<String> row : data) {
