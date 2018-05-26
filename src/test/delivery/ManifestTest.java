@@ -19,7 +19,7 @@ public class ManifestTest {
 	Manifest manifest;
 	
 	@Before 
-	public void before() throws IOException {
+	public void before() throws IOException, CSVFormatException {
 		stock = new Stock();
 		store = Store.generateStoreInstance();
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
@@ -162,6 +162,20 @@ public class ManifestTest {
 				assertEquals("The manifest contain an item not contained in the currently known item properties. Check manifest file.", e.getMessage());
 			}
 	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
+	public void testUsingWrongManifestFile() throws IOException, StockException, DeliveryException {
+		try {
+			manifest = new Manifest("." + File.separator + "files" + File.separator + "manifest-tests" + File.separator + "testUsingWrongManifestFile.csv");
+			fail();
+		} catch (CSVFormatException e) {
+			assertEquals("File does not match required format. Check manifest file.", e.getMessage());
+		}
+	}
+	
 	
 	/**
 	 * @author Lachlan Kuhr
