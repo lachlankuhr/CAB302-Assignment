@@ -57,6 +57,9 @@ public class Store {
 	 */
 	
 	public void generateInitialStock() {
+		
+		Stock newInventory = new Stock();
+		
 		for (Item item : Stock.getStockProperties().values()) { 
 			
 			Item oldItemSaved = null; 
@@ -69,12 +72,14 @@ public class Store {
 			}
 			
 			if(oldItemSaved != null) { // if item already exists in inventory, put value in
-				inventory.put(item, inventory.get(oldItemSaved));
-				inventory.remove(oldItemSaved);
+				newInventory.put(item, inventory.get(oldItemSaved));
 			}else { // initial stock is set to 0 
-				inventory.put(item, 0);
+				newInventory.put(item, 0);
 			}
 		}
+		
+		inventory.clear();
+		inventory.putAll(newInventory);
 	}
 	
 	/**
