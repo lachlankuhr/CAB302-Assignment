@@ -18,7 +18,7 @@ public class StoreTest {
 	Store store;
 	
 	@Before 
-	public void before() throws IOException {
+	public void before() throws IOException, CSVFormatException {
 		store = Store.generateStoreInstance();
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
 	}
@@ -163,7 +163,7 @@ public class StoreTest {
 	 * @author Atrey Gajjar
 	 */
 	@Test
-	public void changePropertiesTest() throws IOException {
+	public void changePropertiesTest() throws IOException, CSVFormatException {
 		store.generateInitialStock();
 		Item rice = Stock.getItem("rice");
 		store.getStock().put(rice, 225);
@@ -185,7 +185,7 @@ public class StoreTest {
 	 * @author Atrey Gajjar
 	 */
 	@Test
-	public void changePropertiesLessItemsTest() throws IOException{
+	public void changePropertiesLessItemsTest() throws IOException, CSVFormatException{
 		store.generateInitialStock();
 		Item rice = Stock.getItem("rice");
 		store.getStock().put(rice, 225);
@@ -213,7 +213,7 @@ public class StoreTest {
 	 * @author Atrey Gajjar
 	 */
 	@Test
-	public void changePropertiesMoreItemsTest() throws IOException{
+	public void changePropertiesMoreItemsTest() throws IOException, CSVFormatException{
 		store.generateInitialStock();
 		Item rice = Stock.getItem("rice");
 		store.getStock().put(rice, 225);
@@ -236,7 +236,6 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void loadSalesWithNegativeQuantityTest() throws IOException, CSVFormatException{

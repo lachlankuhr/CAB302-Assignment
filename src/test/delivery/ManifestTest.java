@@ -19,7 +19,7 @@ public class ManifestTest {
 	Manifest manifest;
 	
 	@Before 
-	public void before() throws IOException {
+	public void before() throws IOException, CSVFormatException {
 		stock = new Stock();
 		store = Store.generateStoreInstance();
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
