@@ -9,6 +9,8 @@ import java.util.LinkedHashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import csv.CSVFormatException;
+
 public class StockTest {
 	
 	Item rice; 
@@ -179,5 +181,31 @@ public class StockTest {
 		assertEquals(325, tomatoes.getReorderPoint());
 		assertEquals(400, tomatoes.getReorderAmount());
 		assertEquals(Double.valueOf(10.0), tomatoes.getTemperature());
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void testUsingWrongPropertiesFile1() throws IOException, StockException {
+		try {
+			Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "initial_export.csv");
+			fail();
+		} catch (CSVFormatException e) {
+			assertEquals("File does not match required format. Check item properties file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Atrey Gajjar
+	 */
+	@Test
+	public void testUsingWrongPropertiesFile2() throws IOException, StockException {
+		try {
+			Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "sales_log_0.csv");
+			fail();
+		} catch (CSVFormatException e) {
+			assertEquals("File does not match required format. Check item properties file.", e.getMessage());
+		}
 	}
 }
