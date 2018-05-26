@@ -9,9 +9,15 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-
+/**
+ * Test cases for CSVReading class.
+ * @author Atrey Gajjar
+ */
 public class CSVReadingTest {
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void testReadingItemProperties() throws IOException {
 		CSVReading csvReader = new CSVReading();
@@ -28,8 +34,12 @@ public class CSVReadingTest {
 		assertEquals(expected, actual);
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void testReadingManifest() throws IOException {
+		
 		ArrayList<ArrayList<String>> actual = CSVReading.readCSV("." + File.separator + "files" + File.separator + "csv-tests" + File.separator + "manifest.csv");
 		ArrayList<ArrayList<String>> expected = new ArrayList<>();
 
@@ -44,6 +54,9 @@ public class CSVReadingTest {
 		assertEquals(expected, actual);
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void testReadingSalesLog() throws IOException {
 		ArrayList<ArrayList<String>> actual = CSVReading.readCSV("." + File.separator + "files" + File.separator + "csv-tests" + File.separator + "sales_log_short.csv");

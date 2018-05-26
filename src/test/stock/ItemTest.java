@@ -5,6 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test cases for Item class
+ * @author Atrey Gajjar
+ */
 public class ItemTest {
 
 	Item item;

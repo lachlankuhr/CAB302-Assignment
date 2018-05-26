@@ -3,12 +3,12 @@ package delivery;
 import stock.Item;
 import stock.Stock;
 
+/**
+ * An abstract class to base OrdinaryTruck and RefrigeratedTruck from.
+ * @author Atrey Gajjar
+ */
 public abstract class Truck {
 	
-	/**
-	 * An abstract class to base OrdinaryTruck and RefrigeratedTruck from.
-	 * @author Atrey Gajjar
-	 */
 	
 	// Stock object storing items truck is carrying
 	private Stock truckStock;
@@ -19,12 +19,10 @@ public abstract class Truck {
 	
 	/** 
 	 * Calculates the cost of delivery for the truck. 
-	 * Accurate to two decimal places. 
 	 * @return The cost of delivery of a truck
 	 * @author Atrey Gajjar
 	 * @throws DeliveryException 
 	 */
-	
 	public abstract double calculateCostOfDelivery();
 		
 	/**
@@ -48,13 +46,14 @@ public abstract class Truck {
 	 * @throws DeliveryException 
 	 * @author Atrey Gajjar
 	 */
-	
 	public void addCargo(int quantity, Item item) throws DeliveryException{
 		
+		//Throw an exception if a cold item is being added to an ordinary truck
 		if(item.getTemperature() != null && getManifestIdentification().equals(OrdinaryTruck.MANIFEST_TAG)) {
 			throw new DeliveryException("There was at least one cold item in an ordinary truck. Check manifest file.");
 		}
 		
+		//Throw an exception if too much cargo is being added to a truck
 		if(getCargoQuantity() + quantity > getMaxCargo()) {
 			if(getManifestIdentification().equals(OrdinaryTruck.MANIFEST_TAG)) {
 				throw new DeliveryException("There was too many items in an ordinary truck. Check manifest file.");
@@ -93,6 +92,7 @@ public abstract class Truck {
 	/**
 	 * Tests whether the truck contains a cold item. Used in testing exceptions
 	 * @return True if a truck holds a temperature controlled item, false otherwise
+	 * @author Atrey Gajjar
 	 */
 	public boolean coldItemCheck() {
 		Stock stock = getCargo();

@@ -11,6 +11,10 @@ import org.junit.Test;
 
 import csv.CSVFormatException;
 
+/**
+ * Test cases for Stock class
+ * @author Atrey Gajjar
+ */
 public class StockTest {
 	
 	Item rice; 
@@ -139,7 +143,6 @@ public class StockTest {
 	
 	/**
 	 * @author Atrey Gajjar
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void loadPropertiesBaseTest() throws IOException, CSVFormatException {

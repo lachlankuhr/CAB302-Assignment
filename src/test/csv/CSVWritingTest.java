@@ -12,8 +12,15 @@ import delivery.RefrigeratedTruck;
 import delivery.Truck;
 import stock.Item;
 
+/**
+ * Test cases for CSVWriting class
+ * @author Atrey Gajjar
+ */
 public class CSVWritingTest {
 
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void testWritingManifest1() throws DeliveryException, IOException {
 		Truck truck1 = new OrdinaryTruck();
@@ -35,6 +42,9 @@ public class CSVWritingTest {
 		// need to check if file looks correct by looking at the above directory. 
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void testWritingManifest2() throws DeliveryException, IOException {
 		Truck truck1 = new OrdinaryTruck();

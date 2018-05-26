@@ -13,47 +13,75 @@ import csv.CSVFormatException;
 import delivery.DeliveryException;
 import delivery.Manifest;
 
+/**
+ * Test cases for Store class
+ * @author Atrey Gajjar
+ */
 public class StoreTest {
 	
 	Store store;
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Before 
 	public void before() throws IOException, CSVFormatException {
 		store = Store.generateStoreInstance();
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "item_properties.csv");
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@After 
 	public void after() {
 		Store.destoryStore();
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void getNameTest() {
 		assertEquals(store.getName(), "SuperMart");
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void initialCapitalTest() {
 		assertEquals(store.getCapital(), 100000, 1e-5);
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void capitalFormattingTest() {
 		assertEquals(store.getFormattedCapital(), "$100,000.00");
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void singletonTest() {
 		Store newStore = Store.generateStoreInstance();
 		assertEquals(store, newStore);
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void initialStockTest() {
 		assertEquals(store.getStock(), new Stock());
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void loadSalesTest() throws IOException, StockException, CSVFormatException {
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
@@ -80,6 +108,9 @@ public class StoreTest {
 		assertEquals(Integer.valueOf(0), store.getStock().get(nuts));
 	}
 	
+	/**
+	 * @author Atrey Gajjar
+	 */
 	@Test
 	public void importManifestTest() {
 		store.generateInitialStock();
@@ -250,7 +281,6 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void loadSalesAddingUnknownItemTest() throws IOException, CSVFormatException {		
@@ -265,7 +295,6 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void soldMoreThanStockTest() throws IOException, CSVFormatException{
@@ -282,7 +311,6 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void incorrectQuantitySalesTest() throws IOException, CSVFormatException{
@@ -297,7 +325,6 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void missingValuesSalesTest() throws IOException, CSVFormatException{

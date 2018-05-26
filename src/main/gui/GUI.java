@@ -35,6 +35,7 @@ import stock.Store;
  * User interface class for the program. Allows the user to view inventory, item properties, and capital.
  * Provides buttons to set item properties, load sales logs, import and export manifests.
  * Uses the default theme based on what system the program is running on.
+ * All caught exceptions are thrown to this class to handle gracefully with user prompts.
  * @author Atrey Gajjar
  */
 public class GUI extends JFrame implements ActionListener, Runnable {
@@ -91,16 +92,19 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		int fileChooserReturn = -1;
 		String filePath;
 		
-		if(button == itemPropBtn && JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(this, "This will override current item properties (but retain quantities), are you sure you wish to continue?", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE)) {
+		//Additional dialog box to ensure user wants to change item properties
+		if(button == itemPropBtn && JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(this, "This will override current item properties, are you sure you wish to continue?\nQuantities will be retained for items that persist.", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE)) {
 			return;
 		}
 		
+		//Open file chooser
 		if(button == itemPropBtn || button == salesLogBtn || button == importBtn) {
 			fileChooserReturn = fileChooser.showOpenDialog(this);
 		}else if(button == exportBtn) {
 			fileChooserReturn = fileChooser.showSaveDialog(this);
 		}
 		
+		//If process cancelled return
 		if(fileChooserReturn == JOptionPane.OK_OPTION) {
 			filePath = fileChooser.getSelectedFile().getAbsolutePath();
 		}else {
@@ -140,7 +144,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	
 	/**
 	 * Updates the sales log of the store. Loads in the sales log from the specified .csv file, providing prompts on success or errors.
-	 * Additionally, the store capital is updated.
+	 * The store capital and item quantities are updated.
 	 * @param filePath - Absolute path to .csv file storing sales log. 
 	 * @author Atrey Gajjar
 	 */
@@ -158,8 +162,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	}
 	
 	/**
-	 * Imports a manifest file, representing a delivery of ordered goods.
-	 * @param filePath
+	 * Imports a manifest file, representing a delivery of ordered goods, from a manifest .csv file. Prompts provided on success or any errors.
+	 * The store capital and item quantities are updated.
+	 * @param filePath - Absolute path to .csv file storing manifest.
+	 * @author Atrey Gajjar
 	 */
 	private void importManifest(String filePath) {
 		try {
@@ -174,6 +180,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		}
 	}
 	
+	/**
+	 * Exports a manifest file, representing a delivery of ordered goods, to a .csv file. Prompts provided on success or any errors.
+	 * @param filePath - Absolute path to where .csv file storing manifest is to be saved.
+	 * @author Atrey Gajjar
+	 */
 	private void exportManifest(String filePath) {
 		try {
 			Stock reorderStock = Store.generateStoreInstance().getReorderStock();
@@ -187,6 +198,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	/**
 	 * Creates the GUI. Sets up the initial JFrame, and all panels and components of the GUI.
 	 * Also loads up the dialog box to select initial item properties to create the Store.
+	 * @author Atrey Gajjar
 	 */
 	private void createGUI() {
 		//Setting up the JFrame
@@ -208,7 +220,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		addPanels();
 		this.setVisible(true);
 		
-		//Dialog box to select initial item properties.
+		//Dialog box to select initial item properties. Filtered to only include .csv files
 		fileChooser = new JFileChooser("." + File.separator + "files");
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
 		initialItemPropertiesSelection();
@@ -217,23 +229,30 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	/**
 	 * Displays a dialog box prompting the user to select a file representing initial item properties.
 	 * Initial item properties is set to the file selected by the user, or otherwise a default included within the project.
+	 * If there is an error in loading the files, the user is forced to try again as the program MUST have item properties to function correctly.
+	 * @author Atrey Gajjar
 	 */
 	private void initialItemPropertiesSelection() {
+		//Prompting user to select item properties or use default
 		int answer = JOptionPane.showConfirmDialog(this, "Select item properties. 'Cancel' uses default.", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		
+		//Loop until item properties are set up without error
 		do{
 			try {				
 				if(answer == JOptionPane.OK_OPTION) {
 					int fileChooserReturn = fileChooser.showOpenDialog(this);
 					
+					//If user selects a correct file
 					if(fileChooserReturn == JOptionPane.OK_OPTION) {
 						Stock.loadInItemProperties(fileChooser.getSelectedFile().getAbsolutePath());
 						JOptionPane.showMessageDialog(this, "Selected item properties initialised successfully.", "Loaded Properties", JOptionPane.INFORMATION_MESSAGE);
-					}else {
+					} else {
+						// If user cancels file selecting process
 						Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
 						JOptionPane.showMessageDialog(this, "Process cancelled. Using default properties.", "Loaded Properties", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
+					// If user opts for default files from the start by pressing cancel
 					Stock.loadInItemProperties(new File("").getAbsolutePath() + DEFAULT_PROPERTIES_PATH);
 					JOptionPane.showMessageDialog(this, "Using default properties.", "Loaded Properties", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -251,31 +270,42 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	/**
 	 * Sets up the button objects to have event listeners attached to the GUI JFrame, and added to the button panel.
 	 * Buttons are laid out to spread evenly across the width of the window.
+	 * Buttons also have tool tips to assist the user in interacting with this system.
+	 * @author Atrey Gajjar
 	 */
 	private void createButtons() {
 		buttonPnl.setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 1.0;
 	
+		//Export button
 		exportBtn = new JButton("Export Manifest");
+		exportBtn.setToolTipText("Click this button if you want to order a delivery by creating a manifest");
 		exportBtn.addActionListener(this);
 		buttonPnl.add(exportBtn, constraints);
 
+		//Import button
 		importBtn = new JButton("Import Manifest");
+		importBtn.setToolTipText("Click this button if a delivery has arrived and the manifest has to be handled");
 		importBtn.addActionListener(this);
 		buttonPnl.add(importBtn, constraints);
 
+		//Item properties button
 		itemPropBtn = new JButton("Setup Items");
+		itemPropBtn.setToolTipText("WARNING: Only use this button if you want to reset item properties. Ensure file selected is accurate.");
 		itemPropBtn.addActionListener(this);
 		buttonPnl.add(itemPropBtn, constraints);
 
+		//Sales log button
 		salesLogBtn = new JButton("Load Sales");
+		salesLogBtn.setToolTipText("Click this button if you want to input the weekly sales log");
 		salesLogBtn.addActionListener(this);
 		buttonPnl.add(salesLogBtn, constraints);
 	}
 	
 	/**
-	 * Displays the store capital in a currency format on the GUI.	
+	 * Displays the store capital in a currency format on the center-top of the GUI.
+	 * @author Atrey Gajjar
 	 */
 	private void displayStoreCapital() {
 		storeDataPnl.setLayout(new BorderLayout());
@@ -290,6 +320,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	/**
 	 * Displays a JTable representing the stock object of the store.
 	 * Places this within a scroll pane, to accommodate different lists of items.
+	 * @author Atrey Gajjar
 	 */
 	private void displayStoreStock() {
 		Stock inventory = Store.generateStoreInstance().getStock();
@@ -303,6 +334,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	
 	/**
 	 * Adds the button panel, and store data panel to the GUI.
+	 * @author Atrey Gajjar
 	 */
 	private void addPanels() {
 		getContentPane().add(buttonPnl, BorderLayout.NORTH);
