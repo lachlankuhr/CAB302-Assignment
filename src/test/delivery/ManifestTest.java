@@ -54,6 +54,7 @@ public class ManifestTest {
 		manifest = new Manifest("." + File.separator + "files" + File.separator + 
 				"manifest-tests" + File.separator + 
 				"testLoadingManifestWithColdItemInOrdinaryTruck.csv");
+		fail();
 		} catch (DeliveryException e) {
 			assertEquals("There was at least one cold item in an ordinary truck. Check manifest file.", e.getMessage());
 		}
@@ -68,6 +69,7 @@ public class ManifestTest {
 		manifest = new Manifest("." + File.separator + "files" + File.separator + 
 				"manifest-tests" + File.separator + 
 				"testingLoadingManifestWithTooManyItemsInOrdinaryTruck.csv");
+		fail();
 		} catch (DeliveryException e) {
 			assertEquals("There was too many items in an ordinary truck. Check manifest file.", e.getMessage());
 		}
@@ -82,6 +84,7 @@ public class ManifestTest {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
 					"testingLoadingManifestWithTooManyItemsInRefrigeratedTruck.csv");
+			fail();
 			} catch (DeliveryException e) {
 				assertEquals("There was too many items in a refrigerated truck. Check manifest file.", e.getMessage());
 			}
@@ -96,6 +99,7 @@ public class ManifestTest {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
 					"testLoadingManifestWithUnknownTruckTypeOrdinary.csv");
+			fail();
 			} catch (DeliveryException e) {
 				assertEquals("There was an unkown truck type loaded in. Check manifest file.", e.getMessage());
 			}
@@ -110,6 +114,7 @@ public class ManifestTest {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
 					"testLoadingManifestWithUnknownTruckTypeRefrigerated.csv");
+			fail();
 			} catch (DeliveryException e) {
 				assertEquals("There was an unkown truck type loaded in. Check manifest file.", e.getMessage());
 			}
@@ -124,6 +129,7 @@ public class ManifestTest {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
 					"testLoadingManifestWithNegativeItemQuantities.csv");
+			fail();
 			} catch (DeliveryException e) {
 				assertEquals("There was a negative amount of items in manifest. Check manifest file.", e.getMessage());
 			}
@@ -138,6 +144,7 @@ public class ManifestTest {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
 					"testLoadingManifestUnknownItem1.csv");
+			fail();
 			} catch (DeliveryException e) {
 				assertEquals("The manifest contain an item not contained in the currently known item properties. Check manifest file.", e.getMessage());
 			}
@@ -152,6 +159,7 @@ public class ManifestTest {
 			manifest = new Manifest("." + File.separator + "files" + File.separator + 
 					"manifest-tests" + File.separator + 
 					"testLoadingManifestUnknownItem2.csv");
+			fail();
 			} catch (DeliveryException e) {
 				assertEquals("The manifest contain an item not contained in the currently known item properties. Check manifest file.", e.getMessage());
 			}
