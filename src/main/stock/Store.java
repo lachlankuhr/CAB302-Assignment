@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import csv.CSVFormatException;
 import csv.CSVReading;
 import delivery.Manifest;
 import delivery.Truck;
@@ -126,15 +127,21 @@ public class Store {
 	 * Updates store data based on weekly sales log. Capital increases and inventory decreases.
 	 * @param filePath - File path to file storing information about weekly sales.
 	 * @throws IOException Exception thrown upon file reading.
+	 * @throws CSVFormatException 
+	 * @throws StockException
 	 * @author Lachlan Kuhr
 	 */
 	
-	public void loadSalesLog(String filePath) throws IOException, StockException {
+	public void loadSalesLog(String filePath) throws IOException, StockException, CSVFormatException {
 		ArrayList<ArrayList<String>> salesLog = CSVReading.readCSV(filePath); // read in the sales log
 		// process the sales log
 		
 		for (ArrayList<String> sale : salesLog) { 
-			if (sale.size() != 2 || sale.get(0).isEmpty()  || sale.get(1).isEmpty()) {
+			if (sale.size() !=2) {
+				throw new CSVFormatException("File does not match required format. Check sales log file.");
+			}
+			
+			if (sale.get(0).isEmpty()  || sale.get(1).isEmpty()) {
 				throw new StockException("Missing item name or quantity. Check sales log file.");
 			}
 			String itemName;

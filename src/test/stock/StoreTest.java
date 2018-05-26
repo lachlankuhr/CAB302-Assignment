@@ -55,7 +55,7 @@ public class StoreTest {
 	}
 	
 	@Test
-	public void loadSalesTest() throws IOException, StockException {
+	public void loadSalesTest() throws IOException, StockException, CSVFormatException {
 		//Only include top 5 items in file for testing (rice to nuts inclusive)
 		store.generateInitialStock();
 				
@@ -236,9 +236,10 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void loadSalesWithNegativeQuantityTest() throws IOException{
+	public void loadSalesWithNegativeQuantityTest() throws IOException, CSVFormatException{
 		try {
 			store.generateInitialStock();
 			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator + "sales_log_negative.csv");
@@ -250,9 +251,10 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void loadSalesAddingUnknownItemTest() throws IOException {		
+	public void loadSalesAddingUnknownItemTest() throws IOException, CSVFormatException {		
 		try {
 			store.generateInitialStock();
 			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator +  "sales_log_unknown_item.csv");
@@ -264,9 +266,10 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void soldMoreThanStockTest() throws IOException{
+	public void soldMoreThanStockTest() throws IOException, CSVFormatException{
 		try {
 			store.generateInitialStock();
 			Item rice = Stock.getItem("rice");
@@ -280,9 +283,10 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void incorrectQuantitySalesTest() throws IOException{
+	public void incorrectQuantitySalesTest() throws IOException, CSVFormatException{
 		try {
 			store.generateInitialStock();
 			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator + "sales_log_corrupted_quantities.csv");
@@ -294,9 +298,10 @@ public class StoreTest {
 	
 	/**
 	 * @author Atrey Gajjar
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void missingValuesSalesTest() throws IOException{
+	public void missingValuesSalesTest() throws IOException, CSVFormatException{
 		try {
 			store.generateInitialStock();
 			store.loadSalesLog("." + File.separator + "files" + File.separator + "sales-tests" + File.separator + "sales_log_missing_values.csv");

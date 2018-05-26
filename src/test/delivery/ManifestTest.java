@@ -159,10 +159,9 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
-	public void testUsingWrongManifestFile1() throws IOException, StockException {
+	public void testUsingWrongManifestFile1() throws IOException, StockException, DeliveryException {
 		try {
-			store.generateInitialStock();
-			store.loadSalesLog("." + File.separator + "files" + File.separator + "initial_export.csv");
+			manifest = new Manifest("." + File.separator + "files" + File.separator + "sales_log_0.csv");
 			fail();
 		} catch (CSVFormatException e) {
 			assertEquals("File does not match required format. Check manifest file.", e.getMessage());
@@ -173,10 +172,9 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
-	public void testUsingWrongManifestFile2() throws IOException, StockException {
+	public void testUsingWrongManifestFile2() throws IOException, StockException, DeliveryException {
 		try {
-			store.generateInitialStock();
-			store.loadSalesLog("." + File.separator + "files" + File.separator + "item_properties.csv");
+			manifest = new Manifest("." + File.separator + "files" + File.separator + "item_properties.csv");
 			fail();
 		} catch (CSVFormatException e) {
 			assertEquals("File does not match required format. Check manifest file.", e.getMessage());
