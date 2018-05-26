@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import csv.CSVFormatException;
 import csv.CSVReading;
 
 
@@ -24,14 +25,18 @@ public class Stock extends LinkedHashMap<Item, Integer>{
 	 * Loads in the item properties initially. 
 	 * @param filePath The file path the item properties are to be generated from. 
 	 * @throws IOException 
+	 * @throws CSVFormatException 
 	 * @author Lachlan Kuhr
 	 */
 	
-	public static void loadInItemProperties(String filePath) throws IOException {
+	public static void loadInItemProperties(String filePath) throws IOException, CSVFormatException {
 		properties = new LinkedHashMap<String, Item>();
 		ArrayList<ArrayList<String>> data = CSVReading.readCSV(filePath); // return CSV
 		Double temperature; 
 		for (ArrayList<String> row : data) {
+			if (row.size() < 5) {
+				throw new CSVFormatException("File does not match required format. Check item properties file.");
+			}
 			if (row.size() == 5) { // then we know temperature doesn't exist
 				temperature = null;
 			} else {
