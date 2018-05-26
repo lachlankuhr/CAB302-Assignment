@@ -62,7 +62,7 @@ public class RefrigeratedTruckTest {
 			refrigeratedTruck.addCargo(1100, new Item("rice", 2.0, 3.0, 225, 300, null));
 			fail();
 		} catch (Exception e) {
-			assertEquals(e.getMessage(), "Added too much cargo.");
+			assertEquals(e.getMessage(), "There was too many items in a refrigerated truck. Check manifest file.");
 		}
 	}
 	
@@ -77,7 +77,7 @@ public class RefrigeratedTruckTest {
 			refrigeratedTruck.addCargo(1000, new Item("asparagus", 2.0, 4.0, 175, 275, 8.0));
 			fail();
 		} catch (Exception e) {
-			assertEquals(e.getMessage(), "Added too much cargo.");
+			assertEquals(e.getMessage(), "There was too many items in a refrigerated truck. Check manifest file.");
 		}
 	}
 	

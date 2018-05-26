@@ -31,7 +31,7 @@ public class OrdinaryTruckTest {
 			ordinaryTruck.addCargo(1100, new Item("rice", 2.0, 3.0, 225, 300, null));
 			fail();
 		} catch (DeliveryException e) {
-			assertEquals(e.getMessage(), "Added too much cargo.");
+			assertEquals(e.getMessage(), "There was too many items in an ordinary truck. Check manifest file.");
 		}
 	}
 	
@@ -43,7 +43,7 @@ public class OrdinaryTruckTest {
 			ordinaryTruck.addCargo(1000, new Item("asparagus", 2.0, 4.0, 175, 275, null));
 			fail();
 		} catch (DeliveryException e) {
-			assertEquals(e.getMessage(), "Added too much cargo.");
+			assertEquals(e.getMessage(), "There was too many items in an ordinary truck. Check manifest file.");
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class OrdinaryTruckTest {
 			ordinaryTruck.addCargo(1000, asparagus);
 			fail();
 		} catch (DeliveryException e) {
-			assertEquals(e.getMessage(), "Added too much cargo.");
+			assertEquals(e.getMessage(), "There was too many items in an ordinary truck. Check manifest file.");
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class OrdinaryTruckTest {
 			ordinaryTruck.addCargo(1000, new Item("asparagus", 2.0, 4.0, 175, 275, 8.0));
 			fail();
 		} catch (DeliveryException e) {
-			assertEquals(e.getMessage(), "Added cool item to ordinary truck.");
+			assertEquals(e.getMessage(), "There was at least one cold item in an ordinary truck. Check manifest file.");
 		}
 	}
 	
@@ -81,7 +81,7 @@ public class OrdinaryTruckTest {
 			ordinaryTruck.addCargo(800, new Item("asparagus", 2.0, 4.0, 175, 275, 8.0));
 			fail();
 		} catch (DeliveryException e) {
-			assertEquals(e.getMessage(), "Added cool item to ordinary truck.");
+			assertEquals(e.getMessage(), "There was at least one cold item in an ordinary truck. Check manifest file.");
 		}
 	}
 	
