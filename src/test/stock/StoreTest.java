@@ -112,7 +112,7 @@ public class StoreTest {
 	 * @author Atrey Gajjar
 	 */
 	@Test
-	public void importManifestTest() {
+	public void importManifestTest() throws DeliveryException {
 		store.generateInitialStock();
 		Stock simulatedStock = new Stock();
 		

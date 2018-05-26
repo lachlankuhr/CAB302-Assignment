@@ -22,9 +22,13 @@ public class Manifest {
 	 * Constructor for the manifest during the reorder/export period.
 	 * Calls an optimisation method that creates manifest from the stock needing reordering.
 	 * @param stock - Stock object containing inventory of store to generate manifest from.
+	 * @throws DeliveryException When stock does not require reordering based off its quantity and reorder points
 	 * @author Atrey Gajjar
 	 */
-	public Manifest(Stock reorderStock) {
+	public Manifest(Stock reorderStock) throws DeliveryException {
+		if(reorderStock.size() == 0) {
+			throw new DeliveryException("All items are stocked appropriately, hence a manifest cannot be created.");
+		}
 		calculateOptimisedManifest(reorderStock);
 	}
 	

@@ -208,7 +208,7 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test 
-	public void testGettingManifestCollection() {
+	public void testGettingManifestCollection() throws DeliveryException {
 		manifest = new Manifest(stock);
 		assertTrue(manifest.getManifestCollection() instanceof ArrayList<?>);
 	}
@@ -232,7 +232,7 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
-	public void testWithOneItem() {
+	public void testWithOneItem() throws DeliveryException {
 		Item rice = Stock.getItem("rice");
 		stock.put(rice, rice.getReorderAmount());
 		Manifest manifest = new Manifest(stock);
@@ -243,7 +243,7 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
-	public void testWithTwoItems() {
+	public void testWithTwoItems() throws DeliveryException {
 		Item rice = Stock.getItem("rice");
 		Item beans = Stock.getItem("beans");
 		stock.put(rice, rice.getReorderAmount());
@@ -256,7 +256,7 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
-	public void testWithThreeItems() {
+	public void testWithThreeItems() throws DeliveryException {
 		Item rice = Stock.getItem("rice");
 		Item beans = Stock.getItem("beans");
 		Item pasta = Stock.getItem("pasta");
@@ -271,7 +271,7 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
-	public void testWithFourItems() {
+	public void testWithFourItems() throws DeliveryException {
 		Item rice = Stock.getItem("rice");
 		Item beans = Stock.getItem("beans");
 		Item pasta = Stock.getItem("pasta");
@@ -289,7 +289,7 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
-	public void testWithRoomAndColdTruck() {
+	public void testWithRoomAndColdTruck() throws DeliveryException {
 		Item rice = Stock.getItem("rice");
 		Item tomat = Stock.getItem("tomatoes");
 		stock.put(rice, rice.getReorderAmount());
@@ -302,7 +302,7 @@ public class ManifestTest {
 	 * @author Lachlan Kuhr
 	 */
 	@Test
-	public void testWithRoomAndTwoColdTrucks() {	
+	public void testWithRoomAndTwoColdTrucks() throws DeliveryException {	
 		Item rice = Stock.getItem("rice");
 		Item tomat = Stock.getItem("tomatoes");
 		Item lettuce = Stock.getItem("lettuce");
