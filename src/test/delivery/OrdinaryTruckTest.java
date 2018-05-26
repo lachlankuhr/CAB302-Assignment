@@ -7,6 +7,11 @@ import org.junit.*;
 import stock.Item;
 import stock.Stock;
 
+/**
+ * Test cases for the ordinary truck class. 
+ * @author Lachlan Kuhr
+ */
+
 public class OrdinaryTruckTest {
 	
 	Truck ordinaryTruck;
@@ -23,7 +28,10 @@ public class OrdinaryTruckTest {
 			fail();
 		}
 	}
-
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test
 	public void testAddingTooManyItems1() {
 		try {
@@ -35,6 +43,9 @@ public class OrdinaryTruckTest {
 		}
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test
 	public void testAddingTooManyItems2() {
 		try {
@@ -47,6 +58,9 @@ public class OrdinaryTruckTest {
 		}
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test
 	public void testAddingTooManyItems3() {
 		try {
@@ -61,7 +75,9 @@ public class OrdinaryTruckTest {
 		}
 	}
 	
-	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test
 	public void addingCoolItem1() {
 		try {
@@ -73,6 +89,9 @@ public class OrdinaryTruckTest {
 		}
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test
 	public void addingCoolItem2() {
 		try {
@@ -85,7 +104,9 @@ public class OrdinaryTruckTest {
 		}
 	}
 	
-	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test 
 	public void testcalculateCostOfDelivery1() throws DeliveryException {
 		ordinaryTruck = new OrdinaryTruck(); 
@@ -94,6 +115,9 @@ public class OrdinaryTruckTest {
 		assertEquals(ordinaryTruck.calculateCostOfDelivery(), 900, 2.0);
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test 
 	public void testcalculateCostOfDelivery2() throws DeliveryException {
 		ordinaryTruck = new OrdinaryTruck(); 
@@ -102,6 +126,9 @@ public class OrdinaryTruckTest {
 		assertEquals(ordinaryTruck.calculateCostOfDelivery(), 800.0, 2.0);
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test 
 	public void testgetCargoQuantity1() throws DeliveryException {
 		ordinaryTruck = new OrdinaryTruck(); 
@@ -110,6 +137,9 @@ public class OrdinaryTruckTest {
 		assertEquals(ordinaryTruck.getCargoQuantity(), 200);
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test 
 	public void testgetCargoQuantity2() throws DeliveryException {
 		ordinaryTruck = new OrdinaryTruck(); 
@@ -117,7 +147,7 @@ public class OrdinaryTruckTest {
 		ordinaryTruck.addCargo(700, new Item("chocolate", 5.0, 8.0, 250, 375, null));
 		assertEquals(ordinaryTruck.getCargoQuantity(), 800);
 	}
-	
+
 	/**
 	 * @author Lachlan Kuhr
 	 */
@@ -157,7 +187,4 @@ public class OrdinaryTruckTest {
 		assertTrue(ordinaryTruck.getCargo().containsKey(rice));
 		assertTrue(ordinaryTruck.getCargo().get(rice) == 100);
 	}
-	
-	
-
 }

@@ -12,12 +12,20 @@ import csv.CSVFormatException;
 import delivery.*;
 import stock.*;
 
+/**
+ * Test cases for the manifest class.
+ * @author Lachlan Kuhr
+ */
+
 public class ManifestTest {
 	
 	Store store;
 	private Stock stock;
 	Manifest manifest;
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Before 
 	public void before() throws IOException, CSVFormatException {
 		stock = new Stock();
@@ -26,6 +34,9 @@ public class ManifestTest {
 		store.generateInitialStock();
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@After 
 	public void after() {
 		Store.destoryStore();
@@ -36,9 +47,6 @@ public class ManifestTest {
 	
 	/**
 	 * @author Lachlan Kuhr
-	 * @throws DeliveryException 
-	 * @throws IOException 
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void testLoadingManifestWithColdItemInOrdinaryTruck() throws IOException, CSVFormatException {
@@ -53,8 +61,6 @@ public class ManifestTest {
 	
 	/**
 	 * @author Lachlan Kuhr
-	 * @throws IOException 
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void testingLoadingManifestWithTooManyItemsInOrdinaryTruck() throws IOException, CSVFormatException {
@@ -69,8 +75,6 @@ public class ManifestTest {
 	
 	/**
 	 * @author Lachlan Kuhr
-	 * @throws IOException 
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void testingLoadingManifestWithTooManyItemsInRefrigeratedTruck() throws IOException, CSVFormatException {
@@ -85,8 +89,6 @@ public class ManifestTest {
 	
 	/**
 	 * @author Lachlan Kuhr
-	 * @throws IOException 
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void testLoadingManifestWithUnknownTruckTypeOrdinary() throws IOException, CSVFormatException {
@@ -101,8 +103,6 @@ public class ManifestTest {
 	
 	/**
 	 * @author Lachlan Kuhr
-	 * @throws IOException 
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void testLoadingManifestWithUnknownTruckTypeRefrigerated() throws IOException, CSVFormatException {
@@ -117,8 +117,6 @@ public class ManifestTest {
 	
 	/**
 	 * @author Lachlan Kuhr
-	 * @throws IOException 
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void testLoadingManifestWithNegativeItemQuantities() throws IOException, CSVFormatException {
@@ -133,8 +131,6 @@ public class ManifestTest {
 	
 	/**
 	 * @author Lachlan Kuhr
-	 * @throws IOException 
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void testLoadingManifestUnknownItem1() throws IOException, CSVFormatException {
@@ -149,8 +145,6 @@ public class ManifestTest {
 	
 	/**
 	 * @author Lachlan Kuhr
-	 * @throws IOException 
-	 * @throws CSVFormatException 
 	 */
 	@Test
 	public void testLoadingManifestUnknownItem2() throws IOException, CSVFormatException {
@@ -175,7 +169,6 @@ public class ManifestTest {
 			assertEquals("File does not match required format. Check manifest file.", e.getMessage());
 		}
 	}
-	
 	
 	/**
 	 * @author Lachlan Kuhr

@@ -8,6 +8,12 @@ import org.junit.Test;
 import stock.Item;
 import stock.Stock;
 
+/**
+ * Test cases for the refrigerated truck class. 
+ * @author Lachlan Kuhr
+ *
+ */
+
 public class RefrigeratedTruckTest {
 	
 	Truck refrigeratedTruck;
@@ -92,6 +98,7 @@ public class RefrigeratedTruckTest {
 		assertEquals(refrigeratedTruck.calculateCostOfDelivery(), 1013.03, 2.0);
 	}
 	
+
 	/**
 	 * @author Lachlan Kuhr
 	 */
@@ -113,7 +120,6 @@ public class RefrigeratedTruckTest {
 		refrigeratedTruck.addCargo(100, new Item("beans", 4.0, 6.0, 450, 525, 8.0));
 		assertEquals(refrigeratedTruck.calculateCostOfDelivery(), 1013.03, 2.0);
 	}
-	
 	
 	/**
 	 * @author Lachlan Kuhr
@@ -199,6 +205,9 @@ public class RefrigeratedTruckTest {
 		assertEquals(refrigeratedTruck.getCargo().findColdestItem().getTemperature(), 8.0, 0.1);
 	}
 	
+	/**
+	 * @author Lachlan Kuhr
+	 */
 	@Test
 	public void testId() throws DeliveryException {
 		refrigeratedTruck = new RefrigeratedTruck();
