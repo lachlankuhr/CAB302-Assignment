@@ -131,6 +131,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			Stock.loadInItemProperties(filePath);
 			Store.generateStoreInstance().generateInitialStock();
 			JOptionPane.showMessageDialog(this, "Successfully updated the item properties!", "Item Properties Updated", JOptionPane.INFORMATION_MESSAGE);
+		} catch (CSVFormatException e) {
+			JOptionPane.showMessageDialog(this, "Error loading in the properties. " + e.getMessage(), "Load Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "Error loading in the properties. Ensure the file path is correct and file is not corrupted.", "Load Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -147,8 +149,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			Store.generateStoreInstance().loadSalesLog(filePath);
 			storeCapitalLbl.setText("Store Capital: " + Store.generateStoreInstance().getFormattedCapital());
 			JOptionPane.showMessageDialog(this, "Successfully imported the sales log file!", "Sales Log Loaded", JOptionPane.INFORMATION_MESSAGE);
-		} catch (StockException e) {
-			JOptionPane.showMessageDialog(this, "Error loading in the sales log! " + e.getMessage(), "Sales Log Error", JOptionPane.ERROR_MESSAGE);
+		} catch (CSVFormatException | StockException e) {
+			JOptionPane.showMessageDialog(this, "Error loading in the sales log. " + e.getMessage(), "Sales Log Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "Error loading in the sales log. Ensure the file path is correct and file is not corrupted.", "Load Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -178,7 +180,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 			Manifest manifest = new Manifest(reorderStock);
 			CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(this, "Error importing the manifest. Ensure the file name is valid and write permissions are available.", "Save Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Error exporting the manifest. Ensure the file name is valid and write permissions are available.", "Save Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -237,6 +239,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 				}
 				Store.generateStoreInstance().generateInitialStock();
 				((AbstractTableModel) stockDataTbl.getModel()).fireTableDataChanged();
+			} catch (CSVFormatException e) {
+				JOptionPane.showMessageDialog(this, "Error loading in the properties. " + e.getMessage(), "Load Error", JOptionPane.ERROR_MESSAGE);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(this, "Error loading in the properties! Please try again", "Load Error", JOptionPane.ERROR_MESSAGE);
 			}
