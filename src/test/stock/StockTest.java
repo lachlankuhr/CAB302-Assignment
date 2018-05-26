@@ -139,9 +139,10 @@ public class StockTest {
 	
 	/**
 	 * @author Atrey Gajjar
+	 * @throws CSVFormatException 
 	 */
 	@Test
-	public void loadPropertiesBaseTest() throws IOException {
+	public void loadPropertiesBaseTest() throws IOException, CSVFormatException {
 		Stock.loadInItemProperties("." + File.separator + "files" + File.separator + "property-tests" + File.separator + "item_properties_base.csv");
 		
 		Item chocolate = Stock.getItem("chocolate");
