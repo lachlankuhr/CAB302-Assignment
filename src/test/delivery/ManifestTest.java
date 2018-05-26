@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.junit.*;
 
+import csv.CSVFormatException;
 import delivery.*;
 import stock.*;
 
@@ -152,6 +153,34 @@ public class ManifestTest {
 			} catch (DeliveryException e) {
 				assertEquals("The manifest contain an item not contained in the currently known item properties. Check manifest file.", e.getMessage());
 			}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
+	public void testUsingWrongManifestFile1() throws IOException, StockException {
+		try {
+			store.generateInitialStock();
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "initial_export.csv");
+			fail();
+		} catch (CSVFormatException e) {
+			assertEquals("File does not match required format. Check manifest file.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Lachlan Kuhr
+	 */
+	@Test
+	public void testUsingWrongManifestFile2() throws IOException, StockException {
+		try {
+			store.generateInitialStock();
+			store.loadSalesLog("." + File.separator + "files" + File.separator + "item_properties.csv");
+			fail();
+		} catch (CSVFormatException e) {
+			assertEquals("File does not match required format. Check manifest file.", e.getMessage());
+		}
 	}
 	
 	/**
