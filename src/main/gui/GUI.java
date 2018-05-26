@@ -38,6 +38,8 @@ import stock.Store;
  * All caught exceptions are thrown to this class to handle gracefully with user prompts.
  * @author Atrey Gajjar
  */
+
+@SuppressWarnings("serial")
 public class GUI extends JFrame implements ActionListener, Runnable {
 
 	
@@ -47,7 +49,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 * - Object creation for components of the GUI (including panels, buttons, label, etc)
 	 * @author Atrey Gajjar
 	 */
-	private static final long serialVersionUID = -3175409517730839439L;
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 600;
 	private final String DEFAULT_PROPERTIES_PATH = File.separator + "files" + File.separator + "item_properties.csv";
@@ -93,7 +94,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 		String filePath;
 		
 		//Additional dialog box to ensure user wants to change item properties
-		if(button == itemPropBtn && JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(this, "This will override current item properties, are you sure you wish to continue?\nQuantities will be retained for items that persist.", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE)) {
+		if(button == itemPropBtn && JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(this, "This will override current item properties, are you sure you wish to continue?\nQuantities will be retained for items that persist.", "Select item properties", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
 			return;
 		}
 		
@@ -187,9 +188,34 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 */
 	private void exportManifest(String filePath) {
 		try {
+			
+			//Checking whether filePath is a path to an already existing file, and confirming the user would like to overwrite it.
+			File old = new File(filePath);
+			if(old.exists() && !old.isDirectory()) {
+				int answer = JOptionPane.showConfirmDialog(this, "You are about to overwrite a file, are you sure you wish to continue?", "Overwrite Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(answer == JOptionPane.NO_OPTION) {
+					return;
+				}
+			}
+			
+			//Ensuring that the file contains no dots and has just one .csv extension at the end if there is a dot present
+			if(filePath.indexOf(".") != -1 && filePath.lastIndexOf(".csv") != filePath.indexOf(".")) {
+				JOptionPane.showMessageDialog(this, "Error exporting the manifest. Ensure the file name ends with the extension '.csv' and has no other dot characters, and try again", "Save Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}else if(filePath.endsWith(".csv")) {
+				//Removing the extension if manually included in filePath to avoid double ups.
+				filePath = filePath.substring(0, filePath.indexOf("."));
+			}
+			
+			//Standard manifest creation and writing
 			Stock reorderStock = Store.generateStoreInstance().getReorderStock();
 			Manifest manifest = new Manifest(reorderStock);
 			CSVWriting.writeManifest(manifest.getManifestCollection(), filePath + ".csv");
+			
+			JOptionPane.showMessageDialog(this, "Successfully exported the manifest file!", "Manifest Exported", JOptionPane.INFORMATION_MESSAGE);
+			
+		} catch (DeliveryException e) {
+			JOptionPane.showMessageDialog(this, "Couldn't export the manifest. " + e.getMessage(), "Save Error", JOptionPane.WARNING_MESSAGE);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "Error exporting the manifest. Ensure the file name is valid and write permissions are available.", "Save Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -234,7 +260,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 */
 	private void initialItemPropertiesSelection() {
 		//Prompting user to select item properties or use default
-		int answer = JOptionPane.showConfirmDialog(this, "Select item properties. 'Cancel' uses default.", "Select item properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		int answer = JOptionPane.showConfirmDialog(this, "Would you like to select the item properties? Pressing 'No' uses default.", "Select item properties", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		
 		//Loop until item properties are set up without error
 		do{
