@@ -242,6 +242,7 @@ public class ManifestTest {
 		} catch(DeliveryException e) {
 			assertEquals("All items are stocked appropriately, hence a manifest cannot be created.", e.getMessage());
 		}
+		
 	}
 	
 	/**
